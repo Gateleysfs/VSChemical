@@ -51,7 +51,7 @@
             <tr>
                 <td class="auto-style6">Password</td>
                 <td class="auto-style7">
-                    <asp:TextBox ID="TextBoxPassword" runat="server" OnTextChanged="TextBoxPassword_TextChanged" TextMode="Password" Width="264px" Height="17px" style="margin-left: 4px"></asp:TextBox>
+                    <asp:TextBox ID="TextBoxPassword" runat="server" OnTextChanged="TextBoxPassword_TextChanged" TextMode="Password" Width="265px" Height="17px" style="margin-left: 5px"></asp:TextBox>
                 </td>
                 <td class="auto-style8">
                     <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="TextBoxPassword" ErrorMessage="Please enter valid password" ForeColor="Red"></asp:RequiredFieldValidator>
@@ -60,7 +60,7 @@
             <tr>
                 <td class="auto-style6"></td>
                 <td class="auto-style7">
-                    <asp:Button ID="ButtonLogin" runat="server" OnClick="ButtonLogin_Click" Text="Login" Width="275px" />
+                    <asp:Button ID="ButtonLogin" runat="server" OnClick="ButtonLogin_Click" Text="Login" Width="271px" style="margin-left: 6px" />
                 </td>
                 <td class="auto-style8"></td>
             </tr>
