@@ -21,7 +21,7 @@ public partial class Transaction : System.Web.UI.Page
             conn.Open();
             string insertQuery = "INSERT INTO dbo.tblInventoryTransactionsSFS values(TransactionItemId, EmployeeId, CrewNumber, TransactionType, Quantity, CreatedDate, Comments) values (@trans, @empid, @ttype, @quant, @date, @comment)";
             SqlCommand com = new SqlCommand(insertQuery, conn);
-            com.Parameters.AddWithValue("",);
+           // com.Parameters.AddWithValue("",);
 
 
             conn.Close();
