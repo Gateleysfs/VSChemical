@@ -20,6 +20,7 @@
                 <asp:BoundField DataField="CrewNumber" HeaderText="CrewNumber" SortExpression="CrewNumber" />
                 <asp:BoundField DataField="TransactionType" HeaderText="TransactionType" SortExpression="TransactionType" />
                 <asp:BoundField DataField="Quantity" HeaderText="Quantity" SortExpression="Quantity" />
+                <asp:BoundField DataField="Measurement" HeaderText="Measurement" SortExpression="Measurement" />
                 <asp:BoundField DataField="CreatedDate" HeaderText="CreatedDate" SortExpression="CreatedDate" />
                 <asp:BoundField DataField="Comments" HeaderText="Comments" SortExpression="Comments" />
             </Columns>

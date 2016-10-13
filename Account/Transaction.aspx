@@ -11,7 +11,7 @@
         }
         .auto-style2 {
             text-align: center;
-            width: 1177px;
+            width: 1510px;
         }
         .auto-style3 {
             height: 23px;
@@ -34,13 +34,23 @@
         }
     </style>
 </head>
-<body style="height: 199px">
+<body style="height: 277px">
     <form id="form1" runat="server">
     <div>
     
         <div class="auto-style2">
             <strong><span class="auto-style4">Transaction</span></strong></div>
         <table class="auto-style1">
+            <tr>
+                <td class="auto-style8">Crew Number</td>
+                <td class="auto-style6">
+                    <asp:TextBox ID="TextBoxCrewNumber" runat="server" Width="295px"></asp:TextBox>
+                </td>
+                <td class="auto-style9">&nbsp;</td>
+                <td class="auto-style3">
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorCrewNumber" runat="server" ControlToValidate="TextBoxCrewNumber" ErrorMessage="Please enter a crew number" ForeColor="Red"></asp:RequiredFieldValidator>
+                </td>
+            </tr>
             <tr>
                 <td class="auto-style8">Transaction</td>
                 <td class="auto-style6">
@@ -75,18 +85,17 @@
             <tr>
                 <td class="auto-style8">Product</td>
                 <td class="auto-style6">
-                    <asp:DropDownList ID="DropDownListProduct" runat="server" Height="18px" Width="300px">
+                    <asp:DropDownList ID="DropDownListProduct" runat="server" Height="18px" Width="300px" DataSourceID="SqlDataSourceProduct" DataTextField="ChemicalName" DataValueField="ChemicalName">
                     </asp:DropDownList>
                 </td>
                 <td class="auto-style9"></td>
                 <td class="auto-style3">
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorProduct" runat="server" ControlToValidate="DropDownListProduct" ErrorMessage="Please enter a product name" ForeColor="Red"></asp:RequiredFieldValidator>
-                </td>
+                    &nbsp;</td>
             </tr>
             <tr>
                 <td class="auto-style8">Amount</td>
                 <td class="auto-style6">
-                    <asp:TextBox ID="TextBoxAmount" runat="server" Width="290px"></asp:TextBox>
+                    <asp:TextBox ID="TextBoxAmount" runat="server" Width="295px"></asp:TextBox>
                 </td>
                 <td class="auto-style9">
                     <asp:DropDownList ID="DropDownListWeight" runat="server" Height="18px" Width="100px">
@@ -104,13 +113,22 @@
             <tr>
                 <td class="auto-style8">Location</td>
                 <td class="auto-style6">
-                    <asp:DropDownList ID="DropDownListLocation" runat="server" Width="300px">
+                    <asp:DropDownList ID="DropDownListLocation" runat="server" Width="300px" DataSourceID="SqlDataSourceLocation" DataTextField="FirstName" DataValueField="FirstName">
+                        <asp:ListItem></asp:ListItem>
+                        <asp:ListItem>Russellville</asp:ListItem>
                     </asp:DropDownList>
                 </td>
                 <td class="auto-style9"></td>
                 <td class="auto-style3">
                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorLocation" runat="server" ControlToValidate="DropDownListLocation" ErrorMessage="Please enter a location" ForeColor="Red"></asp:RequiredFieldValidator>
                 </td>
+            </tr>
+            <tr>
+                <td class="auto-style8">&nbsp;</td>
+                <td class="auto-style6">
+                    &nbsp;</td>
+                <td class="auto-style9">&nbsp;</td>
+                <td class="auto-style3">&nbsp;</td>
             </tr>
             <tr>
                 <td class="auto-style8"></td>
@@ -123,6 +141,10 @@
         </table>
     
     </div>
+            <strong><span class="auto-style4">
+        <asp:SqlDataSource ID="SqlDataSourceProduct" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalProductConnectionString %>" SelectCommand="SELECT DISTINCT [ChemicalName] FROM [tblInventorySFS]"></asp:SqlDataSource>
+        <asp:SqlDataSource ID="SqlDataSourceLocation" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalLocationConnectionString %>" SelectCommand="SELECT [FirstName], [LastName] FROM [tblEmployeeSFS] ORDER BY [FirstName]"></asp:SqlDataSource>
+        </span></strong>
     </form>
 </body>
 </html>
