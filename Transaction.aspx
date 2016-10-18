@@ -69,7 +69,7 @@
             <tr>
                 <td class="auto-style8">Product Type</td>
                 <td class="auto-style6">
-                    <asp:DropDownList ID="DropDownListProductType" runat="server" Height="18px" Width="300px">
+                    <asp:DropDownList ID="DropDownListProductType" runat="server" Height="18px" Width="300px" OnSelectedIndexChanged="DropDownListProductType_SelectedIndexChanged">
                         <asp:ListItem></asp:ListItem>
                         <asp:ListItem>Herbicide</asp:ListItem>
                         <asp:ListItem Value="Surfactant">Surfactant</asp:ListItem>
@@ -124,9 +124,10 @@
                 </td>
             </tr>
             <tr>
-                <td class="auto-style8">&nbsp;</td>
+                <td class="auto-style8">Comments</td>
                 <td class="auto-style6">
-                    &nbsp;</td>
+                    <asp:TextBox ID="TextBoxComment" runat="server" Width="295px"></asp:TextBox>
+                </td>
                 <td class="auto-style9">&nbsp;</td>
                 <td class="auto-style3">&nbsp;</td>
             </tr>

@@ -1,0 +1,68 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <style type="text/css">
+        .auto-style1 {
+            width: 94px;
+            height: 59px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder id="ContentPlaceHolder2" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form2" runat="server">
+   
+      <table style="font-family:Arial">
+    <tr>
+        <td colspan="2" style="width:800px; height:80px; background-color:##D3D3D3; 
+            text-align:center">
+            <h1>
+                Superior Forestry Service Chemical Inventory
+                <img class="auto-style1" src="Images/sfs%20logo%20green%20transparent.png" /></h1>
+        </td>
+    </tr>
+    <tr>
+        <td style="height:500px; background-color:#006400; width:150px">
+            <h3>Menu</h3>
+        </td>
+        <td style="height:500px; background-color:##A9A9A9; width:650px">
+             <h3>content</h3>  
+
+                 <div>
+        <asp:ContentPlaceHolder id="ContentPlaceHolder3" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="background-color:##D3D3D3; text-align:center">
+            <b>Website Footer</b>
+        </td>
+    </tr>
+</table>
+
+
+    </form>
+</body>
+</html>
+
+
+    </form>
+</body>
+</html>
