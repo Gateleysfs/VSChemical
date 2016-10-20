@@ -10,17 +10,21 @@
     <form id="form1" runat="server">
     <div>
     
-        <asp:SqlDataSource ID="SqlDataSourceTransactionList" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalTransactionListConnectionString %>" OnSelecting="SqlDataSource1_Selecting" SelectCommand="SELECT * FROM [tblInventoryTransactionsSFS]"></asp:SqlDataSource>
-        <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="4" CellSpacing="2" DataSourceID="SqlDataSourceTransactionList" ForeColor="Black">
+        <asp:SqlDataSource ID="SqlDataSourceTransactionList" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalTransactionListConnectionString %>" OnSelecting="SqlDataSource1_Selecting" SelectCommand="SELECT  [tblInventoryTransactionsSFS].ID, Username, ChemicalName, CrewNumber, TransactionType, Quantity, Measurement, WetDry, CreatedDate, [tblInventoryTransactionsSFS].Comments
+FROM [tblInventoryTransactionsSFS], [tblEmployeeSFS], [tblInventorySFS]
+WHERE [tblInventoryTransactionsSFS].EmployeeId = [tblEmployeeSFS].UserID
+AND [tblInventoryTransactionsSFS].TransactionItemId = [tblInventorySFS].ID
+"></asp:SqlDataSource>
+        <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="4" CellSpacing="2" DataSourceID="SqlDataSourceTransactionList" ForeColor="Black" DataKeyNames="ID">
             <Columns>
-                <asp:CommandField ShowSelectButton="True" />
-                <asp:BoundField DataField="ID" HeaderText="ID" SortExpression="ID" />
-                <asp:BoundField DataField="TransactionItemId" HeaderText="TransactionItemId" SortExpression="TransactionItemId" />
-                <asp:BoundField DataField="EmployeeId" HeaderText="EmployeeId" SortExpression="EmployeeId" />
+                <asp:BoundField DataField="ID" HeaderText="ID" SortExpression="ID" InsertVisible="False" ReadOnly="True" />
+                <asp:BoundField DataField="Username" HeaderText="Username" SortExpression="Username" />
+                <asp:BoundField DataField="ChemicalName" HeaderText="ChemicalName" SortExpression="ChemicalName" />
                 <asp:BoundField DataField="CrewNumber" HeaderText="CrewNumber" SortExpression="CrewNumber" />
                 <asp:BoundField DataField="TransactionType" HeaderText="TransactionType" SortExpression="TransactionType" />
                 <asp:BoundField DataField="Quantity" HeaderText="Quantity" SortExpression="Quantity" />
                 <asp:BoundField DataField="Measurement" HeaderText="Measurement" SortExpression="Measurement" />
+                <asp:BoundField DataField="WetDry" HeaderText="WetDry" SortExpression="WetDry" />
                 <asp:BoundField DataField="CreatedDate" HeaderText="CreatedDate" SortExpression="CreatedDate" />
                 <asp:BoundField DataField="Comments" HeaderText="Comments" SortExpression="Comments" />
             </Columns>

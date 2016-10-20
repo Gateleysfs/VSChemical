@@ -30,7 +30,7 @@
         }
         .auto-style9 {
             height: 23px;
-            width: 97px;
+            width: 234px;
         }
     </style>
 </head>
@@ -44,12 +44,13 @@
             <tr>
                 <td class="auto-style8">Crew Number</td>
                 <td class="auto-style6">
-                    <asp:TextBox ID="TextBoxCrewNumber" runat="server" Width="295px"></asp:TextBox>
+                    <asp:TextBox ID="TextBoxCrewNumber" runat="server" Width="296px"></asp:TextBox>
                 </td>
-                <td class="auto-style9">&nbsp;</td>
-                <td class="auto-style3">
+                <td class="auto-style9">
                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorCrewNumber" runat="server" ControlToValidate="TextBoxCrewNumber" ErrorMessage="Please enter a crew number" ForeColor="Red"></asp:RequiredFieldValidator>
                 </td>
+                <td class="auto-style3">
+                    &nbsp;</td>
             </tr>
             <tr>
                 <td class="auto-style8">Transaction</td>
@@ -61,10 +62,11 @@
                         <asp:ListItem>Transfer</asp:ListItem>
                     </asp:DropDownList>
                 </td>
-                <td class="auto-style9"></td>
-                <td class="auto-style3">
+                <td class="auto-style9">
                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorTransaction" runat="server" ControlToValidate="DropDownListTransaction" ErrorMessage="Please enter a transaction" ForeColor="Red"></asp:RequiredFieldValidator>
                 </td>
+                <td class="auto-style3">
+                    &nbsp;</td>
             </tr>
             <tr>
                 <td class="auto-style8">Product Type</td>
@@ -77,10 +79,11 @@
                         <asp:ListItem>Dye</asp:ListItem>
                     </asp:DropDownList>
                 </td>
-                <td class="auto-style9"></td>
-                <td class="auto-style3">
+                <td class="auto-style9">
                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorProductType" runat="server" ControlToValidate="DropDownListProductType" ErrorMessage="Please enter a product type" ForeColor="Red"></asp:RequiredFieldValidator>
                 </td>
+                <td class="auto-style3">
+                    &nbsp;</td>
             </tr>
             <tr>
                 <td class="auto-style8">Product</td>
@@ -93,11 +96,24 @@
                     &nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style8">Amount</td>
+                <td class="auto-style8">Wet/Dry</td>
                 <td class="auto-style6">
-                    <asp:TextBox ID="TextBoxAmount" runat="server" Width="295px"></asp:TextBox>
+                    <asp:DropDownList ID="DropDownListWetDry" runat="server" Height="18px" Width="300px">
+                        <asp:ListItem></asp:ListItem>
+                        <asp:ListItem>Wet</asp:ListItem>
+                        <asp:ListItem>Dry</asp:ListItem>
+                    </asp:DropDownList>
                 </td>
                 <td class="auto-style9">
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorWetDry" runat="server" ControlToValidate="DropDownListWetDry" ErrorMessage="Please enter wet or dry" ForeColor="Red"></asp:RequiredFieldValidator>
+                </td>
+                <td class="auto-style3">
+                    &nbsp;</td>
+            </tr>
+            <tr>
+                <td class="auto-style8">Amount</td>
+                <td class="auto-style6">
+                    <asp:TextBox ID="TextBoxAmount" runat="server" Width="192px"></asp:TextBox>
                     <asp:DropDownList ID="DropDownListWeight" runat="server" Height="18px" Width="100px">
                         <asp:ListItem></asp:ListItem>
                         <asp:ListItem>Pounds</asp:ListItem>
@@ -105,8 +121,10 @@
                         <asp:ListItem>Gallons</asp:ListItem>
                     </asp:DropDownList>
                 </td>
-                <td class="auto-style3">
+                <td class="auto-style9">
                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorAmount" runat="server" ControlToValidate="TextBoxAmount" ErrorMessage="Please enter an amount" ForeColor="Red"></asp:RequiredFieldValidator>
+                </td>
+                <td class="auto-style3">
                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorSizes" runat="server" ControlToValidate="DropDownListWeight" ErrorMessage="Please enter a weight" ForeColor="Red"></asp:RequiredFieldValidator>
                 </td>
             </tr>
@@ -118,15 +136,16 @@
                         <asp:ListItem>Russellville</asp:ListItem>
                     </asp:DropDownList>
                 </td>
-                <td class="auto-style9"></td>
-                <td class="auto-style3">
+                <td class="auto-style9">
                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorLocation" runat="server" ControlToValidate="DropDownListLocation" ErrorMessage="Please enter a location" ForeColor="Red"></asp:RequiredFieldValidator>
                 </td>
+                <td class="auto-style3">
+                    &nbsp;</td>
             </tr>
             <tr>
                 <td class="auto-style8">Comments</td>
                 <td class="auto-style6">
-                    <asp:TextBox ID="TextBoxComment" runat="server" Width="295px"></asp:TextBox>
+                    <asp:TextBox ID="TextBoxComment" runat="server" Width="296px"></asp:TextBox>
                 </td>
                 <td class="auto-style9">&nbsp;</td>
                 <td class="auto-style3">&nbsp;</td>
@@ -134,7 +153,7 @@
             <tr>
                 <td class="auto-style8"></td>
                 <td class="auto-style6">
-                    <asp:Button ID="ButtonSubmit" runat="server" Text="Submit" Width="100px" OnClick="ButtonSubmit_Click" />
+                    <asp:Button ID="ButtonSubmit" runat="server" Text="Submit" Width="150px" OnClick="ButtonSubmit_Click" />
                 </td>
                 <td class="auto-style9"></td>
                 <td class="auto-style3"></td>
