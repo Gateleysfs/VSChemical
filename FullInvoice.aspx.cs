@@ -9,6 +9,8 @@ public partial class FullInvoice : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        //Checks to see if someone is logged in. If not, redirects to login page
+        if (Session["new"] == null)
+            Response.Redirect("Login.aspx");
     }
 }

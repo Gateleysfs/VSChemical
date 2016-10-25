@@ -123,6 +123,15 @@
                 </td>
             </tr>
             <tr>
+                <td class="auto-style3">Shipped To</td>
+                <td class="auto-style6">
+                    <asp:TextBox ID="TextBoxShippedTo" runat="server" Width="300px"></asp:TextBox>
+                </td>
+                <td class="auto-style11">&nbsp;</td>
+                <td>
+                    &nbsp;</td>
+            </tr>
+            <tr>
                 <td class="auto-style3">Ship Date</td>
                 <td class="auto-style6">
                     <asp:TextBox ID="TextBoxShipDate" runat="server" Width="300px"></asp:TextBox>
@@ -165,7 +174,62 @@
             <tr>
                 <td class="auto-style3">&nbsp;</td>
                 <td class="auto-style6">
+                    &nbsp;</td>
+                <td class="auto-style11">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="auto-style3">&nbsp;</td>
+                <td class="auto-style6">
+                    &nbsp;</td>
+                <td class="auto-style11">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="auto-style3">Ordered</td>
+                <td class="auto-style6">
+                    <asp:TextBox ID="TextBox1" runat="server" Width="300px"></asp:TextBox>
+                </td>
+                <td class="auto-style11">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="auto-style3">Shipped</td>
+                <td class="auto-style6">
+                    <asp:TextBox ID="TextBox2" runat="server" Width="300px"></asp:TextBox>
+                </td>
+                <td class="auto-style11">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="auto-style3">ItemNo</td>
+                <td class="auto-style6">
+                    <asp:TextBox ID="TextBox3" runat="server" Width="300px"></asp:TextBox>
+                </td>
+                <td class="auto-style11">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="auto-style3">Description</td>
+                <td class="auto-style6">
+                    <asp:TextBox ID="TextBox4" runat="server" Width="300px"></asp:TextBox>
+                </td>
+                <td class="auto-style11">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="auto-style3">Unit Price</td>
+                <td class="auto-style6">
+                    <asp:TextBox ID="TextBox5" runat="server" Width="300px"></asp:TextBox>
+                </td>
+                <td class="auto-style11">&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="auto-style3">&nbsp;</td>
+                <td class="auto-style6">
                     <asp:Button ID="ButtonSubmitInvoice" runat="server" OnClick="ButtonSubmitInvoice_Click" Text="Submit" Width="150px" />
+                    <asp:Button ID="Button1" runat="server" Text="Add Another Chemical" Width="150px" />
                 </td>
                 <td class="auto-style11">&nbsp;</td>
                 <td>&nbsp;</td>

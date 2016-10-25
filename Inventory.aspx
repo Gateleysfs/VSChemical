@@ -14,18 +14,17 @@
         <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="4" CellSpacing="2" DataKeyNames="ID" DataSourceID="SqlDataSourceInventory" ForeColor="Black">
             <Columns>
                 <asp:BoundField DataField="ID" HeaderText="ID" ReadOnly="True" SortExpression="ID" InsertVisible="False" />
-                <asp:BoundField DataField="Supplier" HeaderText="Supplier" SortExpression="Supplier" />
                 <asp:BoundField DataField="InvNo" HeaderText="InvNo" SortExpression="InvNo" />
-                <asp:BoundField DataField="ChemicalName" HeaderText="ChemicalName" SortExpression="ChemicalName" />
-                <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
+                <asp:BoundField DataField="Ordered" HeaderText="Ordered" SortExpression="Ordered" />
+                <asp:BoundField DataField="Shipped" HeaderText="Shipped" SortExpression="Shipped" />
+                <asp:BoundField DataField="ItemNo" HeaderText="ItemNo" SortExpression="ItemNo" />
+                <asp:BoundField DataField="Prescription" HeaderText="Prescription" SortExpression="Prescription" />
+                <asp:BoundField DataField="UnitPrice" HeaderText="UnitPrice" SortExpression="UnitPrice" />
+                <asp:BoundField DataField="ExtendedPrice" HeaderText="ExtendedPrice" SortExpression="ExtendedPrice" />
                 <asp:BoundField DataField="Category" HeaderText="Category" SortExpression="Category" />
                 <asp:BoundField DataField="Location" HeaderText="Location" SortExpression="Location" />
-                <asp:BoundField DataField="Model" HeaderText="Model" SortExpression="Model" />
-                <asp:BoundField DataField="DrumNum" HeaderText="DrumNum" SortExpression="DrumNum" />
                 <asp:CheckBoxField DataField="PartialContainer" HeaderText="PartialContainer" SortExpression="PartialContainer" />
                 <asp:BoundField DataField="ChemicalAmount" HeaderText="ChemicalAmount" SortExpression="ChemicalAmount" />
-                <asp:BoundField DataField="NumOfContainer" HeaderText="NumOfContainer" SortExpression="NumOfContainer" />
-                <asp:BoundField DataField="TotalAmount" HeaderText="TotalAmount" SortExpression="TotalAmount" />
                 <asp:BoundField DataField="ContainerType" HeaderText="ContainerType" SortExpression="ContainerType" />
                 <asp:BoundField DataField="Comments" HeaderText="Comments" SortExpression="Comments" />
             </Columns>
