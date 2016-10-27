@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="FullInvoice.aspx.cs" Inherits="FullInvoice" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="InvoiceListFull.aspx.cs" Inherits="InvoiceListFull" %>
 
 <!DOCTYPE html>
 
@@ -9,6 +9,10 @@
 <body>
     <form id="form1" runat="server">
     <div>
+    
+        <asp:SqlDataSource ID="SqlDataSourceInvoiceListFull" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalInvoiceListFullConnectionString %>" SelectCommand="SELECT *
+FROM tblInventorySFS, tblInvoiceSFS
+WHERE tblInvoiceSFS.InvNo = tblInventorySFS.InvNo"></asp:SqlDataSource>
     
     </div>
     </form>

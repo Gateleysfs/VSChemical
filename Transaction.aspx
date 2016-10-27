@@ -32,10 +32,13 @@
             height: 23px;
             width: 234px;
         }
+        .auto-style10 {
+            height: 320px;
+        }
     </style>
 </head>
-<body style="height: 277px">
-    <form id="form1" runat="server">
+<body style="height: 250px">
+    <form id="form1" runat="server" class="auto-style10">
     <div>
     
         <div class="auto-style2">
@@ -88,24 +91,11 @@
             <tr>
                 <td class="auto-style8">Product</td>
                 <td class="auto-style6">
-                    <asp:DropDownList ID="DropDownListProduct" runat="server" Height="18px" Width="300px" DataSourceID="SqlDataSourceProduct" DataTextField="ChemicalName" DataValueField="ChemicalName">
-                    </asp:DropDownList>
-                </td>
-                <td class="auto-style9"></td>
-                <td class="auto-style3">
-                    &nbsp;</td>
-            </tr>
-            <tr>
-                <td class="auto-style8">Wet/Dry</td>
-                <td class="auto-style6">
-                    <asp:DropDownList ID="DropDownListWetDry" runat="server" Height="18px" Width="300px">
-                        <asp:ListItem></asp:ListItem>
-                        <asp:ListItem>Wet</asp:ListItem>
-                        <asp:ListItem>Dry</asp:ListItem>
+                    <asp:DropDownList ID="DropDownListProduct" runat="server" Height="18px" Width="300px" DataSourceID="SqlDataSourceProduct" DataTextField="ItemNo" DataValueField="ItemNo">
                     </asp:DropDownList>
                 </td>
                 <td class="auto-style9">
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorWetDry" runat="server" ControlToValidate="DropDownListWetDry" ErrorMessage="Please enter wet or dry" ForeColor="Red"></asp:RequiredFieldValidator>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorProduct" runat="server" ControlToValidate="DropDownListProduct" ErrorMessage="Please enter a product" ForeColor="Red"></asp:RequiredFieldValidator>
                 </td>
                 <td class="auto-style3">
                     &nbsp;</td>
@@ -162,7 +152,7 @@
     
     </div>
             <strong><span class="auto-style4">
-        <asp:SqlDataSource ID="SqlDataSourceProduct" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalProductConnectionString %>" SelectCommand="SELECT DISTINCT [ChemicalName] FROM [tblInventorySFS]"></asp:SqlDataSource>
+        <asp:SqlDataSource ID="SqlDataSourceProduct" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalProductConnectionString %>" SelectCommand="SELECT DISTINCT [ItemNo] FROM [tblInventorySFS]"></asp:SqlDataSource>
         <asp:SqlDataSource ID="SqlDataSourceLocation" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalLocationConnectionString %>" SelectCommand="SELECT [FirstName], [LastName] FROM [tblEmployeeSFS] ORDER BY [FirstName]"></asp:SqlDataSource>
         </span></strong>
     </form>

@@ -77,4 +77,9 @@ public partial class Transaction : System.Web.UI.Page
     {
 
     }
+
+    protected void DropDownListWetDry_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
 }

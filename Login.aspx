@@ -1,16 +1,11 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Login.aspx.cs" Inherits="_Default"%>
 
 <!DOCTYPE html>
+<link rel="stylesheet" href="BasicLayout.css">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <%--<style type="text/css">
-        #form1 {
-            width: 1225px;
-            height: 158px;
-            text-align: center;
-            margin-left: 0px;
-        }--%>        <%--</style>--%>
+  
     <style type="text/css">
         .auto-style2 {
             width: 100%;
@@ -40,17 +35,26 @@
         .auto-style10 {
             text-align: left;
         }
-        .auto-style11 {
-            font-size: xx-large;
+        .auto-style12 {
+            margin-bottom: 0;
+            left: -1px;
+            top: -1px;
         }
     </style>
     
 </head>
 
-<body style="height: 28px; width: 1639px; text-align:center; margin-top: 71px; margin-bottom: 0px;">
+<body id="PageBackGround">
+
+    <h1 id="Header" class="auto-style12">
+        <strong>
+        <br>
+        Login Page</strong>
+    </h1>
+    <img class="ImgRight" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo" width="140" height="98">
     <form id="form1" runat="server">
-        <p class="auto-style11">
-            <strong>Login Page</strong></p>
+        <div class="Content SansSerif">
+        <br>
         <table class="auto-style2">
             <tr>
                 <td class="auto-style8">Username</td>
@@ -85,6 +89,18 @@
                 </td>
             </tr>
         </table>
+        </div>
     </form>
-</body>
+</body>    
+<!-- Footer -->
+<div  id="footer" class="PadTen SansSerif">
+	<p class ="CenterText MarginFive">Superior Forestry Service <br/> P.O. Box 25 <br/> Tilly, AR 72679 <br/> 800.541.1060<br/>
+	</p>
+	<p class ="CenterText MarginFive"> 
+		<a href="mailto:sfs@superiorforestry.com">sfs@superiorforestry.com</a><br/>
+	</p>
+	<p class ="MarginFive CenterText">
+		©2016 Superior Forestry Service, Inc.
+	</p>
+</div>
 </html>

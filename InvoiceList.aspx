@@ -13,21 +13,22 @@
         <asp:SqlDataSource ID="SqlDataSourceInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalInvoiceConnectionString %>" SelectCommand="SELECT * FROM [tblInvoiceSFS]"></asp:SqlDataSource>
     
     </div>
-        <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="4" CellSpacing="2" DataKeyNames="InvNum" DataSourceID="SqlDataSourceInvoice" ForeColor="Black">
+        <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="4" CellSpacing="2" DataKeyNames="InvNo" DataSourceID="SqlDataSourceInvoice" ForeColor="Black">
 
             <Columns>
                 <asp:TemplateField HeaderText="Link">
                    <ItemTemplate>
-                         <a href='<%# "FullInvoice.aspx?selectedInvNum=" + Eval("InvNum") %>'>Full</a>
+                         <a href='<%# "InvoiceListFull.aspx?selectedInvNo=" + Eval("InvNo") %>'>Full</a>
                    </ItemTemplate>
                 </asp:TemplateField>
                 <asp:BoundField DataField="ID" HeaderText="ID" InsertVisible="False" ReadOnly="True" SortExpression="ID" />
-                <asp:BoundField DataField="InvNum" HeaderText="InvNum" SortExpression="InvNum" ReadOnly="True" />
+                <asp:BoundField DataField="InvNo" HeaderText="InvNo" SortExpression="InvNo" ReadOnly="True" />
                 <asp:BoundField DataField="Supplier" HeaderText="Supplier" SortExpression="Supplier" />
                 <asp:BoundField DataField="OrderFrom" HeaderText="OrderFrom" SortExpression="OrderFrom" />
                 <asp:BoundField DataField="OrderDate" HeaderText="OrderDate" SortExpression="OrderDate" />
                 <asp:BoundField DataField="InvDate" HeaderText="InvDate" SortExpression="InvDate" />
                 <asp:BoundField DataField="ShippedVia" HeaderText="ShippedVia" SortExpression="ShippedVia" />
+                <asp:BoundField DataField="ShippedTo" HeaderText="ShippedTo" SortExpression="ShippedTo" />
                 <asp:BoundField DataField="ShipDate" HeaderText="ShipDate" SortExpression="ShipDate" />
                 <asp:BoundField DataField="DueBy" HeaderText="DueBy" SortExpression="DueBy" />
                 <asp:BoundField DataField="FOB" HeaderText="FOB" SortExpression="FOB" />

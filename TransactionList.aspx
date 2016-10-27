@@ -10,7 +10,7 @@
     <form id="form1" runat="server">
     <div>
     
-        <asp:SqlDataSource ID="SqlDataSourceTransactionList" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalTransactionListConnectionString %>" OnSelecting="SqlDataSource1_Selecting" SelectCommand="SELECT  [tblInventoryTransactionsSFS].ID, Username, ChemicalName, CrewNumber, TransactionType, Quantity, Measurement, WetDry, CreatedDate, [tblInventoryTransactionsSFS].Comments
+        <asp:SqlDataSource ID="SqlDataSourceTransactionList" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalTransactionListConnectionString %>" OnSelecting="SqlDataSource1_Selecting" SelectCommand="SELECT  [tblInventoryTransactionsSFS].ID, Username, ItemNo, CrewNumber, TransactionType, Quantity, Measurement, WetDry, CreatedDate, [tblInventoryTransactionsSFS].Comments
 FROM [tblInventoryTransactionsSFS], [tblEmployeeSFS], [tblInventorySFS]
 WHERE [tblInventoryTransactionsSFS].EmployeeId = [tblEmployeeSFS].UserID
 AND [tblInventoryTransactionsSFS].TransactionItemId = [tblInventorySFS].ID
@@ -19,7 +19,7 @@ AND [tblInventoryTransactionsSFS].TransactionItemId = [tblInventorySFS].ID
             <Columns>
                 <asp:BoundField DataField="ID" HeaderText="ID" SortExpression="ID" InsertVisible="False" ReadOnly="True" />
                 <asp:BoundField DataField="Username" HeaderText="Username" SortExpression="Username" />
-                <asp:BoundField DataField="ChemicalName" HeaderText="ChemicalName" SortExpression="ChemicalName" />
+                <asp:BoundField DataField="ItemNo" HeaderText="ItemNo" SortExpression="ItemNo" />
                 <asp:BoundField DataField="CrewNumber" HeaderText="CrewNumber" SortExpression="CrewNumber" />
                 <asp:BoundField DataField="TransactionType" HeaderText="TransactionType" SortExpression="TransactionType" />
                 <asp:BoundField DataField="Quantity" HeaderText="Quantity" SortExpression="Quantity" />

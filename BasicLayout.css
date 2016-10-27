@@ -1,0 +1,234 @@
+﻿/* Put this at the start of style sheets to override browser defaults*/
+
+html, body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, pre, code, address, variable, form, fieldset, blockquote {
+ padding: 0;
+ margin: 0;
+ font-size: 100%;
+ font-weight: normal;
+}
+table { border-collapse: collapse; border-spacing: 0; }
+td, th, caption { font-weight: normal; text-align: left; }
+img, fieldset { border: 0; }
+ol { padding-left: 1.4em; list-style: decimal; }
+ul { padding-left: 1.4em; list-style:square; }
+q:before, q:after { content:''; }
+
+/* end Overrides*/
+
+h1{
+/*color:#CC3300;*/
+color:#006600;
+font-family:Arial, Helvetica, sans-serif;
+text-align:center;
+font-size:xx-large;
+font-weight:bold;
+position:relative;
+top:25px
+	
+}
+
+
+h2{
+/*color:#CC3300;*/
+color:#3D4034;
+font-family:Arial, Helvetica, sans-serif;
+text-align:center;
+font-size:large;
+font-weight:bold
+
+	
+}
+
+h3{
+/*color:#CC3300;*/
+color:#006600;
+font-family:Arial, Helvetica, sans-serif;
+/*text-align:center;*/
+font-weight:bold;
+font-size:large;
+}
+
+#PageBackGround{
+	background-color: #999E83
+}
+
+
+#Header{
+	/*background-color:#3D4034;*/
+	/*background-color:#003F1E;*/
+	background-color:#E6E8DC;
+	height:100px;
+	
+}
+
+/* NAV BAR */
+
+
+#mainNav{
+   
+	margin-bottom:20px
+}
+#mainNav ul {
+	margin:auto;
+	padding: 0;
+	list-style: none;
+	background:#006600;
+	float: left;
+	border-bottom: 1px solid #000;
+	width: 100%;
+	
+}
+
+#mainNav li {
+	float: left;
+	padding: 0;
+	margin:auto;
+}
+
+#mainNav li a, #mainNav li a:link {
+	color: #FFFFFF;
+	text-decoration: none;
+	padding: .5em;
+	border: 1px solid lime;
+	display: block;
+	font: bold 1em "Lucida Grande", Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
+}
+
+#mainNav li a:hover {
+background:#339933;
+	
+}
+
+#footer{
+    position:absolute;
+    bottom:75px;
+    width:98%;
+    height:60px;
+}
+
+/* IE 6 hack to make entire button clickable */
+* html #mainNav a { width: 1px; }
+
+
+
+.Content {
+	background-color:#E6E8DC;
+	width: 75%;
+	margin:auto;
+	margin-top:20px;
+	padding:5px;
+	z-index:100;
+	border:2px solid #006600;
+}
+
+.containerDark {
+	background-color:#3D4034;
+	margin:auto;
+	z-index:100;
+	
+}
+
+.ContentHeader{
+background-color:#999E83;
+border:1px solid #006600;
+margin:auto;
+
+
+}
+
+.ImgRight{
+	position:absolute;
+	right:0;
+	top:0;
+	
+}
+
+.CenterText {
+	text-align: center;
+}
+
+.ThinGrnBorder{
+border:1px solid #006600;
+	
+}
+
+.PadFive{
+	
+	padding:5px;
+
+}
+
+
+.PadTen{
+	
+	padding:10px;
+
+}
+
+.MarginFive{
+	margin:5px
+}
+
+.MarginTopTwo{
+	margin-top:2px;
+}
+
+.MarginTopTen{
+	margin-top:10px;	
+}
+
+.MarginTopTwenty{
+	margin-top:20px;
+}
+
+.SansSerif{
+	font-family:Arial, Helvetica, sans-serif
+}
+
+.ImageText{
+width: 250px;
+font-size: 90%;
+text-align:center;
+font-family:Arial, Helvetica, sans-serif;
+position:relative;
+padding:5px;
+margin:auto;
+background-color:#999E83;
+border:1px solid #006600;
+	
+}
+
+.VideoText{
+width: 500px;
+font-size: 90%;
+text-align:center;
+font-family:Arial, Helvetica, sans-serif;
+position:relative;
+padding:5px;
+margin:auto;
+background-color:#999E83;
+border:1px solid #006600;
+	
+}
+
+
+.CenterBullet{
+width: 250px;
+font-family:Arial, Helvetica, sans-serif;
+position:relative;
+margin:auto;
+}
+
+.SpacerTen{
+	height:10px;
+	margin-top:10px;
+	
+
+}
+
+
+
+
+
+
+
