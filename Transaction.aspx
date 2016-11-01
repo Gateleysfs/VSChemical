@@ -2,52 +2,38 @@
 
 <!DOCTYPE html>
 
+<title>Inventory</title>
+<link rel="icon" href="Images/sfs logo green transparent.png" type="image/jpg">
+
+<link rel="stylesheet" href="BasicLayout.css">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-    <style type="text/css">
-        .auto-style1 {
-            width: 100%;
-        }
-        .auto-style2 {
-            text-align: center;
-            width: 1510px;
-        }
-        .auto-style3 {
-            height: 23px;
-        }
-        .auto-style4 {
-            font-size: xx-large;
-        }
-        .auto-style6 {
-            height: 23px;
-            width: 300px;
-        }
-        .auto-style8 {
-            height: 23px;
-            width: 150px;
-            text-align: right;
-        }
-        .auto-style9 {
-            height: 23px;
-            width: 234px;
-        }
-        .auto-style10 {
-            height: 320px;
-        }
-    </style>
-</head>
-<body style="height: 250px">
-    <form id="form1" runat="server" class="auto-style10">
+
+
+<body id="PageBackGround">
+    <form id="form1" runat="server">
     <div>
-    
-        <div class="auto-style2">
-            <strong><span class="auto-style4">Transaction</span></strong></div>
-        <table class="auto-style1">
+        <div id="Header" class="auto-style2">
+                    <br>
+                    <h1>Transaction</h1>
+                    <a href="Home.aspx">
+                        <img class="ImgRight" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo" width="140" height="98">
+                    </a>
+        </div>
+      <div id="mainNav">
+      <ul>
+        <li><a href="Transaction.aspx">Add Transaction</a></li>
+        <li><a href="TransactionList.aspx">Transactions List</a></li>
+        <li><a href="Invoice.aspx">Add Invoice</a></li>
+        <li><a href="InvoiceList.aspx">Invoices List</a></li>
+	    <li><a href="Inventory.aspx">Current Inventory</a></li>
+      </ul>
+     </div>
+        <br>
+        <table class="Content SansSerif">
             <tr>
                 <td class="auto-style8">Crew Number</td>
-                <td class="auto-style6">
-                    <asp:TextBox ID="TextBoxCrewNumber" runat="server" Width="296px"></asp:TextBox>
+                <td class="auto-style1">
+                    <asp:TextBox ID="TextBoxCrewNumber" runat="server" Width="296px" style="text-transform:uppercase;"></asp:TextBox>
                 </td>
                 <td class="auto-style9">
                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorCrewNumber" runat="server" ControlToValidate="TextBoxCrewNumber" ErrorMessage="Please enter a crew number" ForeColor="Red"></asp:RequiredFieldValidator>
@@ -57,12 +43,12 @@
             </tr>
             <tr>
                 <td class="auto-style8">Transaction</td>
-                <td class="auto-style6">
+                <td class="auto-style1">
                     <asp:DropDownList ID="DropDownListTransaction" runat="server" Height="18px" Width="300px">
                         <asp:ListItem></asp:ListItem>
-                        <asp:ListItem>Addition</asp:ListItem>
-                        <asp:ListItem>Removal</asp:ListItem>
-                        <asp:ListItem>Transfer</asp:ListItem>
+                        <asp:ListItem>ADDITION</asp:ListItem>
+                        <asp:ListItem>REMOVAL</asp:ListItem>
+                        <asp:ListItem>TRANSFER</asp:ListItem>
                     </asp:DropDownList>
                 </td>
                 <td class="auto-style9">
@@ -73,13 +59,13 @@
             </tr>
             <tr>
                 <td class="auto-style8">Product Type</td>
-                <td class="auto-style6">
-                    <asp:DropDownList ID="DropDownListProductType" runat="server" Height="18px" Width="300px" OnSelectedIndexChanged="DropDownListProductType_SelectedIndexChanged">
+                <td class="auto-style1">
+                    <asp:DropDownList ID="DropDownListProductType" runat="server" Height="18px" Width="300px">
                         <asp:ListItem></asp:ListItem>
-                        <asp:ListItem>Herbicide</asp:ListItem>
-                        <asp:ListItem Value="Surfactant">Surfactant</asp:ListItem>
-                        <asp:ListItem>Basal Oil</asp:ListItem>
-                        <asp:ListItem>Dye</asp:ListItem>
+                        <asp:ListItem>HERBICIDE</asp:ListItem>
+                        <asp:ListItem Value="SURFACTANT">SURFACTANT</asp:ListItem>
+                        <asp:ListItem>BASAL OIL</asp:ListItem>
+                        <asp:ListItem>DYE</asp:ListItem>
                     </asp:DropDownList>
                 </td>
                 <td class="auto-style9">
@@ -90,9 +76,10 @@
             </tr>
             <tr>
                 <td class="auto-style8">Product</td>
-                <td class="auto-style6">
+                <td class="auto-style1">
                     <asp:DropDownList ID="DropDownListProduct" runat="server" Height="18px" Width="300px" DataSourceID="SqlDataSourceProduct" DataTextField="ItemNo" DataValueField="ItemNo">
                     </asp:DropDownList>
+
                 </td>
                 <td class="auto-style9">
                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorProduct" runat="server" ControlToValidate="DropDownListProduct" ErrorMessage="Please enter a product" ForeColor="Red"></asp:RequiredFieldValidator>
@@ -102,13 +89,13 @@
             </tr>
             <tr>
                 <td class="auto-style8">Amount</td>
-                <td class="auto-style6">
+                <td class="auto-style1">
                     <asp:TextBox ID="TextBoxAmount" runat="server" Width="192px"></asp:TextBox>
                     <asp:DropDownList ID="DropDownListWeight" runat="server" Height="18px" Width="100px">
                         <asp:ListItem></asp:ListItem>
-                        <asp:ListItem>Pounds</asp:ListItem>
-                        <asp:ListItem>Ounces</asp:ListItem>
-                        <asp:ListItem>Gallons</asp:ListItem>
+                        <asp:ListItem>lbs</asp:ListItem>
+                        <asp:ListItem>Oz</asp:ListItem>
+                        <asp:ListItem>Gal</asp:ListItem>
                     </asp:DropDownList>
                 </td>
                 <td class="auto-style9">
@@ -120,10 +107,8 @@
             </tr>
             <tr>
                 <td class="auto-style8">Location</td>
-                <td class="auto-style6">
+                <td class="auto-style1">
                     <asp:DropDownList ID="DropDownListLocation" runat="server" Width="300px" DataSourceID="SqlDataSourceLocation" DataTextField="FirstName" DataValueField="FirstName">
-                        <asp:ListItem></asp:ListItem>
-                        <asp:ListItem>Russellville</asp:ListItem>
                     </asp:DropDownList>
                 </td>
                 <td class="auto-style9">
@@ -134,7 +119,7 @@
             </tr>
             <tr>
                 <td class="auto-style8">Comments</td>
-                <td class="auto-style6">
+                <td class="auto-style1">
                     <asp:TextBox ID="TextBoxComment" runat="server" Width="296px"></asp:TextBox>
                 </td>
                 <td class="auto-style9">&nbsp;</td>
@@ -142,19 +127,19 @@
             </tr>
             <tr>
                 <td class="auto-style8"></td>
-                <td class="auto-style6">
+                <td class="auto-style1">
                     <asp:Button ID="ButtonSubmit" runat="server" Text="Submit" Width="150px" OnClick="ButtonSubmit_Click" />
                 </td>
                 <td class="auto-style9"></td>
                 <td class="auto-style3"></td>
             </tr>
         </table>
-    
     </div>
-            <strong><span class="auto-style4">
+        <strong><span class="auto-style4">
         <asp:SqlDataSource ID="SqlDataSourceProduct" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalProductConnectionString %>" SelectCommand="SELECT DISTINCT [ItemNo] FROM [tblInventorySFS]"></asp:SqlDataSource>
         <asp:SqlDataSource ID="SqlDataSourceLocation" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalLocationConnectionString %>" SelectCommand="SELECT [FirstName], [LastName] FROM [tblEmployeeSFS] ORDER BY [FirstName]"></asp:SqlDataSource>
         </span></strong>
     </form>
-</body>
+    </body>
+
 </html>

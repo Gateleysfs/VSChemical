@@ -65,7 +65,6 @@ font-size:large;
 
 
 #mainNav{
-   
 	margin-bottom:20px
 }
 #mainNav ul {
@@ -81,6 +80,7 @@ font-size:large;
 
 #mainNav li {
 	float: left;
+    position: center;
 	padding: 0;
 	margin:auto;
 }

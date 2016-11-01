@@ -121,7 +121,7 @@ public partial class Invoice : System.Web.UI.Page
             string insertQuery = "INSERT INTO dbo.tblInvoiceSFS ( InvNo, Supplier, OrderFrom, OrderDate, InvDate, ShippedVia, ShippedTo, ShipDate, DueBy, FOB, TotalDue) values( @InvNum, @Supplier, @OrderFrom, @OrderDate, @InvDate, @ShippedVia, @ShippedTo, @ShipDate, @DueBy, @FOB, @TotalDue)";
             SqlCommand com = new SqlCommand(insertQuery, conn);
 
-            string insertQuery2 = "INSERT INTO dbo.tblInventorySFS ( InvNo, Ordered, Shipped, ItemNo, Prescription, UnitPrice, ExtendedPrice, Category, Location, PartialContainer, ChemicalAmount, ContainerType, Comments ) values( @InvNum2, @Ordered, @Shipped, @ItemNo, @Prescription, @UnitPrice, @ExtendedPrice, @Category, @Location, @PartialContainer, @ChemicalAmount, @ContainerType, @Comments)";
+            string insertQuery2 = "INSERT INTO dbo.tblInventorySFS ( InvNo, Ordered, Shipped, ItemNo, Prescription, UnitPrice, ExtendedPrice, Category, Location, PartialContainer, ChemicalAmount, ContainerType, WetDry) values( @InvNum2, @Ordered, @Shipped, @ItemNo, @Prescription, @UnitPrice, @ExtendedPrice, @Category, @Location, @PartialContainer, @ChemicalAmount, @ContainerType, @WetDry)";
             SqlCommand com2 = new SqlCommand(insertQuery2, conn2);
 
             //values being inserted into Invoice
@@ -152,15 +152,12 @@ public partial class Invoice : System.Web.UI.Page
             com2.Parameters.AddWithValue("@Prescription", TextBoxPescription.Text);
             com2.Parameters.AddWithValue("@UnitPrice", TextBoxUnitPrice.Text);
             com2.Parameters.AddWithValue("@ExtendedPrice", ExtendedPrice);
-            com2.Parameters.AddWithValue("@Category", 10000); //get Category?
+            com2.Parameters.AddWithValue("@Category", DropDownListChemicalCategory.SelectedItem.ToString());
             com2.Parameters.AddWithValue("@Location", TextBoxShippedTo.Text); // starting location of each chemical
             com2.Parameters.AddWithValue("@PartialContainer", false);
-            com2.Parameters.AddWithValue("@ChemicalAmount", 10000);//get ChemicalAmount?
-            com2.Parameters.AddWithValue("@ContainerType", 10000);//get ContainerType?
-            com2.Parameters.AddWithValue("@Comments", 10000);//get Comments?
-            //add a WetDry option as well?
-
-
+            com2.Parameters.AddWithValue("@ChemicalAmount", TextBoxChemicalAmount.Text);
+            com2.Parameters.AddWithValue("@ContainerType", DropDownListContainerType.SelectedItem.ToString());
+            com2.Parameters.AddWithValue("@WetDry", DropDownListWetDry.SelectedItem.ToString());
 
             //Execution of the queries with the parameters from above. This places all the textboxes into the corresponding tables
             com.ExecuteNonQuery();

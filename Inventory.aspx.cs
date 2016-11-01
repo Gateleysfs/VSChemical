@@ -13,4 +13,9 @@ public partial class Account_Default : System.Web.UI.Page
         if (Session["new"] == null)
             Response.Redirect("Login.aspx");
     }
+
+    protected void SqlDataSourceInventory_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
+    {
+
+    }
 }

@@ -1,6 +1,10 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Home.aspx.cs" Inherits="Account_Default" %>
 
 <!DOCTYPE html>
+
+<title>Home</title>
+<link rel="icon" href="Images/sfs logo green transparent.png" type="image/jpg">
+
 <link rel="stylesheet" href="BasicLayout.css">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -21,7 +25,9 @@
         <asp:Label ID="LabelWelcome" runat="server" Text="Welcome" Font-Bold="True" Font-Size="XX-Large" Font-Strikeout="False"></asp:Label>
         <asp:Button ID="ButtonLogout" runat="server" OnClick="ButtonLogout_Click" Text="Logout" />
         </h1>
-        <img class="ImgRight" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo" width="140" height="98">
+        <a href="Home.aspx">
+                        <img class="ImgRight" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo" width="140" height="98">
+        </a>
         <div>
         </div>
     </div>
@@ -37,9 +43,8 @@
       </ul>
     </div>
     </form>
-</body>
 
-    <!-- Footer -->
+        <!-- Footer -->
 <div  id="footer" class="PadTen SansSerif">
 	<p class ="CenterText MarginFive">Superior Forestry Service <br/> P.O. Box 25 <br/> Tilly, AR 72679 <br/> 800.541.1060<br/>
 	</p>
@@ -50,4 +55,5 @@
 		©2016 Superior Forestry Service, Inc.
 	</p>
 </div>
+</body>
 </html>

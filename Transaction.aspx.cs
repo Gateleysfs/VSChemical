@@ -31,6 +31,44 @@ public partial class Transaction : System.Web.UI.Page
             SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["sfsChemicalTransactionListConnectionString"].ConnectionString);
             conn.Open();
 
+            SqlConnection conn2 = new SqlConnection(ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString);
+            conn2.Open();
+
+
+
+
+            //if(DropDownListTransaction.ToString() == "REMOVAL")
+            //{
+            //    if(Convert.ToInt32(TextBoxAmount.Text) < )
+            //    {
+            //        //Inventory.ChemicalAmount = Inventory.ChemicalAmount - Convert.ToInt32(TextBoxAmount.Text);
+            //        //Change partial Container to True
+
+            //        //Create a new row in Inventory with everything from Inventory row except Location and Chemical Amount
+            //        //New location = username and new ChemicalAmount = Convert.ToInt32(TextBoxAmount.Text)
+
+
+            //        Response.Write("Made It");
+            //    }
+            //    else if(Convert.ToInt32(TextBoxAmount.Text) == )
+            //    {
+
+            //    }
+            //    else if(Convert.ToInt32(TextBoxAmount.Text) > )
+            //    {
+            //        conn.Close();
+            //        Response.Write("ERROR");
+            //    }
+            //}
+            //else if(DropDownListTransaction.ToString() == "ADDITION")
+            //{
+
+            //}
+            //else if(DropDownListTransaction.ToString() == "TRANSFER")
+            //{
+
+            //}
+
             string insertQuery = "INSERT INTO dbo.tblInventoryTransactionsSFS ( TransactionItemId, EmployeeId, CrewNumber, TransactionType, Quantity, Measurement, CreatedDate, Comments) values( @transid, @empid, @crew, @ttype, @quant, @measure, @date, @comment)";
             SqlCommand com = new SqlCommand(insertQuery, conn);
 
@@ -46,6 +84,8 @@ public partial class Transaction : System.Web.UI.Page
             Int32 id = ((Int32)userId.ExecuteScalar());
 
 
+
+
             //values being inserted
             com.Parameters.AddWithValue("@transid", transaction);
             com.Parameters.AddWithValue("@empid", id);
@@ -56,30 +96,17 @@ public partial class Transaction : System.Web.UI.Page
             com.Parameters.AddWithValue("@date", DateTime.Now);
             com.Parameters.AddWithValue("@comment", TextBoxComment.Text);
             com.ExecuteNonQuery();
-            
+
             Response.Redirect("Transaction.aspx");
 
-            Response.Write("Transaction Sent");
+
             conn.Close();
+            conn2.Close();
+
         }
         catch (Exception ex)
         {
             Response.Write("ERROR:"+ex.ToString());
         }
-    }
-
-    protected void DropDownListTransaction_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    protected void DropDownListProductType_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    protected void DropDownListWetDry_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
     }
 }
