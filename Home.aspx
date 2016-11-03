@@ -15,6 +15,9 @@
             top: -1px;
             height: 128px;
         }
+        .auto-style3 {
+            font-size: xx-large;
+        }
     </style>
 </head>
 <body id="PageBackGround">
@@ -42,6 +45,11 @@
 	    <li><a href="Inventory.aspx">Current Inventory</a></li>
       </ul>
     </div>
+        <div>
+            <br>
+            <br>
+            <center><p class="auto-style3">In Development</p></center>
+        </div>
     </form>
 
         <!-- Footer -->

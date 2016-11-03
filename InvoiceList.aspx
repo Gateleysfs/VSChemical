@@ -32,7 +32,14 @@
      </div>
         <br>
         <br>
-        <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="4" CellSpacing="2" DataKeyNames="InvNo" DataSourceID="SqlDataSourceInvoice" ForeColor="Black">
+        <div style="text-align:center">
+        <asp:TextBox ID="txtSearch" runat="server" HorizontalAlign ="Center"></asp:TextBox>
+        <asp:Button ID="ButtonSearch" runat="server" Text="Search" OnClick="Search" HorizontalAlign ="Center"/>
+        </div>
+        <br>
+        <br>
+
+        <asp:GridView ID="GridView1" runat="server" AllowPaging="False" AllowSorting="True" AutoGenerateColumns="False" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="4" CellSpacing="2" DataKeyNames="InvNo" ForeColor="Black" HorizontalAlign="Center">
 
             <Columns>
                 <asp:TemplateField HeaderText="Link">

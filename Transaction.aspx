@@ -58,26 +58,10 @@
                     &nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style8">Product Type</td>
-                <td class="auto-style1">
-                    <asp:DropDownList ID="DropDownListProductType" runat="server" Height="18px" Width="300px">
-                        <asp:ListItem></asp:ListItem>
-                        <asp:ListItem>HERBICIDE</asp:ListItem>
-                        <asp:ListItem Value="SURFACTANT">SURFACTANT</asp:ListItem>
-                        <asp:ListItem>BASAL OIL</asp:ListItem>
-                        <asp:ListItem>DYE</asp:ListItem>
-                    </asp:DropDownList>
-                </td>
-                <td class="auto-style9">
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorProductType" runat="server" ControlToValidate="DropDownListProductType" ErrorMessage="Please enter a product type" ForeColor="Red"></asp:RequiredFieldValidator>
-                </td>
-                <td class="auto-style3">
-                    &nbsp;</td>
-            </tr>
-            <tr>
                 <td class="auto-style8">Product</td>
                 <td class="auto-style1">
-                    <asp:DropDownList ID="DropDownListProduct" runat="server" Height="18px" Width="300px" DataSourceID="SqlDataSourceProduct" DataTextField="ItemNo" DataValueField="ItemNo">
+                    <asp:DropDownList AppendDataBoundItems="true" ID="DropDownListProduct" runat="server" Height="18px" Width="300px" DataSourceID="SqlDataSourceProduct" DataTextField="ItemNo" DataValueField="ItemNo">
+                        <asp:ListItem Selected="True"></asp:ListItem>
                     </asp:DropDownList>
 
                 </td>
@@ -108,7 +92,9 @@
             <tr>
                 <td class="auto-style8">Location</td>
                 <td class="auto-style1">
-                    <asp:DropDownList ID="DropDownListLocation" runat="server" Width="300px" DataSourceID="SqlDataSourceLocation" DataTextField="FirstName" DataValueField="FirstName">
+                    <asp:DropDownList AppendDataBoundItems="true" ID="DropDownListLocation" runat="server" Width="300px" DataSourceID="SqlDataSourceLocation" DataTextField="FirstName" DataValueField="FirstName">
+                        <asp:ListItem></asp:ListItem>
+                        <asp:ListItem>Russellville Chemical Storage</asp:ListItem>
                     </asp:DropDownList>
                 </td>
                 <td class="auto-style9">

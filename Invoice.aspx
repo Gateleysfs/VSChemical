@@ -2,11 +2,14 @@
 
 <!DOCTYPE html>
 
+<head>
+
 <title>Invoice</title>
 <link rel="icon" href="Images/sfs logo green transparent.png" type="image/jpg">
 
 <link rel="stylesheet" href="BasicLayout.css">
 <html xmlns="http://www.w3.org/1999/xhtml">
+</head>
 <body id="PageBackGround">
     <form id="form1" runat="server">
         <div id="Header" class="auto-style2">
@@ -176,7 +179,7 @@
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style1">Description (Prescription)</td>
+                <td class="auto-style1">Prescription</td>
                 <td class="auto-style6">
                     <asp:TextBox ID="TextBoxPescription" runat="server" Width="300px" style="text-transform:uppercase;"></asp:TextBox>
                 </td>
@@ -192,7 +195,7 @@
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style2">Chemical Category</td>
+                <td class="auto-style1">Chemical Category</td>
                 <td class="auto-style3">
                     <asp:DropDownList ID="DropDownListChemicalCategory" runat="server" Width="305px">
                         <asp:ListItem></asp:ListItem>
@@ -222,7 +225,7 @@
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style4">Wet/Dry</td>
+                <td class="auto-style1">Wet/Dry</td>
                 <td class="auto-style5">
                     <asp:DropDownList ID="DropDownListWetDry" runat="server" Height="16px" Width="305px">
                         <asp:ListItem></asp:ListItem>

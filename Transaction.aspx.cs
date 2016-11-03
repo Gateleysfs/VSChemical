@@ -35,8 +35,6 @@ public partial class Transaction : System.Web.UI.Page
             conn2.Open();
 
 
-
-
             //if(DropDownListTransaction.ToString() == "REMOVAL")
             //{
             //    if(Convert.ToInt32(TextBoxAmount.Text) < )
@@ -73,7 +71,7 @@ public partial class Transaction : System.Web.UI.Page
             SqlCommand com = new SqlCommand(insertQuery, conn);
 
             //Select a unique ID that matches the Product drop down menu chosen. It is then cast into an int so it can be inserted into dbo.tblInventorytransactionsSFS
-            string selectTranId = "SELECT ID FROM dbo.tblInventorySFS WHERE ChemicalName='"+ DropDownListProduct.SelectedItem.ToString() +"'";
+            string selectTranId = "SELECT ID FROM dbo.tblInventorySFS WHERE ItemNo='"+ DropDownListProduct.SelectedItem.ToString() +"'";
             SqlCommand tranId = new SqlCommand(selectTranId, conn);
             Int32 transaction = ((Int32)tranId.ExecuteScalar());
 
