@@ -36,9 +36,9 @@ public partial class Account_Default : System.Web.UI.Page
             using (SqlCommand cmd = new SqlCommand())
             {
                 //selects what is typed in the search bar. If nothing is typed, load entire table
-                cmd.CommandText = "SELECT * FROM [tblInventorySFS] WHERE InvNo LIKE '%' + @InvNo + '%'";
+                cmd.CommandText = "SELECT * FROM [tblInventorySFS] WHERE Concat(ID, ' ', InvNo, ' ', Ordered, ' ', Shipped, ' ', ItemNo, ' ', Prescription, ' ', UnitPrice, ' ', ExtendedPrice, ' ', Category, ' ', Location, ' ', PartialContainer, ' ', ChemicalAmount, ' ', ContainerType, ' ', WetDry) LIKE '%' + @Input+ '%'";
                 cmd.Connection = con;
-                cmd.Parameters.AddWithValue("@InvNo", txtSearch.Text.Trim());
+                cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
                 DataTable dt = new DataTable();
 
                 //repopulates the table

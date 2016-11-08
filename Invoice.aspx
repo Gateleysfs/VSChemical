@@ -179,7 +179,7 @@
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td class="auto-style1">Prescription</td>
+                <td class="auto-style1">Prescription (Product)</td>
                 <td class="auto-style6">
                     <asp:TextBox ID="TextBoxPescription" runat="server" Width="300px" style="text-transform:uppercase;"></asp:TextBox>
                 </td>

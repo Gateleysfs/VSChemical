@@ -12,126 +12,82 @@ public partial class Test_Delete_ : System.Web.UI.Page
     {
     }
 
+    private List<TableRow> TableRows
+    {
+        get
+        {
+            if (Session["TableRows"] == null)
+                Session["TableRows"] = new List<TableRow>();
+            return (List<TableRow>)Session["TableRows"];
+        }
+    }
+
+
     protected void Button1_Click(object sender, System.EventArgs e)
     {
 
+        TextBox txtE, txtM, txtB;
 
-        // Total number of rows.
-        int rowCnt;
+        TableRow trow;
+        TableCell tcell;
 
-        // Current row count.
-        int rowCtr;
+        foreach (TableRow tr in TableRows)
+            Table1.Controls.Add(tr);
 
-        // Total number of cells per row (columns).
-        int cellCtr;
+        int count = TableRows.Count + 1;
 
-        rowCnt = int.Parse(TextBox1.Text);
-        string[] Ordered = new string[rowCnt];
-        rowCnt = rowCnt * 9;
+        txtE = new TextBox();
+        txtE.ID = "E" + count.ToString();
+        txtE.Visible = true;
+        txtE.Text = "E " + count.ToString();
+        txtE.BorderWidth = 0;
+        txtE.TextMode = TextBoxMode.SingleLine;
+        txtE.Height = 15;
 
-        //Below are two nested for loops to traverse through the rows and columns of a table
-        for (rowCtr = 1; rowCtr <= rowCnt; rowCtr++)
+        txtM = new TextBox();
+        txtM.ID = "M" + count.ToString();
+        txtM.Visible = true;
+        txtM.Text = "M " + count.ToString();
+        txtM.TextMode = TextBoxMode.SingleLine;
+        txtM.Height = 15;
+
+        txtB = new TextBox();
+        txtB.ID = "B" + count.ToString();
+        txtB.Visible = true;
+        txtB.Text = "B " + count.ToString();
+        txtB.TextMode = TextBoxMode.SingleLine;
+        txtB.Height = 15;
+
+        trow = new TableRow();
+        trow.ID = "R" + count.ToString();
+        trow.BorderWidth = 1;
+
+        tcell = new TableCell();
+        tcell.ID = "E" + count.ToString();
+        tcell.Controls.Add(txtE);
+        trow.Controls.Add(tcell);
+
+        tcell = new TableCell();
+        tcell.ID = "M" + count.ToString();
+        tcell.Controls.Add(txtM);
+        trow.Controls.Add(tcell);
+
+        tcell = new TableCell();
+        tcell.ID = "B" + count.ToString();
+        tcell.Controls.Add(txtB);
+        trow.Controls.Add(tcell);
+
+        Table1.Controls.Add(trow);
+        TableRows.Add(trow);
+    }
+
+
+
+    protected void Button2_Click(object sender, EventArgs e)
+    {
+        foreach (TableRow tr in TableRows)
         {
-            TableRow tRow = new TableRow();
-            Table1.Rows.Add(tRow);
-            for (cellCtr = 1; cellCtr <= 3; cellCtr++)
-            {
-                //This creates the first column with all the labels
-                TableCell tCell = new TableCell();
-                if (cellCtr == 1 && rowCtr == 1)
-                {
-                    tCell.Text = "Number Ordered";
-                    tRow.Cells.Add(tCell);
-                }
-                else if (cellCtr == 1 && rowCtr == 2)
-                {
-                    tCell.Text = "Number Shipped";
-                    tRow.Cells.Add(tCell);
-                }
-                else if (cellCtr == 1 && rowCtr == 3)
-                {
-                    tCell.Text = "Item Number";
-                    tRow.Cells.Add(tCell);
-                }
-                else if (cellCtr == 1 && rowCtr == 4)
-                {
-                    tCell.Text = "Product";
-                    tRow.Cells.Add(tCell);
-                }
-                else if (cellCtr == 1 && rowCtr == 5)
-                {
-                    tCell.Text = "Unit Price";
-                    tRow.Cells.Add(tCell);
-                }
-                else if (cellCtr == 1 && rowCtr == 6)
-                {
-                    tCell.Text = "Chemical Category";
-                    tRow.Cells.Add(tCell);
-                }
-                else if (cellCtr == 1 && rowCtr == 7)
-                {
-                    tCell.Text = "Chemical Amount";
-                    tRow.Cells.Add(tCell);
-                }
-                else if (cellCtr == 1 && rowCtr == 8)
-                {
-                    tCell.Text = "Wet/Dry";
-                    tRow.Cells.Add(tCell);
-                }
-                else if (cellCtr == 1 && rowCtr == 9)
-                {
-                    tCell.Text = "";
-                    tRow.Cells.Add(tCell);
-                }
-
-                //This creates the second column with all the text boxes
-                if (cellCtr == 2 && rowCtr == 1)
-                {
-                    TextBox txt = new TextBox();
-                    txt.ID = "textBox1";
-                    form1.Controls.Add(txt);
-                }
-                else if (cellCtr == 2 && rowCtr == 2)
-                {
-                    tCell.Text = "Number Shipped";
-                    tRow.Cells.Add(tCell);
-                }
-                else if (cellCtr == 2 && rowCtr == 3)
-                {
-                    tCell.Text = "Item Number";
-                    tRow.Cells.Add(tCell);
-                }
-                else if (cellCtr == 2 && rowCtr == 4)
-                {
-                    tCell.Text = "Product";
-                    tRow.Cells.Add(tCell);
-                }
-                else if (cellCtr == 2 && rowCtr == 5)
-                {
-                    tCell.Text = "Unit Price";
-                    tRow.Cells.Add(tCell);
-                }
-                else if (cellCtr == 2 && rowCtr == 6)
-                {
-                    tCell.Text = "Chemical Category";
-                    tRow.Cells.Add(tCell);
-                }
-                else if (cellCtr == 2 && rowCtr == 7)
-                {
-                    tCell.Text = "Chemical Amount";
-                    tRow.Cells.Add(tCell);
-                }
-                else if (cellCtr == 2 && rowCtr == 8)
-                {
-                    tCell.Text = "Wet/Dry";
-                    tRow.Cells.Add(tCell);
-                }
-                else if (cellCtr == 2 && rowCtr == 9)
-                {
-                    tCell.Text = "";
-                    tRow.Cells.Add(tCell);
-                }
-            }
+            Response.Write("test");
         }
     }
 }

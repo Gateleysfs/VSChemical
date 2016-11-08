@@ -1,20 +1,15 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="InvoiceListFull.aspx.cs" Inherits="InvoiceListFull" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Test.aspx.cs" Inherits="Test" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <style type="text/css">
-        .auto-style1 {
-            font-size: xx-large;
-        }
-    </style>
 </head>
 <body>
     <form id="form1" runat="server">
         <div>      
-            <span class="auto-style1">Invoice:</span><asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" OnRowCancelingEdit="GridView2_RowCancelingEdit" OnRowEditing="GridView2_RowEditing" OnRowUpdating="GridView2_RowUpdating" OnSelectedIndexChanged="GridView2_SelectedIndexChanged" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellSpacing="2" ForeColor="Black">  
+        <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" OnRowCancelingEdit="GridView2_RowCancelingEdit" OnRowEditing="GridView2_RowEditing" OnRowUpdating="GridView2_RowUpdating" OnSelectedIndexChanged="GridView2_SelectedIndexChanged" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellSpacing="2" ForeColor="Black">  
             <Columns>  
                 <asp:TemplateField>  
                     <ItemTemplate>  
@@ -131,8 +126,8 @@
         </asp:GridView>  
     </div>
         <br />
-    <div>
-        <span class="auto-style1">Chemicals:</span><br />    
+        <br />
+    <div>      
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" OnRowCancelingEdit="GridView1_RowCancelingEdit" OnRowEditing="GridView1_RowEditing" OnRowUpdating="GridView1_RowUpdating" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellSpacing="2" ForeColor="Black">  
             <Columns>  
                 <asp:TemplateField>  
@@ -261,4 +256,3 @@
 
 </body>
 </html>
-

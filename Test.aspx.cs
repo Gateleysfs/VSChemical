@@ -5,12 +5,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-using System.Configuration;
 using System.Data.SqlClient;
-using System.Text.RegularExpressions;
+using System.Configuration;
 
-public partial class InvoiceListFull : System.Web.UI.Page
+public partial class Test : System.Web.UI.Page
 {
+
     //Connection String from web.config File  
     string cs = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
     SqlConnection con;
@@ -157,4 +157,3 @@ public partial class InvoiceListFull : System.Web.UI.Page
 
     }
 }
-
