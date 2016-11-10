@@ -79,7 +79,7 @@ public partial class Invoice : System.Web.UI.Page
             conn2.Close();
 
             //Redirects after a successful InvoiceTransaction
-            Response.Redirect("Home.aspx");
+            //Response.Redirect("Home.aspx");
 
 
         }
@@ -87,5 +87,48 @@ public partial class Invoice : System.Web.UI.Page
         {
             Response.Write("ERROR:" + ex.ToString());
         }
+    }
+
+
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            SqlConnection conn2 = new SqlConnection(ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString);
+
+            string insertQuery2 = "INSERT INTO dbo.tblInventorySFS ( InvNo, Ordered, Shipped, ItemNo, Prescription, UnitPrice, ExtendedPrice, Category, Location, PartialContainer, ChemicalAmount, ContainerType, WetDry) values( @InvNum2, @Ordered, @Shipped, @ItemNo, @Prescription, @UnitPrice, @ExtendedPrice, @Category, @Location, @PartialContainer, @ChemicalAmount, @ContainerType, @WetDry)";
+            SqlCommand com2 = new SqlCommand(insertQuery2, conn2);
+
+            conn2.Open();
+
+            //To obtain the extended price: ExtendedPrice = Ordered * UnitPrice 
+            double UnitPrice = double.Parse(TextBoxUnitPrice.Text);
+            int Ordered = int.Parse(TextBoxOrdered.Text);
+            double ExtendedPrice = UnitPrice * Ordered;
+
+            //values being inserted into Inventory
+            com2.Parameters.AddWithValue("@InvNum2", TextBoxInvNo.Text);
+            com2.Parameters.AddWithValue("@Ordered", TextBoxOrdered.Text);
+            com2.Parameters.AddWithValue("@Shipped", TextBoxShipped.Text);
+            com2.Parameters.AddWithValue("@ItemNo", TextBoxItemNo.Text);
+            com2.Parameters.AddWithValue("@Prescription", TextBoxPescription.Text);
+            com2.Parameters.AddWithValue("@UnitPrice", TextBoxUnitPrice.Text);
+            com2.Parameters.AddWithValue("@ExtendedPrice", ExtendedPrice);
+            com2.Parameters.AddWithValue("@Category", DropDownListChemicalCategory.SelectedItem.ToString());
+            com2.Parameters.AddWithValue("@Location", TextBoxShippedTo.Text); // starting location of each chemical
+            com2.Parameters.AddWithValue("@PartialContainer", false);
+            com2.Parameters.AddWithValue("@ChemicalAmount", TextBoxChemicalAmount.Text);
+            com2.Parameters.AddWithValue("@ContainerType", DropDownListContainerType.SelectedItem.ToString());
+            com2.Parameters.AddWithValue("@WetDry", DropDownListWetDry.SelectedItem.ToString());
+
+            com2.ExecuteNonQuery();
+            conn2.Close();
+        }
+        catch (Exception ex)
+        {
+            Response.Write("ERROR:" + ex.ToString());
+        }
+
     }
 }

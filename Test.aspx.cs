@@ -4,156 +4,189 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 
 public partial class Test : System.Web.UI.Page
 {
-
-    //Connection String from web.config File  
-    string cs = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
-    SqlConnection con;
-    SqlDataAdapter adapt;
-    DataTable dt;
-
-    //Connection String from web.config File  
-    string cs2 = ConfigurationManager.ConnectionStrings["sfsChemicalInvoiceConnectionString"].ConnectionString;
-    SqlConnection con2;
-    SqlDataAdapter adapt2;
-    DataTable dt2;
-
+    List<string> masterList = new List<string>();
+    int number = 0;
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
+    }
+
+    protected void AddTextBox(object sender, EventArgs e)
+    {
+        int index = pnlTextBoxes.Controls.OfType<TextBox>().ToList().Count + pnlTextBoxes.Controls.OfType<DropDownList>().ToList().Count + 1;
+        this.CreateTextBox("Ordered", index);
+
+        index = pnlTextBoxes.Controls.OfType<TextBox>().ToList().Count + pnlTextBoxes.Controls.OfType<DropDownList>().ToList().Count + 1;
+        this.CreateTextBox("Shipped", index);
+
+        index = pnlTextBoxes.Controls.OfType<TextBox>().ToList().Count + pnlTextBoxes.Controls.OfType<DropDownList>().ToList().Count + 1;
+        this.CreateTextBox("ItemNo", index);
+
+        index = pnlTextBoxes.Controls.OfType<TextBox>().ToList().Count + pnlTextBoxes.Controls.OfType<DropDownList>().ToList().Count + 1;
+        this.CreateTextBox("Prescription", index);
+
+        index = pnlTextBoxes.Controls.OfType<TextBox>().ToList().Count + pnlTextBoxes.Controls.OfType<DropDownList>().ToList().Count + 1;
+        this.CreateTextBox("UnitPrice", index);
+
+        index = pnlTextBoxes.Controls.OfType<TextBox>().ToList().Count + pnlTextBoxes.Controls.OfType<DropDownList>().ToList().Count + 1;
+        this.CreateDropDown("ChemicalCategory", index);
+
+        index = pnlTextBoxes.Controls.OfType<TextBox>().ToList().Count + pnlTextBoxes.Controls.OfType<DropDownList>().ToList().Count + 1;
+        this.CreateTextBox("ChemicalAmount", index);
+
+        index = pnlTextBoxes.Controls.OfType<TextBox>().ToList().Count + pnlTextBoxes.Controls.OfType<DropDownList>().ToList().Count + 1;
+        this.CreateDropDown("ContainerType", index);
+
+        index = pnlTextBoxes.Controls.OfType<TextBox>().ToList().Count + pnlTextBoxes.Controls.OfType<DropDownList>().ToList().Count + 1;
+        this.CreateDropDown("WetDry", index);
+    }
+
+    private void CreateTextBox(string id, int index)
+    {
+        TextBox txt = new TextBox();
+        txt.ID = id + index;
+
+
+        pnlTextBoxes.Controls.Add(new LiteralControl(id + " "));
+        pnlTextBoxes.Controls.Add(txt);
+        if (id != "ChemicalAmount")
+            pnlTextBoxes.Controls.Add(new LiteralControl("<br />"));
+    }
+
+    private void CreateDropDown(string id, int index)
+    {
+        if (id == "ChemicalCategory")
         {
-            ShowData();
-            ShowData2();
+            DropDownList ddl = new DropDownList();
+            ddl.ID = id + index;
+            ddl.Width = 173;
+            ddl.Items.Add(new ListItem(""));
+            ddl.Items.Add(new ListItem("HERBICIDE"));
+            ddl.Items.Add(new ListItem("SURFACTANT"));
+            ddl.Items.Add(new ListItem("BASAL OIL"));
+            ddl.Items.Add(new ListItem("DYE"));
+            //ddl.AutoPostBack = true;
+
+            pnlTextBoxes.Controls.Add(new LiteralControl(id));
+            pnlTextBoxes.Controls.Add(ddl);
+            pnlTextBoxes.Controls.Add(new LiteralControl("<br />"));
+        }
+
+        else if (id == "ContainerType")
+        {
+            DropDownList ddl = new DropDownList();
+            ddl.ID = id + index;
+            ddl.Width = 50;
+            ddl.Items.Add(new ListItem(""));
+            ddl.Items.Add(new ListItem("lbs"));
+            ddl.Items.Add(new ListItem("Oz"));
+            ddl.Items.Add(new ListItem("Gal"));
+            //ddl.AutoPostBack = true;
+
+            pnlTextBoxes.Controls.Add(ddl);
+            pnlTextBoxes.Controls.Add(new LiteralControl("<br />"));
+        }
+
+        else if (id == "WetDry")
+        {
+            DropDownList ddl = new DropDownList();
+            ddl.ID = id + index;
+            ddl.Width = 173;
+            ddl.Items.Add(new ListItem(""));
+            ddl.Items.Add(new ListItem("WET"));
+            ddl.Items.Add(new ListItem("DRY"));
+            //ddl.AutoPostBack = true;
+
+            pnlTextBoxes.Controls.Add(new LiteralControl(id));
+            pnlTextBoxes.Controls.Add(ddl);
+            pnlTextBoxes.Controls.Add(new LiteralControl("<br />"));
         }
     }
 
-    //ShowData method for Displaying Data in Gridview  
-    protected void ShowData()
+
+    protected void Page_PreInit(object sender, EventArgs e)
     {
-        string InvNo = Request.QueryString["selectedInvNo"];
-        dt = new DataTable();
-        con = new SqlConnection(cs);
-        con.Open();
-        string SelectQuery = "SELECT * FROM dbo.tblInventorySFS WHERE InvNo = '" + InvNo + "'";
-        adapt = new SqlDataAdapter(SelectQuery, con);
-        adapt.Fill(dt);
-        if (dt.Rows.Count > 0)
+        number++;
+        List<string> keys = Request.Form.AllKeys.Where(key => key.Contains("Ordered") || key.Contains("Shipped") || key.Contains("ItemNo") || key.Contains("Prescription") || key.Contains("UnitPrice") || key.Contains("ChemicalCategory") || key.Contains("ChemicalAmount") || key.Contains("ContainerType") || key.Contains("WetDry")).ToList();
+        int i = 1;
+        foreach (string key in keys)
         {
-            GridView1.DataSource = dt;
-            GridView1.DataBind();
+            if (key.Contains("Ordered"))
+            {
+                this.CreateTextBox("Ordered", i);
+            }
+            else if (key.Contains("Shipped"))
+            {
+                this.CreateTextBox("Shipped", i);
+            }
+            else if (key.Contains("ItemNo"))
+            {
+                this.CreateTextBox("ItemNo", i);
+            }
+            else if (key.Contains("Prescription"))
+            {
+                this.CreateTextBox("Prescription", i);
+            }
+            else if (key.Contains("UnitPrice"))
+            {
+                this.CreateTextBox("UnitPrice", i);
+            }
+            else if (key.Contains("ChemicalCategory"))
+            {
+                this.CreateDropDown("ChemicalCategory", i);
+            }
+            else if (key.Contains("ChemicalAmount"))
+            {
+                this.CreateTextBox("ChemicalAmount", i);
+            }
+            else if (key.Contains("ContainerType"))
+            {
+                this.CreateDropDown("ContainerType", i);
+            }
+            else if (key.Contains("WetDry"))
+            {
+                this.CreateDropDown("WetDry", i);
+                pnlTextBoxes.Controls.Add(new LiteralControl("<br />"));
+            }
+            i++;
         }
-        con.Close();
     }
-    protected void ShowData2()
+
+    protected void Save(object sender, EventArgs e)
     {
-        string InvNo = Request.QueryString["selectedInvNo"];
-        dt2 = new DataTable();
-        con2 = new SqlConnection(cs2);
-        con2.Open();
-        string SelectQuery2 = "SELECT * FROM dbo.tblInvoiceSFS WHERE InvNo = '" + InvNo + "'";
-        adapt2 = new SqlDataAdapter(SelectQuery2, con2);
-        adapt2.Fill(dt2);
-        if (dt2.Rows.Count > 0)
-        {
-            GridView2.DataSource = dt2;
-            GridView2.DataBind();
+
+            string conString = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(conString))
+            {
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO dbo.tblInventorySFS(InvNo, Ordered, Shipped, ItemNo, Prescription, UnitPrice, ChemicalAmount) VALUES(@InvNo, @Ordered, @Shipped, @ItemNo, @Prescription, @UnitPrice, @ChemicalAmount)"))
+                {
+                foreach (TextBox textBox in pnlTextBoxes.Controls.OfType<TextBox>())
+                {
+                    cmd.Connection = con;
+                    if (textBox.ID.Contains("Ordered"))
+                        cmd.Parameters.AddWithValue("@Ordered", textBox.Text);
+                    else if (textBox.ID.Contains("Shipped"))
+                        cmd.Parameters.AddWithValue("@Shipped", textBox.Text);
+                    else if (textBox.ID.Contains("ItemNo"))
+                        cmd.Parameters.AddWithValue("@ItemNo", textBox.Text);
+                    else if (textBox.ID.Contains("Prescription"))
+                        cmd.Parameters.AddWithValue("@Prescription", textBox.Text);
+                    else if (textBox.ID.Contains("UnitPrice"))
+                        cmd.Parameters.AddWithValue("@UnitPrice", textBox.Text);
+                    else if (textBox.ID.Contains("ChemicalAmount"))
+                    {
+                        cmd.Parameters.AddWithValue("@ChemicalAmount", textBox.Text);
+                        cmd.Parameters.AddWithValue("@InvNo", "Test Invoice");
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+            }
         }
-        con2.Close();
-    }
-
-
-    protected void GridView1_RowEditing(object sender, System.Web.UI.WebControls.GridViewEditEventArgs e)
-    {
-        //NewEditIndex property used to determine the index of the row being edited.  
-        GridView1.EditIndex = e.NewEditIndex;
-        ShowData();
-    }
-    protected void GridView2_RowEditing(object sender, System.Web.UI.WebControls.GridViewEditEventArgs e)
-    {
-        //NewEditIndex property used to determine the index of the row being edited.  
-        GridView2.EditIndex = e.NewEditIndex;
-        ShowData2();
-    }
-
-    protected void GridView1_RowUpdating(object sender, System.Web.UI.WebControls.GridViewUpdateEventArgs e)
-    {
-        //Finding the controls from Gridview for the row which is going to update  
-        Label id = GridView1.Rows[e.RowIndex].FindControl("lbl_ID") as Label;
-        TextBox invNo = GridView1.Rows[e.RowIndex].FindControl("txt_InvNo") as TextBox;
-        TextBox ordered = GridView1.Rows[e.RowIndex].FindControl("txt_Ordered") as TextBox;
-        TextBox shipped = GridView1.Rows[e.RowIndex].FindControl("txt_Shipped") as TextBox;
-        TextBox itemNo = GridView1.Rows[e.RowIndex].FindControl("txt_ItemNo") as TextBox;
-        TextBox prescription = GridView1.Rows[e.RowIndex].FindControl("txt_Prescription") as TextBox;
-        TextBox unitPrice = GridView1.Rows[e.RowIndex].FindControl("txt_UnitPrice") as TextBox;
-        TextBox category = GridView1.Rows[e.RowIndex].FindControl("txt_Category") as TextBox;
-        TextBox location = GridView1.Rows[e.RowIndex].FindControl("txt_Location") as TextBox;
-        TextBox partialContainer = GridView1.Rows[e.RowIndex].FindControl("txt_PartialContainer") as TextBox;
-        TextBox chemicalAmount = GridView1.Rows[e.RowIndex].FindControl("txt_ChemicalAmount") as TextBox;
-        TextBox containerType = GridView1.Rows[e.RowIndex].FindControl("txt_ContainerType") as TextBox;
-        TextBox wetDry = GridView1.Rows[e.RowIndex].FindControl("txt_WetDry") as TextBox;
-        con = new SqlConnection(cs);
-        con.Open();
-        //updating the record  
-        SqlCommand cmd = new SqlCommand("Update dbo.tblInventorySFS set InvNo='" + invNo.Text + "',Ordered='" + ordered.Text + "',Shipped='" + shipped.Text + "' ,ItemNo='" + itemNo.Text + "',Prescription='" + prescription.Text + "',UnitPrice='" + unitPrice.Text + "',Category='" + category.Text + "' ,Location='" + location.Text + "',PartialContainer='" + partialContainer.Text + "',ChemicalAmount='" + chemicalAmount.Text + "' ,ContainerType='" + containerType.Text + "',WetDry='" + wetDry.Text + "'  where ID=" + Convert.ToInt32(id.Text), con);
-        cmd.ExecuteNonQuery();
-        con.Close();
-        //Setting the EditIndex property to -1 to cancel the Edit mode in Gridview  
-        GridView1.EditIndex = -1;
-        //Call ShowData method for displaying updated data  
-        ShowData();
-    }
-    protected void GridView2_RowUpdating(object sender, System.Web.UI.WebControls.GridViewUpdateEventArgs e)
-    {
-        //Finding the controls from Gridview for the row which is going to update  
-        Label id2 = GridView2.Rows[e.RowIndex].FindControl("lbl_ID") as Label;
-        TextBox invNo2 = GridView2.Rows[e.RowIndex].FindControl("txt_InvNo") as TextBox;
-        TextBox supplier = GridView2.Rows[e.RowIndex].FindControl("txt_Supplier") as TextBox;
-        TextBox orderFrom = GridView2.Rows[e.RowIndex].FindControl("txt_OrderFrom") as TextBox;
-        TextBox orderDate = GridView2.Rows[e.RowIndex].FindControl("txt_OrderDate") as TextBox;
-        TextBox invDate = GridView2.Rows[e.RowIndex].FindControl("txt_InvDate") as TextBox;
-        TextBox shippedVia = GridView2.Rows[e.RowIndex].FindControl("txt_ShippedVia") as TextBox;
-        TextBox shippedTo = GridView2.Rows[e.RowIndex].FindControl("txt_ShippedTo") as TextBox;
-        TextBox shipDate = GridView2.Rows[e.RowIndex].FindControl("txt_ShipDate") as TextBox;
-        TextBox dueBy = GridView2.Rows[e.RowIndex].FindControl("txt_DueBy") as TextBox;
-        TextBox fob = GridView2.Rows[e.RowIndex].FindControl("txt_FOB") as TextBox;
-        TextBox totalDue = GridView2.Rows[e.RowIndex].FindControl("txt_TotalDue") as TextBox;
-        con2 = new SqlConnection(cs2);
-        con2.Open();
-        //updating the record  
-        SqlCommand cmd2 = new SqlCommand("Update dbo.tblInvoiceSFS set InvNo='" + invNo2.Text + "',Supplier='" + supplier.Text + "',OrderFrom='" + orderFrom.Text + "' ,OrderDate='" + orderDate.Text + "',InvDate='" + invDate.Text + "',ShippedVia='" + shippedVia.Text + "',ShippedTo='" + shippedTo.Text + "' ,ShipDate='" + shipDate.Text + "',DueBy='" + dueBy.Text + "',FOB='" + fob.Text + "' ,TotalDue='" + totalDue.Text + "'  where ID=" + Convert.ToInt32(id2.Text), con2);
-        cmd2.ExecuteNonQuery();
-        con2.Close();
-        //Setting the EditIndex property to -1 to cancel the Edit mode in Gridview  
-        GridView2.EditIndex = -1;
-        //Call ShowData method for displaying updated data  
-        ShowData2();
-    }
-
-
-    protected void GridView1_RowCancelingEdit(object sender, System.Web.UI.WebControls.GridViewCancelEditEventArgs e)
-    {
-        //Setting the EditIndex property to -1 to cancel the Edit mode in Gridview  
-        GridView1.EditIndex = -1;
-        ShowData();
-    }
-    protected void GridView2_RowCancelingEdit(object sender, System.Web.UI.WebControls.GridViewCancelEditEventArgs e)
-    {
-        //Setting the EditIndex property to -1 to cancel the Edit mode in Gridview  
-        GridView2.EditIndex = -1;
-        ShowData2();
-    }
-
-    protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
-    }
-    protected void GridView2_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
     }
 }

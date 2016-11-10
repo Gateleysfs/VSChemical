@@ -2,17 +2,39 @@
 
 <!DOCTYPE html>
 
+<title>Invoice List</title>
+<link rel="icon" href="Images/sfs logo green transparent.png" type="image/jpg">
+
+<link rel="stylesheet" href="BasicLayout.css">
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
     <style type="text/css">
         .auto-style1 {
             font-size: xx-large;
         }
     </style>
 </head>
-<body>
+<body id ="PageBackGround">
     <form id="form1" runat="server">
+                <div id="Header" class="auto-style2">
+                    <br>
+                    <h1>Specific Invoice</h1>
+                    <a href="Home.aspx">
+                        <img class="ImgRight" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo" width="140" height="98">
+                    </a>
+        </div>
+              <div id="mainNav">
+      <ul>
+        <li><a href="Transaction.aspx">Add Transaction</a></li>
+        <li><a href="TransactionList.aspx">Transactions List</a></li>
+        <li><a href="Invoice.aspx">Add Invoice</a></li>
+        <li><a href="InvoiceList.aspx">Invoices List</a></li>
+	    <li><a href="Inventory.aspx">Current Inventory</a></li>
+      </ul>
+     </div>
+
+
         <div>      
             <span class="auto-style1">Invoice:</span><asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" CellPadding="4" OnRowCancelingEdit="GridView2_RowCancelingEdit" OnRowEditing="GridView2_RowEditing" OnRowUpdating="GridView2_RowUpdating" OnSelectedIndexChanged="GridView2_SelectedIndexChanged" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellSpacing="2" ForeColor="Black">  
             <Columns>  

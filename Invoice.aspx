@@ -249,10 +249,10 @@
                 <td class="auto-style1">&nbsp;</td>
                 <td class="auto-style6">
                     <asp:Button ID="ButtonSubmitInvoice" runat="server" OnClick="ButtonSubmitInvoice_Click" Text="Submit" Width="150px" />
-                </td>
-                <td class="auto-style11">
                     <asp:Button ID="Button1" runat="server" Text="Add Another Chemical" Width="150px" />
                 </td>
+                <td class="auto-style11">
+                    &nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
         </table>
