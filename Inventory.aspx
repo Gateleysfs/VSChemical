@@ -33,7 +33,7 @@
         </div>
         <br>
         <br>
-        <asp:GridView ID="GridView1" runat="server" AllowPaging="False" AllowSorting="True" AutoGenerateColumns="False" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="2" CellSpacing="2" DataKeyNames="ID" ForeColor="Black" HorizontalAlign="Center">
+        <asp:GridView ID="GridView1" runat="server" AllowPaging="False" AllowSorting="False" AutoGenerateColumns="False" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="2" CellSpacing="2" DataKeyNames="ID" ForeColor="Black" HorizontalAlign="Center">
             <Columns>
                 <asp:BoundField DataField="ID" HeaderText="ID" ReadOnly="True" SortExpression="ID" InsertVisible="False" />
                 <asp:BoundField DataField="InvNo" HeaderText="InvNo" SortExpression="InvNo" />
@@ -47,6 +47,7 @@
                 <asp:BoundField DataField="Location" HeaderText="Location" SortExpression="Location" />
                 <asp:CheckBoxField DataField="PartialContainer" HeaderText="PartialContainer" SortExpression="PartialContainer" />
                 <asp:BoundField DataField="ChemicalAmount" HeaderText="ChemicalAmount" SortExpression="ChemicalAmount" />
+                <asp:BoundField DataField="Total" HeaderText="Total" SortExpression="Total" />
                 <asp:BoundField DataField="ContainerType" HeaderText="ContainerType" SortExpression="ContainerType" />
                 <asp:BoundField DataField="WetDry" HeaderText="WetDry" SortExpression="WetDry" />
             </Columns>

@@ -251,6 +251,14 @@
                         <asp:TextBox ID="txt_ChemicalAmount" runat="server" Text='<%#Eval("ChemicalAmount") %>'></asp:TextBox>  
                     </EditItemTemplate>  
                 </asp:TemplateField>
+                 <asp:TemplateField HeaderText="Total">  
+                    <ItemTemplate>  
+                        <asp:Label ID="lbl_Total" runat="server" Text='<%#Eval("Total") %>'></asp:Label>  
+                    </ItemTemplate>  
+                    <EditItemTemplate>  
+                        <asp:TextBox ID="txt_Total" runat="server" Text='<%#Eval("Total") %>'></asp:TextBox>  
+                    </EditItemTemplate>  
+                </asp:TemplateField>
                 <asp:TemplateField HeaderText="ContainerType">  
                     <ItemTemplate>  
                         <asp:Label ID="lbl_ContainerType" runat="server" Text='<%#Eval("ContainerType") %>'></asp:Label>  

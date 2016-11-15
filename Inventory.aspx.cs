@@ -21,12 +21,13 @@ public partial class Account_Default : System.Web.UI.Page
             this.BindGrid();
     }
 
+    //Called when the search button is clicked(in the HTML: OnClick = "Search")
     protected void Search(object sender, EventArgs e)
     {
-        //This is called when the search button is pressed. (in the HTML: OnClick="Search")
         this.BindGrid();
     }
 
+    // takes search bar input and selects all the data matching it. It then creates a new table where only the matching rows are shown.
     private void BindGrid()
     {
         //establishing connection to the connection string
@@ -36,7 +37,7 @@ public partial class Account_Default : System.Web.UI.Page
             using (SqlCommand cmd = new SqlCommand())
             {
                 //selects what is typed in the search bar. If nothing is typed, load entire table
-                cmd.CommandText = "SELECT * FROM [tblInventorySFS] WHERE Concat(ID, ' ', InvNo, ' ', Ordered, ' ', Shipped, ' ', ItemNo, ' ', Prescription, ' ', UnitPrice, ' ', ExtendedPrice, ' ', Category, ' ', Location, ' ', PartialContainer, ' ', ChemicalAmount, ' ', ContainerType, ' ', WetDry) LIKE '%' + @Input+ '%'";
+                cmd.CommandText = "SELECT * FROM [tblInventorySFS] WHERE Concat(ID, ' ', InvNo, ' ', Ordered, ' ', Shipped, ' ', ItemNo, ' ', Prescription, ' ', UnitPrice, ' ', ExtendedPrice, ' ', Category, ' ', Location, ' ', PartialContainer, ' ', ChemicalAmount, ' ', Total, ' ', ContainerType, ' ', WetDry) LIKE '%' + @Input+ '%'";
                 cmd.Connection = con;
                 cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
                 DataTable dt = new DataTable();
@@ -52,12 +53,14 @@ public partial class Account_Default : System.Web.UI.Page
         }
     }
 
+    //never called
     protected void OnPageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         GridView1.PageIndex = e.NewPageIndex;
         this.BindGrid();
     }
 
+    //This isnt called but when it is it highlights any data that is matched by the search bar
     protected void OnRowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)

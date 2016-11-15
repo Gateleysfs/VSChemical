@@ -39,7 +39,7 @@ public partial class Test_Delete_ : System.Web.UI.Page
         txtE = new TextBox();
         txtE.ID = "E" + count.ToString();
         txtE.Visible = true;
-        txtE.Text = "E " + count.ToString();
+        //txtE.Text = "E " + count.ToString();
         txtE.BorderWidth = 0;
         txtE.TextMode = TextBoxMode.SingleLine;
         txtE.Height = 15;

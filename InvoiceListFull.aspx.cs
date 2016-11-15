@@ -94,12 +94,13 @@ public partial class InvoiceListFull : System.Web.UI.Page
         TextBox location = GridView1.Rows[e.RowIndex].FindControl("txt_Location") as TextBox;
         TextBox partialContainer = GridView1.Rows[e.RowIndex].FindControl("txt_PartialContainer") as TextBox;
         TextBox chemicalAmount = GridView1.Rows[e.RowIndex].FindControl("txt_ChemicalAmount") as TextBox;
+        TextBox total = GridView1.Rows[e.RowIndex].FindControl("txt_Total") as TextBox;
         TextBox containerType = GridView1.Rows[e.RowIndex].FindControl("txt_ContainerType") as TextBox;
         TextBox wetDry = GridView1.Rows[e.RowIndex].FindControl("txt_WetDry") as TextBox;
         con = new SqlConnection(cs);
         con.Open();
         //updating the record  
-        SqlCommand cmd = new SqlCommand("Update dbo.tblInventorySFS set InvNo='" + invNo.Text + "',Ordered='" + ordered.Text + "',Shipped='" + shipped.Text + "' ,ItemNo='" + itemNo.Text + "',Prescription='" + prescription.Text + "',UnitPrice='" + unitPrice.Text + "',Category='" + category.Text + "' ,Location='" + location.Text + "',PartialContainer='" + partialContainer.Text + "',ChemicalAmount='" + chemicalAmount.Text + "' ,ContainerType='" + containerType.Text + "',WetDry='" + wetDry.Text + "'  where ID=" + Convert.ToInt32(id.Text), con);
+        SqlCommand cmd = new SqlCommand("Update dbo.tblInventorySFS set InvNo='" + invNo.Text + "',Ordered='" + ordered.Text + "',Shipped='" + shipped.Text + "' ,ItemNo='" + itemNo.Text + "',Prescription='" + prescription.Text + "',UnitPrice='" + unitPrice.Text + "',Category='" + category.Text + "' ,Location='" + location.Text + "',PartialContainer='" + partialContainer.Text + "',ChemicalAmount='" + chemicalAmount.Text + "' ,Total='" + total.Text + "' ,ContainerType='" + containerType.Text + "',WetDry='" + wetDry.Text + "'  where ID=" + Convert.ToInt32(id.Text), con);
         cmd.ExecuteNonQuery();
         con.Close();
         //Setting the EditIndex property to -1 to cancel the Edit mode in Gridview  
