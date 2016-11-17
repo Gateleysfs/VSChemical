@@ -39,14 +39,17 @@
                 <asp:BoundField DataField="InvNo" HeaderText="InvNo" SortExpression="InvNo" />
                 <asp:BoundField DataField="Ordered" HeaderText="Ordered" SortExpression="Ordered" />
                 <asp:BoundField DataField="Shipped" HeaderText="Shipped" SortExpression="Shipped" />
+                <asp:BoundField DataField="ContainerCount" HeaderText="ContainerCount" SortExpression="ContainerCount" />
                 <asp:BoundField DataField="ItemNo" HeaderText="ItemNo" SortExpression="ItemNo" />
                 <asp:BoundField DataField="Prescription" HeaderText="Prescription" SortExpression="Prescription" />
                 <asp:BoundField DataField="UnitPrice" HeaderText="UnitPrice" SortExpression="UnitPrice" />
                 <asp:BoundField DataField="ExtendedPrice" HeaderText="ExtendedPrice" SortExpression="ExtendedPrice" />
                 <asp:BoundField DataField="Category" HeaderText="Category" SortExpression="Category" />
-                <asp:BoundField DataField="Location" HeaderText="Location" SortExpression="Location" />
+                <asp:BoundField DataField="OriginalLocation" HeaderText="OriginalLocation" SortExpression="OriginalLocation" />
+                <asp:BoundField DataField="CurrentLocation" HeaderText="CurrentLocation" SortExpression="CurrentLocation" />
                 <asp:CheckBoxField DataField="PartialContainer" HeaderText="PartialContainer" SortExpression="PartialContainer" />
                 <asp:BoundField DataField="ChemicalAmount" HeaderText="ChemicalAmount" SortExpression="ChemicalAmount" />
+                <asp:BoundField DataField="AmountLeft" HeaderText="AmountLeft" SortExpression="AmountLeft" />
                 <asp:BoundField DataField="Total" HeaderText="Total" SortExpression="Total" />
                 <asp:BoundField DataField="ContainerType" HeaderText="ContainerType" SortExpression="ContainerType" />
                 <asp:BoundField DataField="WetDry" HeaderText="WetDry" SortExpression="WetDry" />

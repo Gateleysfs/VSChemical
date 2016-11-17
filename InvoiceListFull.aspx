@@ -227,20 +227,12 @@
                         <asp:TextBox ID="txt_Category" runat="server" Text='<%#Eval("Category") %>'></asp:TextBox>  
                     </EditItemTemplate>  
                 </asp:TemplateField>
-                <asp:TemplateField HeaderText="Location">  
+                <asp:TemplateField HeaderText="OriginalLocation">  
                     <ItemTemplate>  
-                        <asp:Label ID="lbl_Location" runat="server" Text='<%#Eval("Location") %>'></asp:Label>  
+                        <asp:Label ID="lbl_OriginalLocation" runat="server" Text='<%#Eval("OriginalLocation") %>'></asp:Label>  
                     </ItemTemplate>  
                     <EditItemTemplate>  
-                        <asp:TextBox ID="txt_Location" runat="server" Text='<%#Eval("Location") %>'></asp:TextBox>  
-                    </EditItemTemplate>  
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="PartialContainer">  
-                    <ItemTemplate>  
-                        <asp:Label ID="lbl_PartialContainer" runat="server" Text='<%#Eval("PartialContainer") %>'></asp:Label>  
-                    </ItemTemplate>  
-                    <EditItemTemplate>  
-                        <asp:TextBox ID="txt_PartialContainer" runat="server" Text='<%#Eval("PartialContainer") %>'></asp:TextBox>  
+                        <asp:TextBox ID="txt_OriginalLocation" runat="server" Text='<%#Eval("OriginalLocation") %>'></asp:TextBox>  
                     </EditItemTemplate>  
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="ChemicalAmount">  
@@ -249,14 +241,6 @@
                     </ItemTemplate>  
                     <EditItemTemplate>  
                         <asp:TextBox ID="txt_ChemicalAmount" runat="server" Text='<%#Eval("ChemicalAmount") %>'></asp:TextBox>  
-                    </EditItemTemplate>  
-                </asp:TemplateField>
-                 <asp:TemplateField HeaderText="Total">  
-                    <ItemTemplate>  
-                        <asp:Label ID="lbl_Total" runat="server" Text='<%#Eval("Total") %>'></asp:Label>  
-                    </ItemTemplate>  
-                    <EditItemTemplate>  
-                        <asp:TextBox ID="txt_Total" runat="server" Text='<%#Eval("Total") %>'></asp:TextBox>  
                     </EditItemTemplate>  
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="ContainerType">  

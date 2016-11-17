@@ -215,7 +215,7 @@ public partial class Invoice : System.Web.UI.Page
             string conString = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
             using (SqlConnection con = new SqlConnection(conString))
             {
-                using (SqlCommand cmd = new SqlCommand("INSERT INTO dbo.tblInventorySFS(InvNo, Ordered, Shipped, ItemNo, Prescription, UnitPrice, ExtendedPrice, Category, Location, PartialContainer, ChemicalAmount, Total, ContainerType, WetDry) VALUES(@InvNo, @Ordered, @Shipped, @ItemNo, @Prescription, @UnitPrice, @ExtendedPrice, @Category, @Location, @PartialContainer, @ChemicalAmount, @Total, @ContainerType, @WetDry)"))
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO dbo.tblInventorySFS(InvNo, Ordered, Shipped, ContainerCount, ItemNo, Prescription, UnitPrice, ExtendedPrice, Category, OriginalLocation, CurrentLocation, PartialContainer, ChemicalAmount, AmountLeft, Total, ContainerType, WetDry) VALUES(@InvNo, @Ordered, @Shipped, @ContainerCount, @ItemNo, @Prescription, @UnitPrice, @ExtendedPrice, @Category, @OriginalLocation, @CurrentLocation, @PartialContainer, @ChemicalAmount, @AmountLeft @Total, @ContainerType, @WetDry)"))
                 {
                     foreach (Control control in pnlTextBoxes.Controls)
                     {
@@ -227,6 +227,7 @@ public partial class Invoice : System.Web.UI.Page
                         else if (control is TextBox && control.ID.Contains("Shipped"))
                         {
                             cmd.Parameters.AddWithValue("@Shipped", (control as TextBox).Text);
+                            cmd.Parameters.AddWithValue("@ContainerCount", (control as TextBox).Text);
                         }
                         else if (control is TextBox && control.ID.Contains("ItemNo"))
                         {
@@ -243,6 +244,7 @@ public partial class Invoice : System.Web.UI.Page
                         else if (control is TextBox && control.ID.Contains("ChemicalAmount"))
                         {
                             cmd.Parameters.AddWithValue("@ChemicalAmount", (control as TextBox).Text);
+                            cmd.Parameters.AddWithValue("@AmountLeft", (control as TextBox).Text);
                         }
 
                         else if (control is DropDownList && control.ID.Contains("ChemicalCategory"))
@@ -263,8 +265,9 @@ public partial class Invoice : System.Web.UI.Page
 
                             //Other information to be inserted
                             cmd.Parameters.AddWithValue("@invNo", TextBoxInvNo.Text);
-                            cmd.Parameters.AddWithValue("@Total", 111); // chemical amount * ordered
-                            cmd.Parameters.AddWithValue("@Location", TextBoxShipTo.Text);
+                            cmd.Parameters.AddWithValue("@Total", 111); //  amount left * ordered
+                            cmd.Parameters.AddWithValue("@OriginalLocation", TextBoxShipTo.Text);
+                            cmd.Parameters.AddWithValue("@CurrentLocation", TextBoxShipTo.Text);
                             cmd.Parameters.AddWithValue("@ExtendedPrice", 111); //unit price * ordered
                             cmd.Parameters.AddWithValue("@PartialContainer", "False");
 

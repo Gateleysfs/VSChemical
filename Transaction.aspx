@@ -76,7 +76,7 @@
                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorCrewNumber" runat="server" ControlToValidate="TextBoxCrewNumber" ErrorMessage="Please enter a crew number" ForeColor="Red"></asp:RequiredFieldValidator>
                 </td>
                 <td>
-                    </td>
+                </td>
             </tr>
             <tr>
                 <td class="auto-style5">Transaction</td>

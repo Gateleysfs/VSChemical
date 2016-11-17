@@ -37,7 +37,7 @@ public partial class Account_Default : System.Web.UI.Page
             using (SqlCommand cmd = new SqlCommand())
             {
                 //selects what is typed in the search bar. If nothing is typed, load entire table
-                cmd.CommandText = "SELECT * FROM [tblInventorySFS] WHERE Concat(ID, ' ', InvNo, ' ', Ordered, ' ', Shipped, ' ', ItemNo, ' ', Prescription, ' ', UnitPrice, ' ', ExtendedPrice, ' ', Category, ' ', Location, ' ', PartialContainer, ' ', ChemicalAmount, ' ', Total, ' ', ContainerType, ' ', WetDry) LIKE '%' + @Input+ '%'";
+                cmd.CommandText = "SELECT * FROM [tblInventorySFS] WHERE Concat(ID, ' ', InvNo, ' ', Ordered, ' ', Shipped, ' ', ContainerCount, ' ', ItemNo, ' ', Prescription, ' ', UnitPrice, ' ', ExtendedPrice, ' ', Category, ' ', OriginalLocation, ' ', CurrentLocation, ' ', PartialContainer, ' ', ChemicalAmount, ' ', AmountLeft, ' ', Total, ' ', ContainerType, ' ', WetDry) LIKE '%' + @Input+ '%'";
                 cmd.Connection = con;
                 cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
                 DataTable dt = new DataTable();
