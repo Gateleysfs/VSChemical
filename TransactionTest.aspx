@@ -106,7 +106,7 @@
                     <asp:Label ID="LabelQuantity" runat="server" Text="Quantity"></asp:Label>
                 </td>
                 <td class="auto-style1">
-                    <asp:DropDownList ID="DropDownListQuantity" runat="server" Width="301px">
+                    <asp:DropDownList ID="DropDownListQuantity" runat="server" Width="301px" AutoPostBack="True" OnSelectedIndexChanged="DropDownListQuantity_SelectedIndexChanged">
                     </asp:DropDownList>
                 </td>
             </tr>
