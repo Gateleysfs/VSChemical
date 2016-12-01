@@ -270,6 +270,7 @@
             <SortedDescendingCellStyle BackColor="#CAC9C9" />
             <SortedDescendingHeaderStyle BackColor="#383838" />
         </asp:GridView>  
+        <asp:SqlDataSource ID="SqlDataSourceInvoiceChemicals" runat="server" ConnectionString="<%$ ConnectionStrings:sfsInvoiceChemicalsConnectionString %>" SelectCommand="SELECT * FROM [tblInvoiceChemicalsSFS]"></asp:SqlDataSource>
     </div>  
 </form>  
 

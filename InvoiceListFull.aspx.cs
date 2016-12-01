@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 public partial class InvoiceListFull : System.Web.UI.Page
 {
     //Connection String from web.config File  
-    string cs = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
+    string cs = ConfigurationManager.ConnectionStrings["sfsInvoiceChemicalsConnectionString"].ConnectionString;
     SqlConnection con;
     SqlDataAdapter adapt;
     DataTable dt;
@@ -39,7 +39,7 @@ public partial class InvoiceListFull : System.Web.UI.Page
         dt = new DataTable();
         con = new SqlConnection(cs);
         con.Open();
-        string SelectQuery = "SELECT * FROM dbo.tblInventorySFS WHERE InvNo = '" + InvNo + "'";
+        string SelectQuery = "SELECT * FROM dbo.tblInvoiceChemicalsSFS WHERE InvNo = '" + InvNo + "'";
         adapt = new SqlDataAdapter(SelectQuery, con);
         adapt.Fill(dt);
         if (dt.Rows.Count > 0)
@@ -65,7 +65,6 @@ public partial class InvoiceListFull : System.Web.UI.Page
         }
         con2.Close();
     }
-
 
     protected void GridView1_RowEditing(object sender, System.Web.UI.WebControls.GridViewEditEventArgs e)
     {
@@ -98,7 +97,7 @@ public partial class InvoiceListFull : System.Web.UI.Page
         con = new SqlConnection(cs);
         con.Open();
         //updating the record  
-        SqlCommand cmd = new SqlCommand("Update dbo.tblInventorySFS set InvNo='" + invNo.Text + 
+        SqlCommand cmd = new SqlCommand("Update dbo.tblInvoiceChemicalsSFS set InvNo='" + invNo.Text + 
             "',Ordered='" + ordered.Text + 
             "',Shipped='" + shipped.Text + 
             "',ItemNo='" + itemNo.Text + 
@@ -135,7 +134,18 @@ public partial class InvoiceListFull : System.Web.UI.Page
         con2 = new SqlConnection(cs2);
         con2.Open();
         //updating the record  
-        SqlCommand cmd2 = new SqlCommand("Update dbo.tblInvoiceSFS set InvNo='" + invNo2.Text + "',Supplier='" + supplier.Text + "',OrderFrom='" + orderFrom.Text + "' ,OrderDate='" + orderDate.Text + "',InvDate='" + invDate.Text + "',ShippedVia='" + shippedVia.Text + "',ShippedTo='" + shippedTo.Text + "' ,ShipDate='" + shipDate.Text + "',DueBy='" + dueBy.Text + "',FOB='" + fob.Text + "' ,TotalDue='" + totalDue.Text + "'  where ID=" + Convert.ToInt32(id2.Text), con2);
+        SqlCommand cmd2 = new SqlCommand("Update dbo.tblInvoiceSFS set InvNo='" + invNo2.Text + 
+            "',Supplier='" + supplier.Text + 
+            "',OrderFrom='" + orderFrom.Text + 
+            "',OrderDate='" + orderDate.Text + 
+            "',InvDate='" + invDate.Text + 
+            "',ShippedVia='" + shippedVia.Text + 
+            "',ShippedTo='" + shippedTo.Text + 
+            "',ShipDate='" + shipDate.Text + 
+            "',DueBy='" + dueBy.Text + 
+            "',FOB='" + fob.Text + 
+            "',TotalDue='" + totalDue.Text + 
+            "' where ID=" + Convert.ToInt32(id2.Text), con2);
         cmd2.ExecuteNonQuery();
         con2.Close();
         //Setting the EditIndex property to -1 to cancel the Edit mode in Gridview  
@@ -167,4 +177,3 @@ public partial class InvoiceListFull : System.Web.UI.Page
 
     }
 }
-

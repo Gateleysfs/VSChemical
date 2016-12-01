@@ -36,23 +36,16 @@
         <asp:GridView ID="GridView1" runat="server" AllowPaging="False" AllowSorting="False" AutoGenerateColumns="False" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="2" CellSpacing="2" DataKeyNames="ID" ForeColor="Black" HorizontalAlign="Center">
             <Columns>
                 <asp:BoundField DataField="ID" HeaderText="ID" ReadOnly="True" SortExpression="ID" InsertVisible="False" />
-                <asp:BoundField DataField="InvNo" HeaderText="InvNo" SortExpression="InvNo" />
-                <asp:BoundField DataField="Ordered" HeaderText="Ordered" SortExpression="Ordered" />
-                <asp:BoundField DataField="Shipped" HeaderText="Shipped" SortExpression="Shipped" />
-                <asp:BoundField DataField="ContainerCount" HeaderText="ContainerCount" SortExpression="ContainerCount" />
                 <asp:BoundField DataField="ItemNo" HeaderText="ItemNo" SortExpression="ItemNo" />
                 <asp:BoundField DataField="Prescription" HeaderText="Prescription" SortExpression="Prescription" />
-                <asp:BoundField DataField="UnitPrice" HeaderText="UnitPrice" SortExpression="UnitPrice" />
-                <asp:BoundField DataField="ExtendedPrice" HeaderText="ExtendedPrice" SortExpression="ExtendedPrice" />
-                <asp:BoundField DataField="Category" HeaderText="Category" SortExpression="Category" />
-                <asp:BoundField DataField="OriginalLocation" HeaderText="OriginalLocation" SortExpression="OriginalLocation" />
                 <asp:BoundField DataField="CurrentLocation" HeaderText="CurrentLocation" SortExpression="CurrentLocation" />
-                <asp:CheckBoxField DataField="PartialContainer" HeaderText="PartialContainer" SortExpression="PartialContainer" />
-                <asp:BoundField DataField="ChemicalAmount" HeaderText="ChemicalAmount" SortExpression="ChemicalAmount" />
+                <asp:BoundField DataField="ContainerCount" HeaderText="ContainerCount" SortExpression="ContainerCount" />
                 <asp:BoundField DataField="AmountLeft" HeaderText="AmountLeft" SortExpression="AmountLeft" />
-                <asp:BoundField DataField="Total" HeaderText="Total" SortExpression="Total" />
                 <asp:BoundField DataField="ContainerType" HeaderText="ContainerType" SortExpression="ContainerType" />
-                <asp:BoundField DataField="WetDry" HeaderText="WetDry" SortExpression="WetDry" />
+                <asp:BoundField DataField="Total" HeaderText="Total" SortExpression="Total" />
+                <asp:BoundField DataField="Category" HeaderText="Category" SortExpression="Category" />
+                <asp:CheckBoxField DataField="PartialContainer" HeaderText="PartialContainer" SortExpression="PartialContainer" />
+                <asp:BoundField DataField="ChemicalAmount" HeaderText="ContainerSize" SortExpression="ChemicalAmount" />
             </Columns>
             <FooterStyle BackColor="#CCCCCC" />
             <HeaderStyle BackColor="DarkGreen" Font-Bold="True" ForeColor="White" />

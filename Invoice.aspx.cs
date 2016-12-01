@@ -184,14 +184,15 @@ public partial class Invoice : System.Web.UI.Page
     {
         try
         {
-            //Creating a connection to the Invoice table (conn) and Inventory table (conn2) so that I can store the textfields in the database
+            // Inserts into Invoice table the Invoice information from the page------------------------------------------------------------------------------------------
+            // Creating a connection to the Invoice table (conn) and Inventory table (conn2) so that I can store the textfields in the database
             SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["sfsChemicalInvoiceConnectionString"].ConnectionString);
 
-            //Creating the query and SqlCommand objects
+            // Creating the query and SqlCommand objects
             string insertQuery = "INSERT INTO dbo.tblInvoiceSFS ( InvNo, Supplier, OrderFrom, OrderDate, InvDate, ShippedVia, ShippedTo, ShipDate, DueBy, FOB, TotalDue) values( @InvNum, @Supplier, @OrderFrom, @OrderDate, @InvDate, @ShippedVia, @ShippedTo, @ShipDate, @DueBy, @FOB, @TotalDue)";
             SqlCommand com = new SqlCommand(insertQuery, conn);
 
-            //values being inserted into Invoice
+            // values being inserted into Invoice
             com.Parameters.AddWithValue("@InvNum", TextBoxInvNo.Text);
             com.Parameters.AddWithValue("@Supplier", TextBoxSupplier.Text);
             com.Parameters.AddWithValue("@OrderFrom", TextBoxOrderFrom.Text);
@@ -209,13 +210,14 @@ public partial class Invoice : System.Web.UI.Page
             com.ExecuteNonQuery();
             conn.Close();
 
-            //---------------------------------------------------
+            // End of Invoice Insertion-----------------------------------------------------------------------------------------------------------------------------------
 
-            //This inserts all of the Chemicals
-            string conString = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
+
+            // This inserts all of the Chemicals into the InvoiceChemical table--------------------------------------------------------------------------------------------------
+            string conString = ConfigurationManager.ConnectionStrings["sfsInvoiceChemicalsConnectionString"].ConnectionString;
             using (SqlConnection con = new SqlConnection(conString))
             {
-                using (SqlCommand cmd = new SqlCommand("INSERT INTO dbo.tblInventorySFS(InvNo, Ordered, Shipped, ContainerCount, ItemNo, Prescription, UnitPrice, ExtendedPrice, Category, OriginalLocation, CurrentLocation, PartialContainer, ChemicalAmount, AmountLeft, Total, ContainerType, WetDry) VALUES(@InvNo, @Ordered, @Shipped, @ContainerCount, @ItemNo, @Prescription, @UnitPrice, @ExtendedPrice, @Category, @OriginalLocation, @CurrentLocation, @PartialContainer, @ChemicalAmount, @AmountLeft @Total, @ContainerType, @WetDry)"))
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO dbo.tblInvoiceChemicalsSFS(InvNo, Ordered, Shipped, ItemNo, Prescription, UnitPrice, ExtendedPrice, Category, OriginalLocation, ChemicalAmount, ContainerType, WetDry) VALUES(@InvNo, @Ordered, @Shipped, @ItemNo, @Prescription, @UnitPrice, @ExtendedPrice, @Category, @OriginalLocation, @ChemicalAmount, @ContainerType, @WetDry)"))
                 {
                     foreach (Control control in pnlTextBoxes.Controls)
                     {
@@ -227,11 +229,10 @@ public partial class Invoice : System.Web.UI.Page
                         else if (control is TextBox && control.ID.Contains("Shipped"))
                         {
                             cmd.Parameters.AddWithValue("@Shipped", (control as TextBox).Text);
-                            cmd.Parameters.AddWithValue("@ContainerCount", (control as TextBox).Text);
                         }
                         else if (control is TextBox && control.ID.Contains("ItemNo"))
                         {
-                            cmd.Parameters.AddWithValue("@ItemNo", (control as TextBox).Text);
+                            cmd.Parameters.AddWithValue("@ItemNo", (control as TextBox).Text); 
                         }
                         else if (control is TextBox && control.ID.Contains("Prescription"))
                         {
@@ -244,16 +245,10 @@ public partial class Invoice : System.Web.UI.Page
                         else if (control is TextBox && control.ID.Contains("ChemicalAmount"))
                         {
                             cmd.Parameters.AddWithValue("@ChemicalAmount", (control as TextBox).Text);
-                            cmd.Parameters.AddWithValue("@AmountLeft", (control as TextBox).Text);
                         }
-
                         else if (control is DropDownList && control.ID.Contains("ChemicalCategory"))
                         {
                             cmd.Parameters.AddWithValue("@Category", (control as DropDownList).SelectedItem.ToString());
-                        }
-                        else if (control is DropDownList && control.ID.Contains("ChemicalAmount"))
-                        {
-                            cmd.Parameters.AddWithValue("@ChemicalAmount", (control as DropDownList).SelectedItem.ToString());
                         }
                         else if (control is DropDownList && control.ID.Contains("ContainerType"))
                         {
@@ -265,13 +260,10 @@ public partial class Invoice : System.Web.UI.Page
 
                             //Other information to be inserted
                             cmd.Parameters.AddWithValue("@invNo", TextBoxInvNo.Text);
-                            cmd.Parameters.AddWithValue("@Total", 111); //  amount left * ordered
                             cmd.Parameters.AddWithValue("@OriginalLocation", TextBoxShipTo.Text);
-                            cmd.Parameters.AddWithValue("@CurrentLocation", TextBoxShipTo.Text);
                             cmd.Parameters.AddWithValue("@ExtendedPrice", 111); //unit price * ordered
-                            cmd.Parameters.AddWithValue("@PartialContainer", "False");
 
-                            //Since this is the last textbox/dropdownlist in a form, we insert all the parameters in the database then clear parameters for the next iteration
+                            //Since this is the last control in a form, we insert all the parameters in the database then clear parameters for the next iteration
                             con.Open();
                             cmd.ExecuteNonQuery();
                             con.Close();
@@ -280,6 +272,58 @@ public partial class Invoice : System.Web.UI.Page
                     }
                 }
             }
+            // End of inserting chemicals into InvoiceChemicals-------------------------------------------------------------------------------------------------------------------
+
+
+
+            // Inserts the information from the boxes to the Inventory Table-----------------------------------------------------------------------------------------------------
+            string conString2 = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(conString2))
+            {
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO dbo.tblInventorySFS(ItemNo, Prescription, CurrentLocation, ContainerCount, ChemicalAmount, AmountLeft, ContainerType, Total, PartialContainer, Category) VALUES(@ItemNo, @Prescription, @CurrentLocation, @ContainerCount, @ChemicalAmount, @AmountLeft, @ContainerType, @Total, @PartialContainer, @Category)"))
+                {
+                    foreach (Control control in pnlTextBoxes.Controls)
+                    {
+                        cmd.Connection = con;
+                        if (control is TextBox && control.ID.Contains("Shipped"))
+                        {
+                            cmd.Parameters.AddWithValue("ContainerCount", (control as TextBox).Text);
+                        }
+                        else if (control is TextBox && control.ID.Contains("ItemNo"))
+                        {
+                            cmd.Parameters.AddWithValue("@ItemNo", (control as TextBox).Text);
+                        }
+                        else if (control is TextBox && control.ID.Contains("Prescription"))
+                        {
+                            cmd.Parameters.AddWithValue("@Prescription", (control as TextBox).Text);
+                        }
+                        else if (control is TextBox && control.ID.Contains("ChemicalAmount"))
+                        {
+                            cmd.Parameters.AddWithValue("@ChemicalAmount", (control as TextBox).Text);
+                            cmd.Parameters.AddWithValue("@AmountLeft", (control as TextBox).Text);
+                        }
+                        else if (control is DropDownList && control.ID.Contains("ChemicalCategory"))
+                        {
+                            cmd.Parameters.AddWithValue("@Category", (control as DropDownList).SelectedItem.ToString());
+                        }
+                        else if (control is DropDownList && control.ID.Contains("ContainerType"))
+                        {
+                            cmd.Parameters.AddWithValue("@ContainerType", (control as DropDownList).SelectedItem.ToString());
+                            cmd.Parameters.AddWithValue("@CurrentLocation", TextBoxShipTo.Text);
+                            cmd.Parameters.AddWithValue("@PartialContainer", "False");
+                            cmd.Parameters.AddWithValue("@Total", 111); //  amount left * ordered
+
+                            //Since this is the last control in a form, we insert all the parameters in the database then clear parameters for the next iteration
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+                            con.Close();
+                            cmd.Parameters.Clear();
+
+                        }
+                    }
+                }
+            }
+            // End of Inventory table inserting-----------------------------------------------------------------------------------------------------------------------------------
 
 
 

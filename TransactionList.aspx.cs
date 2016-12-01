@@ -38,7 +38,7 @@ public partial class TransactionList : System.Web.UI.Page
             using (SqlCommand cmd = new SqlCommand())
             {
                 //selects what is typed in the search bar. If nothing is typed, load entire table
-                cmd.CommandText = "SELECT [tblInventoryTransactionsSFS].ID, Username, ItemNo, CrewNumber, TransactionType, Quantity, Measurement, CreatedDate, [tblInventoryTransactionsSFS].Comments FROM[tblInventoryTransactionsSFS], [tblEmployeeSFS], [tblInventorySFS] WHERE[tblInventoryTransactionsSFS].EmployeeId = [tblEmployeeSFS].UserID AND[tblInventoryTransactionsSFS].TransactionItemId = [tblInventorySFS].ID AND concat([tblInventoryTransactionsSFS].ID, ' ', Username, ' ', ItemNo, ' ', CrewNumber, ' ', TransactionType, ' ', Quantity, ' ', Measurement, ' ', CreatedDate, ' ', [tblInventoryTransactionsSFS].Comments) LIKE '%' + @Input + '%'";
+                cmd.CommandText = "SELECT [tblInventoryTransactionsSFS].ID, Username, ItemNo, CrewNumber, TransactionType, Quantity, Measurement, CreatedDate, [tblInventoryTransactionsSFS].Comments FROM [tblInventoryTransactionsSFS], [tblEmployeeSFS], [tblInventorySFS] WHERE[tblInventoryTransactionsSFS].EmployeeId = [tblEmployeeSFS].UserID AND[tblInventoryTransactionsSFS].TransactionItemId = [tblInventorySFS].ID AND concat([tblInventoryTransactionsSFS].ID, ' ', Username, ' ', ItemNo, ' ', CrewNumber, ' ', TransactionType, ' ', Quantity, ' ', Measurement, ' ', CreatedDate, ' ', [tblInventoryTransactionsSFS].Comments) LIKE '%' + @Input + '%'";
                 cmd.Connection = con;
                 cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
                 DataTable dt = new DataTable();
