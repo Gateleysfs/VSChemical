@@ -10,8 +10,11 @@
 <body id ="PageBackGround">
     <form id="form2" runat="server">
         <div id="Header" class="auto-style2">
+
                     <br>
-                    <h1>Inventory</h1>
+                    <h1>Inventory<asp:Button ID="ButtonLogout" runat="server" OnClick="ButtonLogout_Click" Text="Logout" />
+
+                    </h1>
                     <a href="Home.aspx">
                         <img class="ImgRight" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo" width="140" height="98">
                     </a>

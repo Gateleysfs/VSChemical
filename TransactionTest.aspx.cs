@@ -17,6 +17,12 @@ public partial class Transaction : System.Web.UI.Page
         if (Session["new"] == null)
             Response.Redirect("Login.aspx");
     }
+    protected void ButtonLogout_Click(object sender, EventArgs e)
+    {
+        //Logout of website when logout button is clicked
+        Session["new"] = null;
+        Response.Redirect("Login.aspx");
+    }
 
 
     //called from Page_PreInit
@@ -102,7 +108,8 @@ public partial class Transaction : System.Web.UI.Page
                 partialAddition();
             }
         }
-        //TRANSFER do later...
+
+        // TRANSFER do later...
         else if (Request.QueryString["transaction"] == "TRANSFER")
         {
             DropDownListTransaction.Text = "TRANSFER";
@@ -437,16 +444,17 @@ public partial class Transaction : System.Web.UI.Page
                     conn.Close();
                 }
             }
-            //End of transaction table block-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            // End of transaction table block-------------------------------------------------------------------------------------------------------------------------------------------------------------------
             
-            //This block creates the removal information for inventory table-----------------------------------------------------------------------------------------------------------------------------------
+            // This block creates the removal information for inventory table-----------------------------------------------------------------------------------------------------------------------------------
             if (DropDownListTransaction.Text == "REMOVAL")
             {
                 using (SqlConnection conn2 = new SqlConnection(ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString))
                 {
-                    conn2.Open();
+                    
                     using (SqlCommand com2 = new SqlCommand("SELECT * FROM dbo.tblInventorySFS WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType +"'", conn2))
                     {
+                        conn2.Open();
 
                         // creates a reader and stores the rows in a datatable
                         // only one row should be created in the table and then parsed through with a foreach loop
@@ -460,6 +468,8 @@ public partial class Transaction : System.Web.UI.Page
                             //{
                             //    Response.Write(item);
                             //}
+
+                            // Grabs the information from the the row by matching the column name
                             string itemNo = dr["ItemNo"].ToString();
                             string prescription = dr["Prescription"].ToString();
                             string currentLocation = dr["CurrentLocation"].ToString();
@@ -471,14 +481,14 @@ public partial class Transaction : System.Web.UI.Page
                             string partialContainer = dr["PartialContainer"].ToString();
                             string category = dr["Category"].ToString();
 
-                            //Subtracts the data in the inventory table when a removal transaction is created
+                            // Subtracts the data in the inventory table when a removal transaction is created
                             int alterContainerCount = containerCount - Convert.ToInt32(DropDownListQuantity.SelectedItem.Text);
                             double alterTotal = total - (amountLeft * Convert.ToInt32(DropDownListQuantity.SelectedItem.Text));
 
-                            //total amount of chemical the user takes
+                            // total amount of chemical the user takes
                             double userTotal = amountLeft * Convert.ToInt32(DropDownListQuantity.SelectedItem.Text);
 
-                            //query to alter the chemical amount and total in the existing row
+                            // query to alter the chemical amount and total in the existing row
                             SqlCommand com3 = new SqlCommand("UPDATE dbo.tblInventorySFS SET ContainerCount='" + alterContainerCount.ToString() + "', Total= '" + alterTotal.ToString() + "' WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville'", conn2);
                             com3.ExecuteNonQuery();
 
@@ -487,7 +497,7 @@ public partial class Transaction : System.Web.UI.Page
                             int exists = (int)checkRecords.ExecuteScalar();
                             if (exists == 0)
                             {
-                                //query to insert record with the user, chemical, and how much chemical they took
+                                // query to insert record with the user, chemical, and how much chemical they took if there is no other row that matches
                                 string insertQuery = "INSERT INTO dbo.tblInventorySFS(ItemNo, Prescription, CurrentLocation, ContainerCount, ChemicalAmount, AmountLeft, ContainerType, Total, PartialContainer, Category) values ('" + itemNo + "','" + prescription + "','" + Session["new"] + "','" + DropDownListQuantity.SelectedItem.Text + "','" + chemicalAmount + "','" + amountLeft + "','" + containerType + "','" + userTotal+ "','" +partial+"','"+category+ "')";
                                 SqlCommand com4 = new SqlCommand(insertQuery, conn2);
                                 com4.ExecuteNonQuery();
@@ -515,7 +525,7 @@ public partial class Transaction : System.Web.UI.Page
                             }
                             else
                             {
-                                Response.Write("ERROR: Duplicates found in the table.");
+                                Response.Write("ERROR: Duplicates found in the table while trying to insert data.");
                             }
                         }
                         conn2.Close();
@@ -527,22 +537,70 @@ public partial class Transaction : System.Web.UI.Page
             // This block creates the addition information for inventory table-----------------------------------------------------------------------------------------------------------------------------------
             else if (DropDownListTransaction.Text == "ADDITION")
             {
-                if (DropDownListPartial.Text == "Yes")
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString))
                 {
-
-                }
-                else if (DropDownListPartial.Text == "No")
-                {
-                    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString))
+                    using (SqlCommand com = new SqlCommand("SELECT * FROM dbo.tblInventorySFS WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType + "'", conn))
                     {
-                        using (SqlCommand com = new SqlCommand("SELECT * FROM dbo.tblInventorySFS WHERE Prescription='" + DropDownListProduct.SelectedItem.ToString() + "' AND PartialContainer= 'False' AND CurrentLocation = 'Russellville'", conn))
+                        conn.Open();
+
+                        // creates a reader and stores the rows in a datatable
+                        // only one row should be created in the table and then parsed through with a foreach loop
+                        SqlDataReader reader = com.ExecuteReader();
+                        DataTable dt = new DataTable();
+                        var filtered = dt.AsEnumerable().Where(row => row.Field<string>("CurrentLocation") == Session["new"].ToString());
+                        dt.Load(reader);
+                        foreach (DataRow dr in filtered)
                         {
-                            conn.Open();
+                            foreach (var item in dr.ItemArray)
+                            {
+                                Response.Write(item);
+                            }
 
+                            string itemNo = dr["ItemNo"].ToString();
+                            string prescription = dr["Prescription"].ToString();
+                            string currentLocation = dr["CurrentLocation"].ToString();
+                            int containerCount = Convert.ToInt32(dr["ContainerCount"].ToString());
+                            string chemicalAmount = dr["ChemicalAmount"].ToString();
+                            double amountLeft = Convert.ToDouble(dr["AmountLeft"].ToString());
+                            string containerType = dr["ContainerType"].ToString();
+                            double total = Convert.ToDouble(dr["Total"].ToString());
+                            string partialContainer = dr["PartialContainer"].ToString();
+                            string category = dr["Category"].ToString();
 
+                            // Subtracts the data in the inventory table when a removal transaction is created
+                            int alterContainerCount = containerCount - Convert.ToInt32(DropDownListQuantity.SelectedItem.Text);
+                            double alterTotal = total - (amountLeft * Convert.ToInt32(DropDownListQuantity.SelectedItem.Text));
 
-                            conn.Close();
+                            // total amount of chemical the user takes
+                            double userTotal = amountLeft * Convert.ToInt32(DropDownListQuantity.SelectedItem.Text);
+
+                            // query to alter the chemical amount and total in the existing row
+                            SqlCommand com3 = new SqlCommand("UPDATE dbo.tblInventorySFS SET ContainerCount='" + alterContainerCount.ToString() + "', Total= '" + alterTotal.ToString() + "' WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = '"+Session["new"]+"'", conn);
+                            com3.ExecuteNonQuery();
+
+                            // query to check if a new row should be created (if there are no duplicates, exists == 0) or whether a row should be updated (if there are duplicates, exists > 0)
+                            SqlCommand checkRecords = new SqlCommand("SELECT COUNT(*) FROM dbo.tblInventorySFS WHERE CurrentLocation ='Russellville' AND Prescription ='" + DropDownListProduct.SelectedItem.Text + "' AND AmountLeft= '" + AmountLeft + "' AND PartialContainer='" + partial + "'", conn);
+                            int exists = (int)checkRecords.ExecuteScalar();
+
+                            if(exists == 0)
+                            {
+                                // query to insert record with the user, chemical, and how much chemical they took if there is no other row that matches
+                                string insertQuery = "INSERT INTO dbo.tblInventorySFS(ItemNo, Prescription, CurrentLocation, ContainerCount, ChemicalAmount, AmountLeft, ContainerType, Total, PartialContainer, Category) values ('" + itemNo + "','" + prescription + "','" + Session["new"] + "','" + DropDownListQuantity.SelectedItem.Text + "','" + chemicalAmount + "','" + amountLeft + "','" + containerType + "','" + userTotal + "','" + partial + "','" + category + "')";
+                                SqlCommand com4 = new SqlCommand(insertQuery, conn);
+                                com4.ExecuteNonQuery();
+                            }
+                            else if (exists == 1)
+                            {
+                                // Query to change a record if a record is found
+                                Response.Write("here");
+                            }
+                            else
+                            {
+                                Response.Write("ERROR: duplicates found in the table while trying to insert data");
+                            }
+
                         }
+                        conn.Close();
                     }
                 }
             }
@@ -596,12 +654,14 @@ public partial class Transaction : System.Web.UI.Page
 
     protected void DropDownListAmount_SelectedIndexChanged(object sender, EventArgs e)
     {
+        //Postback for Amount
         string amount = DropDownListAmount.SelectedItem.Text;
         Response.Redirect("~/TransactionTest.aspx?transaction=" + Request.QueryString["transaction"] + "&prescription=" + Request.QueryString["prescription"] + "&partial=" + Request.QueryString["partial"] + "&amount=" + amount);
     }
 
     protected void DropDownListQuantity_SelectedIndexChanged(object sender, EventArgs e)
     {
+        //Postback for Quantity
         string quantity = DropDownListQuantity.SelectedItem.Text;
         Response.Redirect("~/TransactionTest.aspx?transaction=" + Request.QueryString["transaction"] + "&prescription=" + Request.QueryString["prescription"] + "&partial=" + Request.QueryString["partial"] + "&amount=" + Request.QueryString["amount"] + "&quantity=" + quantity);
     }

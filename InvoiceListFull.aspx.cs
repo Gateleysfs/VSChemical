@@ -32,6 +32,13 @@ public partial class InvoiceListFull : System.Web.UI.Page
         }
     }
 
+    protected void ButtonLogout_Click(object sender, EventArgs e)
+    {
+        //Logout of website when logout button is clicked
+        Session["new"] = null;
+        Response.Redirect("Login.aspx");
+    }
+
     //ShowData method for Displaying Data in Gridview  
     protected void ShowData()
     {

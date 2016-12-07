@@ -20,6 +20,13 @@ public partial class Account_Default : System.Web.UI.Page
         if (!this.IsPostBack)
             this.BindGrid();
     }
+    protected void ButtonLogout_Click(object sender, EventArgs e)
+    {
+        //Logout of website when logout button is clicked
+        Session["new"] = null;
+        Response.Redirect("Login.aspx");
+    }
+
 
     //Called when the search button is clicked(in the HTML: OnClick = "Search")
     protected void Search(object sender, EventArgs e)

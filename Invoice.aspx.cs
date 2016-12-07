@@ -17,6 +17,13 @@ public partial class Invoice : System.Web.UI.Page
             Response.Redirect("Login.aspx");
     }
 
+    protected void ButtonLogout_Click(object sender, EventArgs e)
+    {
+        //Logout of website when logout button is clicked
+        Session["new"] = null;
+        Response.Redirect("Login.aspx");
+    }
+
     // This is called when the Add Chemical Button is pressed. It simply creates the next set of controls
     protected void ButtonAddChemical_Click(object sender, EventArgs e)
     {

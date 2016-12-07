@@ -16,6 +16,13 @@ public partial class Transaction : System.Web.UI.Page
             Response.Redirect("Login.aspx");
     }
 
+    protected void ButtonLogout_Click(object sender, EventArgs e)
+    {
+        //Logout of website when logout button is clicked
+        Session["new"] = null;
+        Response.Redirect("Login.aspx");
+    }
+
     /*
      * When the ButtonSubmite_Click is clicked, the information inside the textboxes will be placed into the database. 
      * The ID is unique increment and is automatically inserted 

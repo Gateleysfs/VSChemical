@@ -22,6 +22,13 @@ public partial class Default2 : System.Web.UI.Page
             this.BindGrid();
     }
 
+    protected void ButtonLogout_Click(object sender, EventArgs e)
+    {
+        //Logout of website when logout button is clicked
+        Session["new"] = null;
+        Response.Redirect("Login.aspx");
+    }
+
     protected void Search(object sender, EventArgs e)
     {
         //This is called when the search button is pressed. (in the HTML: OnClick="Search")
