@@ -6,6 +6,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Data;
+using System.Text.RegularExpressions;
 
 public partial class Invoice : System.Web.UI.Page
 {
@@ -226,60 +228,90 @@ public partial class Invoice : System.Web.UI.Page
             {
                 using (SqlCommand cmd = new SqlCommand("INSERT INTO dbo.tblInvoiceChemicalsSFS(InvNo, Ordered, Shipped, ItemNo, Prescription, UnitPrice, ExtendedPrice, Category, OriginalLocation, ChemicalAmount, ContainerType, WetDry) VALUES(@InvNo, @Ordered, @Shipped, @ItemNo, @Prescription, @UnitPrice, @ExtendedPrice, @Category, @OriginalLocation, @ChemicalAmount, @ContainerType, @WetDry)"))
                 {
+                    //creates a data table and adds the columns to the table
+                    DataTable dt = new DataTable();
+                    dt.Columns.Add("Ordered", typeof(String));
+                    dt.Columns.Add("Shipped", typeof(String));
+                    dt.Columns.Add("ItemNo", typeof(String));
+                    dt.Columns.Add("Prescription", typeof(String));
+                    dt.Columns.Add("UnitPrice", typeof(String));
+                    dt.Columns.Add("ChemicalAmount", typeof(String));
+                    dt.Columns.Add("ChemicalCategory", typeof(String));
+                    dt.Columns.Add("ContainerType", typeof(String));
+                    dt.Columns.Add("WetDry", typeof(String));
+                    dt.Columns.Add("InvNo", typeof(String));
+                    dt.Columns.Add("OriginalLocation", typeof(String));
+                    dt.Columns.Add("ExtendedPrice", typeof(String));
+
+                    
+                    //creates a new row inside the datatable(dt)
+                    DataRow dr = dt.NewRow();
+                         
+                    //This foreach searches the webpage and matches the id of the textboxes and dropdownlists to the corresponding column name from above
                     foreach (Control control in pnlTextBoxes.Controls)
                     {
-                        cmd.Connection = con;
-                        if (control is TextBox && control.ID.Contains("Ordered"))
-                        {
-                            cmd.Parameters.AddWithValue("@Ordered", (control as TextBox).Text);
-                        }
-                        else if (control is TextBox && control.ID.Contains("Shipped"))
-                        {
-                            cmd.Parameters.AddWithValue("@Shipped", (control as TextBox).Text);
-                        }
-                        else if (control is TextBox && control.ID.Contains("ItemNo"))
-                        {
-                            cmd.Parameters.AddWithValue("@ItemNo", (control as TextBox).Text); 
-                        }
-                        else if (control is TextBox && control.ID.Contains("Prescription"))
-                        {
-                            cmd.Parameters.AddWithValue("@Prescription", (control as TextBox).Text);
-                        }
-                        else if (control is TextBox && control.ID.Contains("UnitPrice"))
-                        {
-                            cmd.Parameters.AddWithValue("@UnitPrice", (control as TextBox).Text);
-                        }
-                        else if (control is TextBox && control.ID.Contains("ChemicalAmount"))
-                        {
-                            cmd.Parameters.AddWithValue("@ChemicalAmount", (control as TextBox).Text);
-                        }
-                        else if (control is DropDownList && control.ID.Contains("ChemicalCategory"))
-                        {
-                            cmd.Parameters.AddWithValue("@Category", (control as DropDownList).SelectedItem.ToString());
-                        }
+                        if (control is TextBox && control.ID.Contains("Ordered"))              
+                            dr["Ordered"] = (control as TextBox).Text;
+                        else if (control is TextBox && control.ID.Contains("Shipped"))           
+                            dr["Shipped"] = (control as TextBox).Text;                        
+                        else if (control is TextBox && control.ID.Contains("ItemNo"))           
+                            dr["ItemNo"] = (control as TextBox).Text; 
+                        else if (control is TextBox && control.ID.Contains("Prescription"))              
+                            dr["Prescription"] = (control as TextBox).Text;
+                        else if (control is TextBox && control.ID.Contains("UnitPrice"))       
+                            dr["UnitPrice"] = (control as TextBox).Text;
+                        else if (control is TextBox && control.ID.Contains("ChemicalAmount"))          
+                            dr["ChemicalAmount"] = (control as TextBox).Text;
+                        else if (control is DropDownList && control.ID.Contains("ChemicalCategory"))                 
+                            dr["ChemicalCategory"] = (control as DropDownList).SelectedItem.ToString();
                         else if (control is DropDownList && control.ID.Contains("ContainerType"))
-                        {
-                            cmd.Parameters.AddWithValue("@ContainerType", (control as DropDownList).SelectedItem.ToString());
-                        }
+                            dr["ContainerType"] = (control as DropDownList).SelectedItem.ToString();
                         else if (control is DropDownList && control.ID.Contains("WetDry"))
                         {
-                            cmd.Parameters.AddWithValue("@WetDry", (control as DropDownList).SelectedItem.ToString());
+                            dr["WetDry"] = (control as DropDownList).SelectedItem.ToString();
 
                             //Other information to be inserted
-                            cmd.Parameters.AddWithValue("@invNo", TextBoxInvNo.Text);
-                            cmd.Parameters.AddWithValue("@OriginalLocation", TextBoxShipTo.Text);
-                            cmd.Parameters.AddWithValue("@ExtendedPrice", 111); //unit price * ordered
+                            dr["InvNo"] = TextBoxInvNo.Text;
+                            dr["OriginalLocation"] = TextBoxShipTo.Text;
 
-                            //Since this is the last control in a form, we insert all the parameters in the database then clear parameters for the next iteration
-                            con.Open();
-                            cmd.ExecuteNonQuery();
-                            con.Close();
-                            cmd.Parameters.Clear();
+                            //converts unitprice and ordered to an integer, multiplies, then turns the integer result back into a string
+                            dr["ExtendedPrice"] = (Double.Parse(dr["UnitPrice"].ToString()) * Int32.Parse(dr["Ordered"].ToString())).ToString(); //unit price * ordered
+
+                            //adds all the information to the datatable(dt)
+                            dt.Rows.Add(dr);
+
+                            //dataRow(dr) moves to the next row in the table to insert more rows
+                            dr = dt.NewRow();
                         }
+                    }
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+
+                        cmd.Connection = con;
+
+                        cmd.Parameters.AddWithValue("@Ordered", row["Ordered"]);
+                        cmd.Parameters.AddWithValue("@Shipped", row["Shipped"]);
+                        cmd.Parameters.AddWithValue("@ItemNo", row["ItemNo"]);
+                        cmd.Parameters.AddWithValue("@Prescription", row["Prescription"]);
+                        cmd.Parameters.AddWithValue("@UnitPrice", row["UnitPrice"]);
+                        cmd.Parameters.AddWithValue("@ChemicalAmount", row["ChemicalAmount"]);
+                        cmd.Parameters.AddWithValue("@Category", row["ChemicalCategory"]);
+                        cmd.Parameters.AddWithValue("@ContainerType", row["ContainerType"]);
+                        cmd.Parameters.AddWithValue("@WetDry", row["WetDry"]);
+                        cmd.Parameters.AddWithValue("@InvNo", row["InvNo"]);
+                        cmd.Parameters.AddWithValue("@OriginalLocation", row["OriginalLocation"]);
+                        cmd.Parameters.AddWithValue("@ExtendedPrice", row["ExtendedPrice"]);
+
+                        // insert all the parameters in the database then clear parameters for the next iteration
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                        cmd.Parameters.Clear();
                     }
                 }
             }
-            // End of inserting chemicals into InvoiceChemicals-------------------------------------------------------------------------------------------------------------------
+            // End of inserting chemicals into InvoiceChemicals------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -289,44 +321,76 @@ public partial class Invoice : System.Web.UI.Page
             {
                 using (SqlCommand cmd = new SqlCommand("INSERT INTO dbo.tblInventorySFS(ItemNo, Prescription, CurrentLocation, ContainerCount, ChemicalAmount, AmountLeft, ContainerType, Total, PartialContainer, Category) VALUES(@ItemNo, @Prescription, @CurrentLocation, @ContainerCount, @ChemicalAmount, @AmountLeft, @ContainerType, @Total, @PartialContainer, @Category)"))
                 {
+                    DataTable dt = new DataTable();
+                    dt.Columns.Add("ContainerCount", typeof(String));
+                    dt.Columns.Add("ItemNo", typeof(String));
+                    dt.Columns.Add("Prescription", typeof(String));
+                    dt.Columns.Add("ChemicalAmount", typeof(String));
+                    dt.Columns.Add("AmountLeft", typeof(String));
+                    dt.Columns.Add("ChemicalCategory", typeof(String));
+                    dt.Columns.Add("ContainerType", typeof(String));
+                    dt.Columns.Add("CurrentLocation", typeof(String));
+                    dt.Columns.Add("PartialContainer", typeof(String));
+                    dt.Columns.Add("Total", typeof(String));
+
+
+                    //creates a new row inside the datatable(dt)
+                    DataRow dr = dt.NewRow();
+
+                    //This foreach searches the webpage and matches the id of the textboxes and dropdownlists to the corresponding column name from above
                     foreach (Control control in pnlTextBoxes.Controls)
                     {
-                        cmd.Connection = con;
                         if (control is TextBox && control.ID.Contains("Shipped"))
-                        {
-                            cmd.Parameters.AddWithValue("ContainerCount", (control as TextBox).Text);
-                        }
+                            dr["ContainerCount"] = (control as TextBox).Text;
                         else if (control is TextBox && control.ID.Contains("ItemNo"))
-                        {
-                            cmd.Parameters.AddWithValue("@ItemNo", (control as TextBox).Text);
-                        }
+                            dr["ItemNo"] = (control as TextBox).Text;
                         else if (control is TextBox && control.ID.Contains("Prescription"))
-                        {
-                            cmd.Parameters.AddWithValue("@Prescription", (control as TextBox).Text);
-                        }
+                            dr["Prescription"] = (control as TextBox).Text;
                         else if (control is TextBox && control.ID.Contains("ChemicalAmount"))
                         {
-                            cmd.Parameters.AddWithValue("@ChemicalAmount", (control as TextBox).Text);
-                            cmd.Parameters.AddWithValue("@AmountLeft", (control as TextBox).Text);
+                            dr["ChemicalAmount"] = (control as TextBox).Text;
+                            dr["AmountLeft"] = (control as TextBox).Text;
                         }
                         else if (control is DropDownList && control.ID.Contains("ChemicalCategory"))
-                        {
-                            cmd.Parameters.AddWithValue("@Category", (control as DropDownList).SelectedItem.ToString());
-                        }
+                            dr["ChemicalCategory"] = (control as DropDownList).SelectedItem.ToString();
                         else if (control is DropDownList && control.ID.Contains("ContainerType"))
                         {
-                            cmd.Parameters.AddWithValue("@ContainerType", (control as DropDownList).SelectedItem.ToString());
-                            cmd.Parameters.AddWithValue("@CurrentLocation", TextBoxShipTo.Text);
-                            cmd.Parameters.AddWithValue("@PartialContainer", "False");
-                            cmd.Parameters.AddWithValue("@Total", 111); //  amount left * ordered
+                            dr["ContainerType"] = (control as DropDownList).SelectedItem.ToString();
+                            dr["CurrentLocation"] = TextBoxShipTo.Text;
+                            dr["PartialContainer"] = false;
+                            //multiplies the number of chemical containers by how much is in each container to get a total amount of chemical 
+                            dr["Total"] = (Int32.Parse(dr["Shipped"].ToString()) * Double.Parse(dr["AmountLeft"].ToString())).ToString(); //ContainerCount * AmountLeft
 
-                            //Since this is the last control in a form, we insert all the parameters in the database then clear parameters for the next iteration
-                            con.Open();
-                            cmd.ExecuteNonQuery();
-                            con.Close();
-                            cmd.Parameters.Clear();
+                            //adds all the information for the row to the datatable(dt)
+                            dt.Rows.Add(dr);
 
+                            //dataRow(dr) moves to the next row in the table to insert more rows
+                            dr = dt.NewRow();
                         }
+                    }
+
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+
+                        cmd.Connection = con;
+
+                        cmd.Parameters.AddWithValue("@ContainerCount", row["ContainerCount"]);
+                        cmd.Parameters.AddWithValue("@ItemNo", row["ItemNo"]);
+                        cmd.Parameters.AddWithValue("@Prescription", row["Prescription"]);
+                        cmd.Parameters.AddWithValue("@ChemicalAmount", row["ChemicalAmount"]);
+                        cmd.Parameters.AddWithValue("@AmountLeft", row["AmountLeft"]);
+                        cmd.Parameters.AddWithValue("@Category", row["Category"]);
+                        cmd.Parameters.AddWithValue("@ContainerType", row["ContainerType"]);
+                        cmd.Parameters.AddWithValue("@CurrentLocation", row["CurrentLocation"]);
+                        cmd.Parameters.AddWithValue("@PartialContainer", row["PartialContainer"]);
+                        cmd.Parameters.AddWithValue("@Total", row["Total"]);
+
+                        // insert all the parameters in the database then clear parameters for the next iteration
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                        cmd.Parameters.Clear();
                     }
                 }
             }

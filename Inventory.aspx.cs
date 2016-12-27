@@ -43,18 +43,37 @@ public partial class Account_Default : System.Web.UI.Page
         {
             using (SqlCommand cmd = new SqlCommand())
             {
-                //selects what is typed in the search bar. If nothing is typed, load entire table
-                cmd.CommandText = "SELECT * FROM [tblInventorySFS] WHERE Concat(ID, ' ', ContainerCount, ' ', ItemNo, ' ', Prescription, ' ', Category, ' ',  CurrentLocation, ' ', PartialContainer, ' ', ChemicalAmount, ' ', AmountLeft, ' ', Total, ' ', ContainerType) LIKE '%' + @Input+ '%'";
-                cmd.Connection = con;
-                cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
-                DataTable dt = new DataTable();
-
-                //repopulates the table
-                using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                if (DropDownListCategory.SelectedItem.ToString() == "All")
                 {
-                    sda.Fill(dt);
-                    GridView1.DataSource = dt;
-                    GridView1.DataBind();
+                    //selects what is typed in the search bar. If nothing is typed, load entire table
+                    cmd.CommandText = "SELECT * FROM [tblInventorySFS] WHERE Concat(ID, ' ', ContainerCount, ' ', ItemNo, ' ', Prescription, ' ', Category, ' ',  CurrentLocation, ' ', PartialContainer, ' ', ChemicalAmount, ' ', AmountLeft, ' ', Total, ' ', ContainerType) LIKE '%' + @Input+ '%'";
+                    cmd.Connection = con;
+                    cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
+
+                    DataTable dt = new DataTable();
+
+                    //repopulates the table
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        sda.Fill(dt);
+                        GridView1.DataSource = dt;
+                        GridView1.DataBind();
+                    }
+                }
+                else
+                {
+                    cmd.CommandText = "SELECT * FROM[tblInventorySFS] WHERE " + DropDownListCategory.SelectedItem.ToString() + "  LIKE   '%' + @Input + '%'";
+                    cmd.Connection = con;
+                    cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
+                    DataTable dt = new DataTable();
+
+                    //repopulates the table
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        sda.Fill(dt);
+                        GridView1.DataSource = dt;
+                        GridView1.DataBind();
+                    }
                 }
             }
         }
@@ -77,5 +96,10 @@ public partial class Account_Default : System.Web.UI.Page
                 return string.Format("<span style = 'background-color:#D9EDF7'>{0}</span>", match.Value);
             }, RegexOptions.IgnoreCase);
         }
+    }
+
+    protected void txtSearch_TextChanged(object sender, EventArgs e)
+    {
+
     }
 }

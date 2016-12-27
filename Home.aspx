@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 
 <title>Home</title>
+
 <link rel="icon" href="Images/sfs logo green transparent.png" type="image/jpg">
 
 <link rel="stylesheet" href="BasicLayout.css">

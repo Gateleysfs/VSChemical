@@ -44,19 +44,41 @@ public partial class TransactionList : System.Web.UI.Page
         {
             using (SqlCommand cmd = new SqlCommand())
             {
-                //selects what is typed in the search bar. If nothing is typed, load entire table
-                cmd.CommandText = "SELECT [tblInventoryTransactionsSFS].ID, Username, ItemNo, CrewNumber, TransactionType, Quantity, Measurement, CreatedDate, [tblInventoryTransactionsSFS].Comments FROM [tblInventoryTransactionsSFS], [tblEmployeeSFS], [tblInventorySFS] WHERE[tblInventoryTransactionsSFS].EmployeeId = [tblEmployeeSFS].UserID AND[tblInventoryTransactionsSFS].TransactionItemId = [tblInventorySFS].ID AND concat([tblInventoryTransactionsSFS].ID, ' ', Username, ' ', ItemNo, ' ', CrewNumber, ' ', TransactionType, ' ', Quantity, ' ', Measurement, ' ', CreatedDate, ' ', [tblInventoryTransactionsSFS].Comments) LIKE '%' + @Input + '%'";
-                cmd.Connection = con;
-                cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
-                DataTable dt = new DataTable();
-
-
-                //repopulates the table
-                using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                if (DropDownListCategory.SelectedItem.ToString() == "All")
                 {
-                    sda.Fill(dt);
-                    GridView1.DataSource = dt;
-                    GridView1.DataBind();
+                    //selects what is typed in the search bar. If nothing is typed, load entire table
+                    cmd.CommandText = "SELECT [tblInventoryTransactionsSFS].ID, Username, ItemNo, CrewNumber, TransactionType, Quantity, Measurement, CreatedDate, [tblInventoryTransactionsSFS].Comments FROM [tblInventoryTransactionsSFS], [tblEmployeeSFS], [tblInventorySFS] WHERE[tblInventoryTransactionsSFS].EmployeeId = [tblEmployeeSFS].UserID AND[tblInventoryTransactionsSFS].TransactionItemId = [tblInventorySFS].ID AND concat([tblInventoryTransactionsSFS].ID, ' ', Username, ' ', ItemNo, ' ', CrewNumber, ' ', TransactionType, ' ', Quantity, ' ', Measurement, ' ', CreatedDate, ' ', [tblInventoryTransactionsSFS].Comments) LIKE '%' + @Input + '%'";
+                    cmd.Connection = con;
+                    cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
+                    DataTable dt = new DataTable();
+
+
+                    //repopulates the table
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        sda.Fill(dt);
+                        GridView1.DataSource = dt;
+                        GridView1.DataBind();
+                    }
+                }
+                else if(DropDownListCategory.SelectedItem.ToString() == "Username")
+                {
+                    //fix issues here
+                }
+                else
+                {
+                    cmd.CommandText = "SELECT * FROM[tblInventoryTransactionsSFS] WHERE " + DropDownListCategory.SelectedItem.ToString() + "  LIKE   '%' + @Input + '%'";
+                    cmd.Connection = con;
+                    cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
+                    DataTable dt = new DataTable();
+
+                    //repopulates the table
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        sda.Fill(dt);
+                        GridView1.DataSource = dt;
+                        GridView1.DataBind();
+                    }
                 }
             }
         }

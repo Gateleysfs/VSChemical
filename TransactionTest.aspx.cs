@@ -509,7 +509,7 @@ public partial class Transaction : System.Web.UI.Page
                                     SqlDataReader reader2 = com4.ExecuteReader();
                                     DataTable dt2 = new DataTable();
                                     dt2.Load(reader2);
-                                    // Only runs once (dt2 only has a single row)
+                                    // Only executes once (dt2 only has a single row)
                                     foreach (DataRow dr2 in dt2.Rows)
                                     {
                                         int newContainerCount = Convert.ToInt32(dr2["ContainerCount"].ToString());
@@ -547,6 +547,7 @@ public partial class Transaction : System.Web.UI.Page
                         // only one row should be created in the table and then parsed through with a foreach loop
                         SqlDataReader reader = com.ExecuteReader();
                         DataTable dt = new DataTable();
+                        //This filters the table so it only contains records where CurrentLocation == current logged in user
                         var filtered = dt.AsEnumerable().Where(row => row.Field<string>("CurrentLocation") == Session["new"].ToString());
                         dt.Load(reader);
                         foreach (DataRow dr in filtered)
@@ -593,6 +594,25 @@ public partial class Transaction : System.Web.UI.Page
                             {
                                 // Query to change a record if a record is found
                                 Response.Write("here");
+
+                                using (SqlCommand com4 = new SqlCommand("SELECT * FROM dbo.tblInventorySFS WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville'", conn))
+                                {
+                                    SqlDataReader reader2 = com4.ExecuteReader();
+                                    DataTable dt2 = new DataTable();
+                                    dt2.Load(reader2);
+                                    // Only executes once (dt2 only has a single row)
+                                    foreach (DataRow dr2 in dt2.Rows)
+                                    {
+                                        int newContainerCount = Convert.ToInt32(dr2["ContainerCount"].ToString());
+                                        double oldAmountLeft = Convert.ToDouble(dr2["AmountLeft"].ToString());
+
+                                        newContainerCount = newContainerCount + Convert.ToInt32(DropDownListQuantity.SelectedItem.Text);
+                                        double newTotal = newContainerCount * oldAmountLeft;
+
+                                        SqlCommand com5 = new SqlCommand("UPDATE dbo.tblInventorySFS SET ContainerCount = '" + newContainerCount + "', Total='" + newTotal + "' WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville'", conn);
+                                        com5.ExecuteNonQuery();
+                                    }
+                                }
                             }
                             else
                             {

@@ -34,6 +34,21 @@
         <br>
         <br>
         <div style="text-align:center">
+            <asp:DropDownList ID="DropDownListCategory" runat="server">
+                <asp:ListItem>All</asp:ListItem>
+                <asp:ListItem>ID</asp:ListItem>
+                <asp:ListItem>InvNo</asp:ListItem>
+                <asp:ListItem>Supplier</asp:ListItem>
+                <asp:ListItem>OrderFrom</asp:ListItem>
+                <asp:ListItem>OrderFrom</asp:ListItem>
+                <asp:ListItem>InvDate</asp:ListItem>
+                <asp:ListItem>ShippedVia</asp:ListItem>
+                <asp:ListItem>ShippedTo</asp:ListItem>
+                <asp:ListItem>ShipDate</asp:ListItem>
+                <asp:ListItem>DueBy</asp:ListItem>
+                <asp:ListItem>FOB</asp:ListItem>
+                <asp:ListItem>TotalDue</asp:ListItem>
+            </asp:DropDownList>
         <asp:TextBox ID="txtSearch" runat="server" HorizontalAlign ="Center"></asp:TextBox>
         <asp:Button ID="ButtonSearch" runat="server" Text="Search" OnClick="Search" HorizontalAlign ="Center"/>
         </div>

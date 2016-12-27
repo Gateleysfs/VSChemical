@@ -43,18 +43,37 @@ public partial class Default2 : System.Web.UI.Page
         {
             using (SqlCommand cmd = new SqlCommand())
             {
-                //selects what is typed in the search bar. If nothing is typed, load entire table
-                cmd.CommandText = "SELECT * FROM[tblInvoiceSFS] WHERE Concat(ID, ' ', InvNo, ' ', Supplier, ' ', OrderFrom, ' ', OrderDate, ' ', InvDate, ' ', ShippedVia, ' ', ShippedTo, ' ', ShipDate, ' ', DueBy, ' ', FOB, ' ', TotalDue)  LIKE   '%' + @Input + '%'";
-                cmd.Connection = con;
-                cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
-                DataTable dt = new DataTable();
-
-                //repopulates the table
-                using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                if (DropDownListCategory.SelectedItem.ToString() == "All")
                 {
-                    sda.Fill(dt);
-                    GridView1.DataSource = dt;
-                    GridView1.DataBind();
+                    //selects what is typed in the search bar. If nothing is typed, load entire table
+                    cmd.CommandText = "SELECT * FROM[tblInvoiceSFS] WHERE Concat(ID, ' ', InvNo, ' ', Supplier, ' ', OrderFrom, ' ', OrderDate, ' ', InvDate, ' ', ShippedVia, ' ', ShippedTo, ' ', ShipDate, ' ', DueBy, ' ', FOB, ' ', TotalDue)  LIKE   '%' + @Input + '%'";
+                    cmd.Connection = con;
+                    cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
+                    DataTable dt = new DataTable();
+
+                    //repopulates the table
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        sda.Fill(dt);
+                        GridView1.DataSource = dt;
+                        GridView1.DataBind();
+                    }
+                }
+                //for advanced searching
+                else
+                {
+                    cmd.CommandText = "SELECT * FROM[tblInvoiceSFS] WHERE " + DropDownListCategory.SelectedItem.ToString() + "  LIKE   '%' + @Input + '%'";
+                    cmd.Connection = con;
+                    cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
+                    DataTable dt = new DataTable();
+
+                    //repopulates the table
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        sda.Fill(dt);
+                        GridView1.DataSource = dt;
+                        GridView1.DataBind();
+                    }
                 }
             }
         }
