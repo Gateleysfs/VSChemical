@@ -86,7 +86,7 @@ public partial class Account_Default : System.Web.UI.Page
         this.BindGrid();
     }
 
-    //This isnt called but when it is it highlights any data that is matched by the search bar
+    // highlights any data in first column that is matched by the search bar
     protected void OnRowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)

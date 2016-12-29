@@ -2,35 +2,48 @@
 
 <!DOCTYPE html>
 
+<head>
+
 <title>Inventory</title>
 <link rel="icon" href="Images/sfs logo green transparent.png" type="image/jpg">
 
 <link rel="stylesheet" href="BasicLayout.css">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<body id ="PageBackGround">
+<style type="text/css">
+    .auto-style1 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 98px;
+        width: 140px;
+    }
+</style>
+    </head>
+<body id="PageBackGround">
     <form id="form2" runat="server">
         <div id="Header" class="auto-style2">
-
-                    <br>
-                    <h1>Inventory<asp:Button ID="ButtonLogout" runat="server" OnClick="ButtonLogout_Click" Text="Logout" />
-
-                    </h1>
-                    <a href="Home.aspx">
-                        <img class="ImgRight" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo" width="140" height="98">
-                    </a>
+            <br>
+            <div>
+                <h1>Inventory</h1>
+            </div>
+            <a href="Home.aspx">
+                <img class="auto-style1" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo">
+            </a>
+            <div class="ImgRight">
+                <asp:Button ID="ButtonLogout" runat="server" OnClick="ButtonLogout_Click" Text="Logout" /></div>
         </div>
-      <div id="mainNav">
-      <ul>
-        <li><a href="Transaction.aspx">Add Transaction</a></li>
-        <li><a href="TransactionList.aspx">Transactions List</a></li>
-        <li><a href="Invoice.aspx">Add Invoice</a></li>
-        <li><a href="InvoiceList.aspx">Invoices List</a></li>
-	    <li><a href="Inventory.aspx">Current Inventory</a></li>
-      </ul>
-     </div>
+        <div id="mainNav">
+            <ul>
+                <li><a href="Transaction.aspx">Add Transaction</a></li>
+                <li><a href="TransactionList.aspx">Transactions List</a></li>
+                <li><a href="Invoice.aspx">Add Invoice</a></li>
+                <li><a href="InvoiceList.aspx">Invoices List</a></li>
+                <li><a href="Inventory.aspx">Current Inventory</a></li>
+            </ul>
+        </div>
         <br>
         <br>
-        <div style="text-align:center">
+        <div style="text-align: center">
             <asp:DropDownList ID="DropDownListCategory" runat="server">
                 <asp:ListItem>All</asp:ListItem>
                 <asp:ListItem>ID</asp:ListItem>
@@ -45,8 +58,8 @@
                 <asp:ListItem>PartialContainer</asp:ListItem>
                 <asp:ListItem>ContainerSize</asp:ListItem>
             </asp:DropDownList>
-        <asp:TextBox ID="txtSearch" runat="server" HorizontalAlign ="Center" OnTextChanged="txtSearch_TextChanged"></asp:TextBox>
-        <asp:Button ID="ButtonSearch" runat="server" Text="Search" OnClick="Search" HorizontalAlign ="Center"/>
+            <asp:TextBox ID="txtSearch" runat="server" HorizontalAlign="Center" OnTextChanged="txtSearch_TextChanged"></asp:TextBox>
+            <asp:Button ID="ButtonSearch" runat="server" Text="Search" OnClick="Search" HorizontalAlign="Center" />
         </div>
         <br>
         <br>
@@ -62,7 +75,7 @@
                 <asp:BoundField DataField="Total" HeaderText="Total" SortExpression="Total" />
                 <asp:BoundField DataField="Category" HeaderText="Category" SortExpression="Category" />
                 <asp:CheckBoxField DataField="PartialContainer" HeaderText="PartialContainer" SortExpression="PartialContainer" />
-                <asp:BoundField DataField="ChemicalAmount" HeaderText="ContainerSize" SortExpression="ChemicalAmount" />
+                <asp:BoundField DataField="ChemicalAmount" HeaderText="ContainerSize(ChemicalAmount)" SortExpression="ChemicalAmount" />
             </Columns>
             <FooterStyle BackColor="#CCCCCC" />
             <HeaderStyle BackColor="DarkGreen" Font-Bold="True" ForeColor="White" />
@@ -74,7 +87,7 @@
             <SortedDescendingCellStyle BackColor="#CAC9C9" />
             <SortedDescendingHeaderStyle BackColor="#383838" />
         </asp:GridView>
-    
+
         <asp:SqlDataSource ID="SqlDataSourceInventory" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalInventoryConnectionString %>" SelectCommand="SELECT * FROM [tblInventorySFS]"></asp:SqlDataSource>
     </form>
 </body>

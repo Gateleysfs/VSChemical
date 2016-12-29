@@ -15,6 +15,13 @@
     .auto-style1 {
         width: 821px;
     }
+    .auto-style2 {
+        height: 24px;
+    }
+    .auto-style3 {
+        width: 821px;
+        height: 24px;
+    }
 </style>
     </head>
 
@@ -86,10 +93,10 @@
                 </td>
             </tr>
             <tr>
-                <td class="auto-style8">
-                    <asp:Label ID="LabelAmount" runat="server" Text="Amount"></asp:Label>
+                <td class="auto-style2">
+                    <asp:Label ID="LabelAmount" runat="server" Text="Container Amount"></asp:Label>
                 </td>
-                <td class="auto-style1">
+                <td class="auto-style3">
                     <asp:TextBox ID="TextBoxAmount" runat="server" Width="192px"></asp:TextBox>
                     <asp:DropDownList ID="DropDownListWeight" runat="server" Height="18px" Width="100px">
                         <asp:ListItem></asp:ListItem>
@@ -103,11 +110,20 @@
                 </td>
             </tr>
             <tr>
+                <td class="auto-style2">
+                    <asp:Label ID="LabelAmountLeft" runat="server" Text="Amount Left"></asp:Label>
+                </td>
+                <td class="auto-style3">
+                    <asp:DropDownList ID="DropDownListAmountLeft" runat="server" Height="20px" Width="300px" AutoPostBack="True" OnSelectedIndexChanged="DropDownListAmountLeft_SelectedIndexChanged">
+                    </asp:DropDownList>
+                </td>
+            </tr>
+            <tr>
                 <td class="auto-style8">
                     <asp:Label ID="LabelQuantity" runat="server" Text="Quantity"></asp:Label>
                 </td>
                 <td class="auto-style1">
-                    <asp:DropDownList ID="DropDownListQuantity" runat="server" Width="301px" AutoPostBack="True" OnSelectedIndexChanged="DropDownListQuantity_SelectedIndexChanged">
+                    <asp:DropDownList ID="DropDownListQuantity" runat="server" Width="300px" AutoPostBack="True" OnSelectedIndexChanged="DropDownListQuantity_SelectedIndexChanged">
                     </asp:DropDownList>
                 </td>
             </tr>

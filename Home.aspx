@@ -11,6 +11,13 @@
 <head runat="server">
     <title></title>
     <style type="text/css">
+            .auto-style1 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 98px;
+        width: 140px;
+    }
         .auto-style2 {
             left: 0px;
             top: -1px;
@@ -23,18 +30,18 @@
 </head>
 <body id="PageBackGround">
     <form id="form1" runat="server">
-    <div>
         <h1 id="Header" class="auto-style2">
             <br />
-        <asp:Label ID="LabelWelcome" runat="server" Text="Welcome" Font-Bold="True" Font-Size="XX-Large" Font-Strikeout="False"></asp:Label>
-        <asp:Button ID="ButtonLogout" runat="server" OnClick="ButtonLogout_Click" Text="Logout" />
-        </h1>
+                    <asp:Label ID="LabelWelcome" runat="server" Text="Welcome" Font-Bold="True" Font-Size="XX-Large" Font-Strikeout="False"></asp:Label>
+            <div class="ImgRight"><asp:Button ID="ButtonLogout" runat="server" OnClick="ButtonLogout_Click" Text="Logout" /></div>
+            <br />
+            <br />
         <a href="Home.aspx">
-            <img class="ImgRight" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo" width="140" height="98">
+            <img class="auto-style1" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo" width="140" height="98">
         </a>
+        </h1>
         <div>
         </div>
-    </div>
 
     <div id="mainNav">
 

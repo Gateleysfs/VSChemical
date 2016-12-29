@@ -10,40 +10,7 @@
 <link rel="stylesheet" href="BasicLayout.css">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
-
-<style type="text/css">
-    .auto-style2 {
-        height: 37px;
-    }
-    .auto-style4 {
-        height: 35px;
-    }
-    .auto-style5 {
-        height: 25px;
-    }
-    .auto-style7 {
-        height: 5px;
-    }
-    .auto-style10 {
-        width: 342px;
-    }
-    .auto-style11 {
-        height: 25px;
-        width: 342px;
-    }
-    .auto-style12 {
-        height: 5px;
-        width: 342px;
-    }
-    .auto-style13 {
-        height: 30px;
-    }
-    .auto-style14 {
-        height: 30px;
-        width: 342px;
-    }
-</style>
-    </head>
+</head>
 
 
 <body id="PageBackGround">

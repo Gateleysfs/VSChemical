@@ -26,7 +26,6 @@
     <div>
 
         <asp:Panel ID="pnlTextBoxes" runat="server">
-            <asp:TextBox ID="Ordered1" runat="server"></asp:TextBox>
 
         </asp:Panel>
 

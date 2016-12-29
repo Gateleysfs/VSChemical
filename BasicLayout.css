@@ -143,6 +143,15 @@ margin:auto;
 	
 }
 
+.ImgLeft {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 98px;
+        width: 142px;
+    }
+
+
 .CenterText {
 	text-align: center;
 }
@@ -222,8 +231,6 @@ margin:auto;
 .SpacerTen{
 	height:10px;
 	margin-top:10px;
-	
-
 }
 
 .txtbox{

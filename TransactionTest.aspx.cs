@@ -219,71 +219,74 @@ public partial class Transaction : System.Web.UI.Page
                 string constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constr))
                 {
-                    using (SqlCommand cmd = new SqlCommand("SELECT AmountLeft, ContainerType FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND PartialContainer = '" + partials + "' AND CurrentLocation ='" + Session["new"] + "'", con))
+                    using (SqlCommand cmd = new SqlCommand("SELECT  CONCAT(ChemicalAmount, ' ', ContainerType) as combine FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND CurrentLocation ='" + Session["new"] + "'", con))
                     {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Connection = con;
                         con.Open();
-
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        string temp = "";
-                        int AmountLeft = 0;
-                        string ContainerType = "";
-                        if (reader.HasRows)
-                        {
-                            while (reader.Read())
-                            {
-                                //Amount Left
-                                temp = reader.GetString(0);
-                                AmountLeft = Int32.Parse(temp);
-
-                                //Container Type
-                                ContainerType = reader.GetString(1);
-
-                                for (int i = 0; i <= AmountLeft; i++)
-                                {
-                                    DropDownListAmount.Items.Add(new ListItem(i.ToString() + " " + ContainerType));
-                                }
-                                reader.NextResult();
-                            }
-                        }
+                        DropDownListAmount.DataSource = cmd.ExecuteReader();
+                        DropDownListAmount.DataTextField = "combine";
+                        DropDownListAmount.DataBind();
                         con.Close();
                     }
                 }
+                DropDownListAmount.Items.Insert(0, new ListItem("", ""));
 
-                if (Request.QueryString["amount"] != null)
+                if(Request.QueryString["amount"] != null)
                 {
                     DropDownListAmount.SelectedItem.Text = Request.QueryString["amount"];
-                    LabelQuantity.Visible = true;
-                    DropDownListQuantity.Visible = true;
+                    LabelAmountLeft.Visible = true;
+                    DropDownListAmountLeft.Visible = true;
 
-                    string s = Request.QueryString["amount"];
+                    string temp = Request.QueryString["amount"];
 
-                    //pulls out the amountleft from the url
-                    string AmountLeft = Regex.Match(s, @"\d+").Value;
+                    //pulls out the ChemicalAmount from the url
+                    int ChemicalAmount = Int32.Parse(Regex.Match(temp, @"\d+").Value);
                     //pulls out the ContainerType from the url
-                    string ContainerType = Regex.Replace(s, @"[\d-]", string.Empty);
+                    string ContainerType = Regex.Replace(temp, @"[\d-]", string.Empty);
                     ContainerType = ContainerType.Trim();
 
-                    //grabs the number of containers for the chemical chosen in DropDownListProduct, Partial, and Amount
-                    constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
-                    SqlConnection con = new SqlConnection(constr);
-                    SqlCommand cmd = new SqlCommand("SELECT ContainerCount FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND PartialContainer ='" + partials + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation ='" + Session["new"] + "'", con);
-                    con.Open();
-                    int test = (Int32)cmd.ExecuteScalar();
-
-                    //populates the Quantity drop down list to include the number of containers that the employee may remove
-                    DropDownListQuantity.Items.Add(new ListItem("", "0"));
-                    for (int i = 1; i <= test; i++)
+                    //populates the DropDownListAmountLeft with amounts
+                    DropDownListAmountLeft .Items.Add(new ListItem("", "0"));
+                    for (int i = 0; i <= ChemicalAmount; i++)
                     {
-                        DropDownListQuantity.Items.Add(new ListItem(i.ToString()));
+                        DropDownListAmountLeft.Items.Add(new ListItem(i.ToString() + " " + ContainerType));
                     }
-                    DropDownListQuantity.DataBind();
-                    con.Close();
+                    DropDownListAmountLeft.DataBind();
 
-                    //checks to see if a quantity has been selected
-                    if (Request.QueryString["quantity"] != null)
+
+
+
+                    if (Request.QueryString["amountLeft"] != null)
                     {
-                        DropDownListQuantity.SelectedItem.Text = Request.QueryString["quantity"];
-                        ButtonSubmit.Visible = true;
+                        DropDownListAmountLeft.SelectedItem.Text = Request.QueryString["amountLeft"];
+                        LabelQuantity.Visible = true;
+                        DropDownListQuantity.Visible = true;
+
+                        string s = Request.QueryString["amountLeft"];
+
+                        //grabs the number of containers for the chemical chosen in DropDownListProduct, Partial, and Amount
+                        constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
+                        SqlConnection con = new SqlConnection(constr);
+                        SqlCommand cmd = new SqlCommand("SELECT ContainerCount FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation ='" + Session["new"] + "' AND ChemicalAmount ='" + ChemicalAmount + "'", con);
+                        con.Open();
+                        int test = (Int32)cmd.ExecuteScalar();
+
+                        //populates the Quantity drop down list to include the number of containers that the employee may remove
+                        DropDownListQuantity.Items.Add(new ListItem("", "0"));
+                        for (int i = 1; i <= test; i++)
+                        {
+                            DropDownListQuantity.Items.Add(new ListItem(i.ToString()));
+                        }
+                        DropDownListQuantity.DataBind();
+                        con.Close();
+
+                        //checks to see if a quantity has been selected
+                        if (Request.QueryString["quantity"] != null)
+                        {
+                            DropDownListQuantity.SelectedItem.Text = Request.QueryString["quantity"];
+                            ButtonSubmit.Visible = true;
+                        }
                     }
                 }
             }
@@ -379,6 +382,8 @@ public partial class Transaction : System.Web.UI.Page
         LabelQuantity.Visible = false;
         DropDownListQuantity.Visible = false;
         ButtonSubmit.Visible = false;
+        LabelAmountLeft.Visible = false;
+        DropDownListAmountLeft.Visible = false;
 
         //transaction is called which performas all the logic of the transactions
         transaction();
@@ -398,7 +403,7 @@ public partial class Transaction : System.Web.UI.Page
         try
         {
             //Variables Below
-            //pulls out the amountleft from the url
+            //pulls out the amount from the url
             string AmountLeft = Regex.Match(Request.QueryString["amount"], @"\d+").Value;
 
             //pulls out the ContainerType from the url
@@ -422,7 +427,7 @@ public partial class Transaction : System.Web.UI.Page
                     conn.Open();
 
                     //Select a unique Inventory ID that matches the Product drop down menu chosen. It is then cast into an int so it can be inserted into dbo.tblInventorytransactionsSFS
-                    string selectTranId = "SELECT ID FROM dbo.tblInventorySFS WHERE Prescription='" + DropDownListProduct.SelectedItem.ToString() + "' AND PartialContainer='" + partial + "'AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville'";
+                    string selectTranId = "SELECT ID FROM dbo.tblInventorySFS WHERE Prescription='" + DropDownListProduct.SelectedItem.ToString() + "'AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville'";
                     SqlCommand tranId = new SqlCommand(selectTranId, conn);
                     Int32 transaction = ((Int32)tranId.ExecuteScalar());
 
@@ -464,10 +469,6 @@ public partial class Transaction : System.Web.UI.Page
                         dt.Load(reader);
                         foreach (DataRow dr in filtered)
                         {
-                            //foreach(var item in dr.ItemArray)
-                            //{
-                            //    Response.Write(item);
-                            //}
 
                             // Grabs the information from the the row by matching the column name
                             string itemNo = dr["ItemNo"].ToString();
@@ -535,20 +536,22 @@ public partial class Transaction : System.Web.UI.Page
             // Removal Transaction to Inventory table finished---------------------------------------------------------------------------------------------------------------------------------------------------
 
             // This block creates the addition information for inventory table-----------------------------------------------------------------------------------------------------------------------------------
+
             else if (DropDownListTransaction.Text == "ADDITION")
             {
                 using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString))
                 {
-                    using (SqlCommand com = new SqlCommand("SELECT * FROM dbo.tblInventorySFS WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType + "'", conn))
+                    using (SqlCommand com = new SqlCommand("SELECT * FROM dbo.tblInventorySFS WHERE Prescription='" + Request.QueryString["prescription"] + "' AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType + "'", conn))
                     {
                         conn.Open();
 
                         // creates a reader and stores the rows in a datatable
-                        // only one row should be created in the table and then parsed through with a foreach loop
                         SqlDataReader reader = com.ExecuteReader();
+                        //creating a new datatable called dt
                         DataTable dt = new DataTable();
                         //This filters the table so it only contains records where CurrentLocation == current logged in user
                         var filtered = dt.AsEnumerable().Where(row => row.Field<string>("CurrentLocation") == Session["new"].ToString());
+                        //loads the reader information into the datatable dt
                         dt.Load(reader);
                         foreach (DataRow dr in filtered)
                         {
@@ -562,7 +565,11 @@ public partial class Transaction : System.Web.UI.Page
                             string currentLocation = dr["CurrentLocation"].ToString();
                             int containerCount = Convert.ToInt32(dr["ContainerCount"].ToString());
                             string chemicalAmount = dr["ChemicalAmount"].ToString();
-                            double amountLeft = Convert.ToDouble(dr["AmountLeft"].ToString());
+                            double amountLeft = 0;
+                            if (partial == "True")
+                                amountLeft = double.Parse(Regex.Match(Request.QueryString["amountLeft"], @"\d+").Value);
+                            else if (partial == "False")
+                                amountLeft = double.Parse(Regex.Match(Request.QueryString["amount"], @"\d+").Value); 
                             string containerType = dr["ContainerType"].ToString();
                             double total = Convert.ToDouble(dr["Total"].ToString());
                             string partialContainer = dr["PartialContainer"].ToString();
@@ -570,32 +577,31 @@ public partial class Transaction : System.Web.UI.Page
 
                             // Subtracts the data in the inventory table when a removal transaction is created
                             int alterContainerCount = containerCount - Convert.ToInt32(DropDownListQuantity.SelectedItem.Text);
-                            double alterTotal = total - (amountLeft * Convert.ToInt32(DropDownListQuantity.SelectedItem.Text));
+                            double alterTotal = total - (Double.Parse(AmountLeft) * Convert.ToInt32(DropDownListQuantity.SelectedItem.Text));
 
                             // total amount of chemical the user takes
                             double userTotal = amountLeft * Convert.ToInt32(DropDownListQuantity.SelectedItem.Text);
 
                             // query to alter the chemical amount and total in the existing row
-                            SqlCommand com3 = new SqlCommand("UPDATE dbo.tblInventorySFS SET ContainerCount='" + alterContainerCount.ToString() + "', Total= '" + alterTotal.ToString() + "' WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = '"+Session["new"]+"'", conn);
+                            SqlCommand com3 = new SqlCommand("UPDATE dbo.tblInventorySFS SET ContainerCount='" + alterContainerCount.ToString() + "', Total= '" + alterTotal.ToString() + "' WHERE Prescription='" + Request.QueryString["prescription"] + "' AND ChemicalAmount='" + AmountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = '"+Session["new"]+"'", conn);
                             com3.ExecuteNonQuery();
 
                             // query to check if a new row should be created (if there are no duplicates, exists == 0) or whether a row should be updated (if there are duplicates, exists > 0)
-                            SqlCommand checkRecords = new SqlCommand("SELECT COUNT(*) FROM dbo.tblInventorySFS WHERE CurrentLocation ='Russellville' AND Prescription ='" + DropDownListProduct.SelectedItem.Text + "' AND AmountLeft= '" + AmountLeft + "' AND PartialContainer='" + partial + "'", conn);
+                            SqlCommand checkRecords = new SqlCommand("SELECT COUNT(*) FROM dbo.tblInventorySFS WHERE CurrentLocation ='Russellville' AND Prescription ='" + DropDownListProduct.SelectedItem.Text + "' AND AmountLeft= '" + amountLeft + "' AND PartialContainer='" + partial + "' AND ChemicalAmount=" + AmountLeft, conn);
                             int exists = (int)checkRecords.ExecuteScalar();
 
                             if(exists == 0)
                             {
                                 // query to insert record with the user, chemical, and how much chemical they took if there is no other row that matches
-                                string insertQuery = "INSERT INTO dbo.tblInventorySFS(ItemNo, Prescription, CurrentLocation, ContainerCount, ChemicalAmount, AmountLeft, ContainerType, Total, PartialContainer, Category) values ('" + itemNo + "','" + prescription + "','" + Session["new"] + "','" + DropDownListQuantity.SelectedItem.Text + "','" + chemicalAmount + "','" + amountLeft + "','" + containerType + "','" + userTotal + "','" + partial + "','" + category + "')";
+                                string insertQuery = "INSERT INTO dbo.tblInventorySFS(ItemNo, Prescription, CurrentLocation, ContainerCount, ChemicalAmount, AmountLeft, ContainerType, Total, PartialContainer, Category) values ('" + itemNo + "','" + prescription + "','Russellville','" + DropDownListQuantity.SelectedItem.Text + "','" + chemicalAmount + "','" + amountLeft + "','" + containerType + "','" + userTotal + "','" + partial + "','" + category + "')";
                                 SqlCommand com4 = new SqlCommand(insertQuery, conn);
                                 com4.ExecuteNonQuery();
                             }
                             else if (exists == 1)
                             {
                                 // Query to change a record if a record is found
-                                Response.Write("here");
 
-                                using (SqlCommand com4 = new SqlCommand("SELECT * FROM dbo.tblInventorySFS WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville'", conn))
+                                using (SqlCommand com4 = new SqlCommand("SELECT * FROM dbo.tblInventorySFS WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + amountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville' AND ChemicalAmount='" + AmountLeft + "'", conn))
                                 {
                                     SqlDataReader reader2 = com4.ExecuteReader();
                                     DataTable dt2 = new DataTable();
@@ -603,13 +609,13 @@ public partial class Transaction : System.Web.UI.Page
                                     // Only executes once (dt2 only has a single row)
                                     foreach (DataRow dr2 in dt2.Rows)
                                     {
-                                        int newContainerCount = Convert.ToInt32(dr2["ContainerCount"].ToString());
+                                        int oldContainerCount = Convert.ToInt32(dr2["ContainerCount"].ToString());
                                         double oldAmountLeft = Convert.ToDouble(dr2["AmountLeft"].ToString());
 
-                                        newContainerCount = newContainerCount + Convert.ToInt32(DropDownListQuantity.SelectedItem.Text);
+                                        int newContainerCount = oldContainerCount + Convert.ToInt32(DropDownListQuantity.SelectedItem.Text);
                                         double newTotal = newContainerCount * oldAmountLeft;
 
-                                        SqlCommand com5 = new SqlCommand("UPDATE dbo.tblInventorySFS SET ContainerCount = '" + newContainerCount + "', Total='" + newTotal + "' WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville'", conn);
+                                        SqlCommand com5 = new SqlCommand("UPDATE dbo.tblInventorySFS SET ContainerCount = '" + newContainerCount + "', Total='" + newTotal + "' WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + amountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville'", conn);
                                         com5.ExecuteNonQuery();
                                     }
                                 }
@@ -643,8 +649,8 @@ public partial class Transaction : System.Web.UI.Page
     }
 
 
-    /*
-     * The below functions are for post back that grabs the information in the drop down list and put it in the URL to be accessed later
+    /* 
+     * The below functions are for post back which grabs the information in the drop down list and puts it in the URL to be accessed later
      * 
      */
     protected void TextBoxCrewNumber_TextChanged(object sender, EventArgs e)
@@ -674,15 +680,22 @@ public partial class Transaction : System.Web.UI.Page
 
     protected void DropDownListAmount_SelectedIndexChanged(object sender, EventArgs e)
     {
-        //Postback for Amount
+        //Postback for Container Amount
         string amount = DropDownListAmount.SelectedItem.Text;
         Response.Redirect("~/TransactionTest.aspx?transaction=" + Request.QueryString["transaction"] + "&prescription=" + Request.QueryString["prescription"] + "&partial=" + Request.QueryString["partial"] + "&amount=" + amount);
     }
 
+
+
+    protected void DropDownListAmountLeft_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string amountLeft = DropDownListAmountLeft.SelectedItem.Text;
+        Response.Redirect("~/TransactionTest.aspx?transaction=" + Request.QueryString["transaction"] + "&prescription=" + Request.QueryString["prescription"] + "&partial=" + Request.QueryString["partial"] + "&amount=" + Request.QueryString["amount"] + "&amountLeft=" + amountLeft);
+    }
     protected void DropDownListQuantity_SelectedIndexChanged(object sender, EventArgs e)
     {
         //Postback for Quantity
         string quantity = DropDownListQuantity.SelectedItem.Text;
-        Response.Redirect("~/TransactionTest.aspx?transaction=" + Request.QueryString["transaction"] + "&prescription=" + Request.QueryString["prescription"] + "&partial=" + Request.QueryString["partial"] + "&amount=" + Request.QueryString["amount"] + "&quantity=" + quantity);
+        Response.Redirect("~/TransactionTest.aspx?transaction=" + Request.QueryString["transaction"] + "&prescription=" + Request.QueryString["prescription"] + "&partial=" + Request.QueryString["partial"] + "&amount=" + Request.QueryString["amount"] + "&amountLeft=" + Request.QueryString["amountLeft"] + "&quantity=" + quantity);
     }
 }

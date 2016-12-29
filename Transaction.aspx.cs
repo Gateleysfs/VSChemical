@@ -24,7 +24,7 @@ public partial class Transaction : System.Web.UI.Page
     }
 
     /*
-     * When the ButtonSubmite_Click is clicked, the information inside the textboxes will be placed into the database. 
+     * When the ButtonSubmit_Click is pressed, the information inside the textboxes will be placed into the database. 
      * The ID is unique increment and is automatically inserted 
      * The EmpId is obtained from the current logged in session
      * The TransactionId is obtained from the corresponding Id in the Inventory table
