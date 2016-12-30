@@ -39,23 +39,32 @@
         .auto-style10 {
             text-align: left;
         }
-        .auto-style12 {
-            margin-bottom: 0;
-            left: -1px;
-            top: -1px;
-        }
+            .auto-style13 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 98px;
+        width: 140px;
+    }
+
     </style>
     
 </head>
 
 <body id="PageBackGround">
 
-    <h1 id="Header" class="auto-style12">
-        <strong>
-        <br>
-        Login Page</strong>
-    </h1>
-    <img class="ImgRight" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo" width="140" height="98">
+        <div id="Header" class="auto-style2">
+            <br>
+            <div>
+                <h1>Login Page</h1>
+            </div>
+            <a href="Home.aspx">
+                <img class="auto-style13" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo">
+            </a>
+            <br>
+            <br>
+            <br>
+
     <form id="form1" runat="server">
         <div class="Content SansSerif">
         <br>

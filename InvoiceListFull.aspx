@@ -13,17 +13,28 @@
         .auto-style1 {
             font-size: xx-large;
         }
+            .auto-style3 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 98px;
+        width: 140px;
+    }
+
     </style>
 </head>
 <body id ="PageBackGround">
     <form id="form1" runat="server">
-                <div id="Header" class="auto-style2">
-                    <br>
-                    <h1>Specific Invoice<asp:Button ID="ButtonLogout" runat="server" OnClick="ButtonLogout_Click" Text="Logout" />
-                    </h1>
-                    <a href="Home.aspx">
-                        <img class="ImgRight" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo" width="140" height="98">
-                    </a>
+        <div id="Header" class="auto-style2">
+            <br>
+            <div>
+                <h1>Detailed Invoice</h1>
+            </div>
+            <a href="Home.aspx">
+                <img class="auto-style3" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo">
+            </a>
+            <div class="ImgRight">
+                <asp:Button ID="ButtonLogout" runat="server" OnClick="ButtonLogout_Click" Text="Logout" /></div>
         </div>
               <div id="mainNav">
       <ul>

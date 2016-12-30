@@ -32,7 +32,7 @@
     <form id="form1" runat="server">
         <h1 id="Header" class="auto-style2">
             <br />
-                    <asp:Label ID="LabelWelcome" runat="server" Text="Welcome" Font-Bold="True" Font-Size="XX-Large" Font-Strikeout="False"></asp:Label>
+            <asp:Label ID="LabelWelcome" runat="server" Text="Welcome" Font-Bold="True" Font-Size="XX-Large" Font-Strikeout="False"></asp:Label>
             <div class="ImgRight"><asp:Button ID="ButtonLogout" runat="server" OnClick="ButtonLogout_Click" Text="Logout" /></div>
             <br />
             <br />

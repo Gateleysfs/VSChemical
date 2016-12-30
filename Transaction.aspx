@@ -9,20 +9,30 @@
 
 <link rel="stylesheet" href="BasicLayout.css">
 <html xmlns="http://www.w3.org/1999/xhtml">
-
+    <style type="text/css">
+    .auto-style1 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 98px;
+        width: 140px;
+    }
+</style>
 </head>
-
 
 <body id="PageBackGround">
     <form id="form1" runat="server">
     <div>
-        <div id="Header" class="auto-style2">
-                    <br>
-                    <h1>Transaction<asp:Button ID="ButtonLogout" runat="server" OnClick="ButtonLogout_Click" Text="Logout" />
-                    </h1>
-                    <a href="Home.aspx">
-                        <img class="ImgRight" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo" width="140" height="98">
-                    </a>
+                <div id="Header" class="auto-style2">
+            <br>
+            <div>
+                <h1>Inventory</h1>
+            </div>
+            <a href="Home.aspx">
+                <img class="auto-style1" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo">
+            </a>
+            <div class="ImgRight">
+                <asp:Button ID="ButtonLogout" runat="server" OnClick="ButtonLogout_Click" Text="Logout" /></div>
         </div>
       <div id="mainNav">
       <ul>
