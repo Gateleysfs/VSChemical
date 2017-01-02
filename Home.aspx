@@ -60,7 +60,7 @@
         </div>
     </form>
 
-        <!-- Footer -->
+<!-- Footer -->
 <div  id="footer" class="PadTen SansSerif">
 	<p class ="CenterText MarginFive">Superior Forestry Service <br/> P.O. Box 25 <br/> Tilly, AR 72679 <br/> 800.541.1060<br/>
 	</p>

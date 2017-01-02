@@ -44,6 +44,7 @@
      </div>
         <br>
         <br>
+        <asp:Panel id="pnlDefaultButton" runat="server" DefaultButton="ButtonSearch">
         <div style="text-align:center">
             <asp:DropDownList ID="DropDownListCategory" runat="server">
                 <asp:ListItem>All</asp:ListItem>
@@ -62,6 +63,7 @@
             </asp:DropDownList>
         <asp:TextBox ID="txtSearch" runat="server" HorizontalAlign ="Center"></asp:TextBox>
         <asp:Button ID="ButtonSearch" runat="server" Text="Search" OnClick="Search" HorizontalAlign ="Center"/>
+            </asp:Panel>
         </div>
         <br>
         <br>

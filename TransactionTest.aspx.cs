@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 public partial class Transaction : System.Web.UI.Page
 {
@@ -65,10 +66,160 @@ public partial class Transaction : System.Web.UI.Page
             {
                 DropDownListPartial.Visible = true;
                 LabelPartial.Visible = true;
-                //partial is now called to determine whether DropDownListPartial is True or False and proceeds with more execution
-                partialRemoval();
-            }
+                if (Request.QueryString["partial"] != null)
+                {
+                    //This determines whether partial is true or false. Yes == True; No == False;
+                    string partials = "";
+                    if (Request.QueryString["partial"] == "Yes")
+                    {
+                        partials = "True";
+                    }
+                    else if (Request.QueryString["partial"] == "No")
+                    {
+                        partials = "False";
+                    }
 
+                    //put the text back in dropdownlistpartial after postback
+                    DropDownListPartial.Text = Request.QueryString["partial"];
+
+                    //set dropdownlist amount to visible
+                    DropDownListAmount.Visible = true;
+                    LabelAmount.Visible = true;
+
+                    //populates the dropdownlistamount so it corresponds with the product and partial dropdownlists
+                    constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
+                    using (SqlConnection con = new SqlConnection(constr))
+                    {
+                        using (SqlCommand cmd = new SqlCommand("SELECT CONCAT(ChemicalAmount, ' ', ContainerType) as combine FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND PartialContainer = '" + partials + "' AND CurrentLocation = 'Russellville'"))
+                        {
+                            cmd.CommandType = CommandType.Text;
+                            cmd.Connection = con;
+                            con.Open();
+                            DropDownListAmount.DataSource = cmd.ExecuteReader();
+                            DropDownListAmount.DataTextField = "combine";
+                            DropDownListAmount.DataBind();
+                            con.Close();
+                        }
+                    }
+
+                    DropDownListAmount.Items.Insert(0, new ListItem("", ""));
+                    if (Request.QueryString["Partial"] == "Yes")
+                    {
+                        if (Request.QueryString["amount"] != null)
+                        {
+                            DropDownListAmount.SelectedItem.Text = Request.QueryString["amount"];
+                            LabelAmountLeft.Visible = true;
+                            DropDownListAmountLeft.Visible = true;
+
+                            string temp = Request.QueryString["amount"];
+                            //pulls out the ChemicalAmount from the url
+                            int ChemicalAmount = Int32.Parse(Regex.Match(temp, @"\d+").Value);
+                            //pulls out the ContainerType from the url
+                            string ContainerType = Regex.Replace(temp, @"[\d-]", string.Empty);
+                            ContainerType = ContainerType.Trim();
+
+                            constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
+                            using (SqlConnection con = new SqlConnection(constr))
+                            {
+                                using (SqlCommand cmd = new SqlCommand("SELECT CONCAT(AmountLeft, ' ', ContainerType) as combine FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND PartialContainer ='" + partials + "' AND ChemicalAmount='" + ChemicalAmount + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville'", con))
+                                {
+                                    cmd.CommandType = CommandType.Text;
+                                    cmd.Connection = con;
+                                    con.Open();
+                                    DropDownListAmountLeft.DataSource = cmd.ExecuteReader();
+                                    DropDownListAmountLeft.DataTextField = "combine";
+                                    DropDownListAmountLeft.DataBind();
+                                    DropDownListAmountLeft.Items.Insert(0, new ListItem(String.Empty, String.Empty));
+                                    DropDownListAmountLeft.SelectedIndex = 0;
+
+                                    con.Close();
+                                }
+                            }
+
+
+                            if (Request.QueryString["amountLeft"] != null)
+                            {
+                                DropDownListAmountLeft.SelectedItem.Text = Request.QueryString["amountLeft"];
+                                LabelQuantity.Visible = true;
+                                DropDownListQuantity.Visible = true;
+
+                                string s = Request.QueryString["amountLeft"];
+
+
+
+                                //pulls out the ChemicalAmount from the url
+                                string AmountLeft = Regex.Match(s, @"\d+").Value;
+
+                                constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
+                                SqlConnection con = new SqlConnection(constr);
+                                SqlCommand cmd = new SqlCommand("SELECT ContainerCount FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND PartialContainer ='" + partials + "' AND ChemicalAmount='" + ChemicalAmount + "' AND ContainerType='" + ContainerType + "'AND AmountLeft='" + AmountLeft + "' AND CurrentLocation = 'Russellville'", con);
+                                con.Open();
+                                int test = (Int32)cmd.ExecuteScalar();
+
+                                //populates the Quantity drop down list to include the number of containers that the employee may remove
+                                DropDownListQuantity.Items.Add(new ListItem("", "0"));
+                                for (int i = 1; i <= test; i++)
+                                {
+                                    DropDownListQuantity.Items.Add(new ListItem(i.ToString()));
+                                }
+                                DropDownListQuantity.DataBind();
+                                con.Close();
+
+                                //checks to see if a quantity has been selected
+                                if (Request.QueryString["quantity"] != null)
+                                {
+                                    DropDownListQuantity.SelectedItem.Text = Request.QueryString["quantity"];
+                                    ButtonSubmit.Visible = true;
+                                }
+                            }
+                        }
+                    }
+                    else if (Request.QueryString["partial"] == "No")
+                    {
+                        if (Request.QueryString["amount"] != null)
+                        {
+
+
+                            DropDownListAmount.SelectedItem.Text = Request.QueryString["amount"];
+                            LabelQuantity.Visible = true;
+                            DropDownListQuantity.Visible = true;
+
+                            string temp = Request.QueryString["amount"];
+                            //pulls out the ChemicalAmount from the url
+                            int ChemicalAmount = Int32.Parse(Regex.Match(temp, @"\d+").Value);
+                            //pulls out the ContainerType from the url
+                            string ContainerType = Regex.Replace(temp, @"[\d-]", string.Empty);
+                            ContainerType = ContainerType.Trim();
+
+
+                            //pulls out the ChemicalAmount from the url
+                            string AmountLeft = Regex.Match(temp, @"\d+").Value;
+
+                            constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
+                            SqlConnection con = new SqlConnection(constr);
+                            SqlCommand cmd = new SqlCommand("SELECT ContainerCount FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND PartialContainer ='" + partials + "' AND ChemicalAmount='" + ChemicalAmount + "' AND ContainerType='" + ContainerType + "'AND AmountLeft='" + AmountLeft + "' AND CurrentLocation = 'Russellville'", con);
+                            con.Open();
+                            int test = (Int32)cmd.ExecuteScalar();
+
+                            //populates the Quantity drop down list to include the number of containers that the employee may remove
+                            DropDownListQuantity.Items.Add(new ListItem("", "0"));
+                            for (int i = 1; i <= test; i++)
+                            {
+                                DropDownListQuantity.Items.Add(new ListItem(i.ToString()));
+                            }
+                            DropDownListQuantity.DataBind();
+                            con.Close();
+
+                            //checks to see if a quantity has been selected
+                            if (Request.QueryString["quantity"] != null)
+                            {
+                                DropDownListQuantity.SelectedItem.Text = Request.QueryString["quantity"];
+                                ButtonSubmit.Visible = true;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         //ADDITION
@@ -104,8 +255,170 @@ public partial class Transaction : System.Web.UI.Page
             {
                 DropDownListPartial.Visible = true;
                 LabelPartial.Visible = true;
-                //partial is now called to determine whether DropDownListPartial is True or False and proceeds with more execution
-                partialAddition();
+
+                if (Request.QueryString["partial"] != null)
+                {
+                    //This determines whether partial is true or false. Yes == True; No == False;
+                    string partials = "";
+
+                    //parses products that do have partials 
+                    if (Request.QueryString["partial"] == "Yes")
+                    {
+                        partials = "True";
+
+                        //put the text back in dropdownlistpartial after postback
+                        DropDownListPartial.Text = Request.QueryString["partial"];
+
+                        //set dropdownlist amount to visible
+                        DropDownListAmount.Visible = true;
+                        LabelAmount.Visible = true;
+
+                        //populates the dropdownlistamount so it corresponds with the product and partial dropdownlists
+                        constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
+                        using (SqlConnection con = new SqlConnection(constr))
+                        {
+                            using (SqlCommand cmd = new SqlCommand("SELECT  CONCAT(ChemicalAmount, ' ', ContainerType) as combine FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND CurrentLocation ='" + Session["new"] + "'", con))
+                            {
+                                cmd.CommandType = CommandType.Text;
+                                cmd.Connection = con;
+                                con.Open();
+                                DropDownListAmount.DataSource = cmd.ExecuteReader();
+                                DropDownListAmount.DataTextField = "combine";
+                                DropDownListAmount.DataBind();
+                                con.Close();
+                            }
+                        }
+                        DropDownListAmount.Items.Insert(0, new ListItem("", ""));
+
+                        if (Request.QueryString["amount"] != null)
+                        {
+                            DropDownListAmount.SelectedItem.Text = Request.QueryString["amount"];
+                            LabelAmountLeft.Visible = true;
+                            DropDownListAmountLeft.Visible = true;
+
+                            string temp = Request.QueryString["amount"];
+
+                            //pulls out the ChemicalAmount from the url
+                            int ChemicalAmount = Int32.Parse(Regex.Match(temp, @"\d+").Value);
+                            //pulls out the ContainerType from the url
+                            string ContainerType = Regex.Replace(temp, @"[\d-]", string.Empty);
+                            ContainerType = ContainerType.Trim();
+
+                            //populates the DropDownListAmountLeft with amounts
+                            DropDownListAmountLeft.Items.Add(new ListItem("", "0"));
+                            for (int i = 0; i <= ChemicalAmount; i++)
+                            {
+                                DropDownListAmountLeft.Items.Add(new ListItem(i.ToString() + " " + ContainerType));
+                            }
+                            DropDownListAmountLeft.DataBind();
+
+
+
+
+                            if (Request.QueryString["amountLeft"] != null)
+                            {
+                                DropDownListAmountLeft.SelectedItem.Text = Request.QueryString["amountLeft"];
+                                LabelQuantity.Visible = true;
+                                DropDownListQuantity.Visible = true;
+
+                                string s = Request.QueryString["amountLeft"];
+
+                                //grabs the number of containers for the chemical chosen in DropDownListProduct, Partial, and Amount
+                                constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
+                                SqlConnection con = new SqlConnection(constr);
+                                SqlCommand cmd = new SqlCommand("SELECT ContainerCount FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation ='" + Session["new"] + "' AND ChemicalAmount ='" + ChemicalAmount + "'", con);
+                                con.Open();
+                                int test = (Int32)cmd.ExecuteScalar();
+
+                                //populates the Quantity drop down list to include the number of containers that the employee may remove
+                                DropDownListQuantity.Items.Add(new ListItem("", "0"));
+                                for (int i = 1; i <= test; i++)
+                                {
+                                    DropDownListQuantity.Items.Add(new ListItem(i.ToString()));
+                                }
+                                DropDownListQuantity.DataBind();
+                                con.Close();
+
+                                //checks to see if a quantity has been selected
+                                if (Request.QueryString["quantity"] != null)
+                                {
+                                    DropDownListQuantity.SelectedItem.Text = Request.QueryString["quantity"];
+                                    ButtonSubmit.Visible = true;
+                                }
+                            }
+                        }
+                    }
+                    //parses products that do not have partials (slightly different from products that do have partials)
+                    else if (Request.QueryString["partial"] == "No")
+                    {
+                        partials = "False";
+
+                        //put the text back in dropdownlistpartial after postback
+                        DropDownListPartial.Text = Request.QueryString["partial"];
+
+                        //set dropdownlist amount to visible
+                        DropDownListAmount.Visible = true;
+                        LabelAmount.Visible = true;
+
+                        //populates the dropdownlistamount so it corresponds with the product and partial dropdownlists
+
+                        constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
+                        using (SqlConnection con = new SqlConnection(constr))
+                        {
+                            using (SqlCommand cmd = new SqlCommand("SELECT CONCAT(AmountLeft, ' ', ContainerType) as combine FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND PartialContainer = '" + partials + "' AND CurrentLocation ='" + Session["new"] + "'"))
+                            {
+                                cmd.CommandType = CommandType.Text;
+                                cmd.Connection = con;
+                                con.Open();
+                                DropDownListAmount.DataSource = cmd.ExecuteReader();
+                                DropDownListAmount.DataTextField = "combine";
+                                DropDownListAmount.DataBind();
+                                con.Close();
+                            }
+                        }
+
+                        DropDownListAmount.Items.Insert(0, new ListItem("", ""));
+
+                        if (Request.QueryString["amount"] != null)
+                        {
+                            DropDownListAmount.SelectedItem.Text = Request.QueryString["amount"];
+                            LabelQuantity.Visible = true;
+                            DropDownListQuantity.Visible = true;
+
+                            string s = Request.QueryString["amount"];
+
+
+                            //pulls out the amountleft from the url
+                            string AmountLeft = Regex.Match(s, @"\d+").Value;
+                            //pulls out the ContainerType from the url
+                            string ContainerType = Regex.Replace(s, @"[\d-]", string.Empty);
+                            ContainerType = ContainerType.Trim();
+
+                            //grabs the number of containers for the chemical chosen in DropDownListProduct, Partial, and Amount
+                            constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
+                            SqlConnection con = new SqlConnection(constr);
+                            SqlCommand cmd = new SqlCommand("SELECT ContainerCount FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND PartialContainer ='" + partials + "' AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation ='" + Session["new"] + "'", con);
+                            con.Open();
+                            int test = (Int32)cmd.ExecuteScalar();
+
+                            //populates the Quantity drop down list to include the number of containers that the employee may remove
+                            DropDownListQuantity.Items.Add(new ListItem("", "0"));
+                            for (int i = 1; i <= test; i++)
+                            {
+                                DropDownListQuantity.Items.Add(new ListItem(i.ToString()));
+                            }
+                            DropDownListQuantity.DataBind();
+                            con.Close();
+
+                            //checks to see if a quantity has been selected
+                            if (Request.QueryString["quantity"] != null)
+                            {
+                                DropDownListQuantity.SelectedItem.Text = Request.QueryString["quantity"];
+                                ButtonSubmit.Visible = true;
+                            }
+                        }
+                    }//end else if (Request.QueryString["partial"] == "No")
+                }
             }
         }
 
@@ -116,332 +429,6 @@ public partial class Transaction : System.Web.UI.Page
         }
     }
 
-    protected void partialRemoval()
-    {
-
-        if (Request.QueryString["partial"] != null)
-        {
-            //This determines whether partial is true or false. Yes == True; No == False;
-            string partials = "";
-            if (Request.QueryString["partial"] == "Yes")
-            {
-                partials = "True";
-            }
-            else if (Request.QueryString["partial"] == "No")
-            {
-                partials = "False";
-            }
-
-            //put the text back in dropdownlistpartial after postback
-            DropDownListPartial.Text = Request.QueryString["partial"];
-
-            //set dropdownlist amount to visible
-            DropDownListAmount.Visible = true;
-            LabelAmount.Visible = true;
-
-            //populates the dropdownlistamount so it corresponds with the product and partial dropdownlists
-            string constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
-            using (SqlConnection con = new SqlConnection(constr))
-            {
-                using (SqlCommand cmd = new SqlCommand("SELECT CONCAT(ChemicalAmount, ' ', ContainerType) as combine FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND PartialContainer = '" + partials + "' AND CurrentLocation = 'Russellville'"))
-                {
-                    cmd.CommandType = CommandType.Text;
-                    cmd.Connection = con;
-                    con.Open();
-                    DropDownListAmount.DataSource = cmd.ExecuteReader();
-                    DropDownListAmount.DataTextField = "combine";
-                    DropDownListAmount.DataBind();
-                    con.Close();
-                }
-            }
-
-            DropDownListAmount.Items.Insert(0, new ListItem("", ""));
-            if (Request.QueryString["Partial"] == "Yes")
-            {
-                if (Request.QueryString["amount"] != null)
-                {
-                    DropDownListAmount.SelectedItem.Text = Request.QueryString["amount"];
-                    LabelAmountLeft.Visible = true;
-                    DropDownListAmountLeft.Visible = true;
-
-                    string temp = Request.QueryString["amount"];
-                    //pulls out the ChemicalAmount from the url
-                    int ChemicalAmount = Int32.Parse(Regex.Match(temp, @"\d+").Value);
-                    //pulls out the ContainerType from the url
-                    string ContainerType = Regex.Replace(temp, @"[\d-]", string.Empty);
-                    ContainerType = ContainerType.Trim();
-
-                    constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
-                    using (SqlConnection con = new SqlConnection(constr))
-                    {
-                        using (SqlCommand cmd = new SqlCommand("SELECT CONCAT(AmountLeft, ' ', ContainerType) as combine FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND PartialContainer ='" + partials + "' AND ChemicalAmount='" + ChemicalAmount + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville'", con))
-                        {
-                            cmd.CommandType = CommandType.Text;
-                            cmd.Connection = con;
-                            con.Open();
-                            DropDownListAmountLeft.DataSource = cmd.ExecuteReader();
-                            DropDownListAmountLeft.DataTextField = "combine";
-                            DropDownListAmountLeft.DataBind();
-                            DropDownListAmountLeft.Items.Insert(0, new ListItem(String.Empty, String.Empty));
-                            DropDownListAmountLeft.SelectedIndex = 0;
-
-                            con.Close();
-                        }
-                    }
-
-
-                    if (Request.QueryString["amountLeft"] != null)
-                    {
-                        DropDownListAmountLeft.SelectedItem.Text = Request.QueryString["amountLeft"];
-                        LabelQuantity.Visible = true;
-                        DropDownListQuantity.Visible = true;
-
-                        string s = Request.QueryString["amountLeft"];
-
-
-
-                        //pulls out the ChemicalAmount from the url
-                        string AmountLeft = Regex.Match(s, @"\d+").Value;
-
-                        constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
-                        SqlConnection con = new SqlConnection(constr);
-                        SqlCommand cmd = new SqlCommand("SELECT ContainerCount FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND PartialContainer ='" + partials + "' AND ChemicalAmount='" + ChemicalAmount + "' AND ContainerType='" + ContainerType + "'AND AmountLeft='" + AmountLeft + "' AND CurrentLocation = 'Russellville'", con);
-                        con.Open();
-                        int test = (Int32)cmd.ExecuteScalar();
-
-                        //populates the Quantity drop down list to include the number of containers that the employee may remove
-                        DropDownListQuantity.Items.Add(new ListItem("", "0"));
-                        for (int i = 1; i <= test; i++)
-                        {
-                            DropDownListQuantity.Items.Add(new ListItem(i.ToString()));
-                        }
-                        DropDownListQuantity.DataBind();
-                        con.Close();
-
-                        //checks to see if a quantity has been selected
-                        if (Request.QueryString["quantity"] != null)
-                        {
-                            DropDownListQuantity.SelectedItem.Text = Request.QueryString["quantity"];
-                            ButtonSubmit.Visible = true;
-                        }
-                    }
-
-
-                }
-            }
-            else if (Request.QueryString["partial"] == "No")
-            {
-                if (Request.QueryString["amount"] != null)
-                {
-
-
-                    DropDownListAmount.SelectedItem.Text = Request.QueryString["amount"];
-                    LabelQuantity.Visible = true;
-                    DropDownListQuantity.Visible = true;
-
-                    string temp = Request.QueryString["amount"];
-                    //pulls out the ChemicalAmount from the url
-                    int ChemicalAmount = Int32.Parse(Regex.Match(temp, @"\d+").Value);
-                    //pulls out the ContainerType from the url
-                    string ContainerType = Regex.Replace(temp, @"[\d-]", string.Empty);
-                    ContainerType = ContainerType.Trim();
-
-
-                    //pulls out the ChemicalAmount from the url
-                    string AmountLeft = Regex.Match(temp, @"\d+").Value;
-
-                    constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
-                    SqlConnection con = new SqlConnection(constr);
-                    SqlCommand cmd = new SqlCommand("SELECT ContainerCount FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND PartialContainer ='" + partials + "' AND ChemicalAmount='" + ChemicalAmount + "' AND ContainerType='" + ContainerType + "'AND AmountLeft='" + AmountLeft + "' AND CurrentLocation = 'Russellville'", con);
-                    con.Open();
-                    int test = (Int32)cmd.ExecuteScalar();
-
-                    //populates the Quantity drop down list to include the number of containers that the employee may remove
-                    DropDownListQuantity.Items.Add(new ListItem("", "0"));
-                    for (int i = 1; i <= test; i++)
-                    {
-                        DropDownListQuantity.Items.Add(new ListItem(i.ToString()));
-                    }
-                    DropDownListQuantity.DataBind();
-                    con.Close();
-
-                    //checks to see if a quantity has been selected
-                    if (Request.QueryString["quantity"] != null)
-                    {
-                        DropDownListQuantity.SelectedItem.Text = Request.QueryString["quantity"];
-                        ButtonSubmit.Visible = true;
-                    }
-                }
-            }
-        }
-    }
-
-    protected void partialAddition()
-    {
-        if (Request.QueryString["partial"] != null)
-        {
-            //This determines whether partial is true or false. Yes == True; No == False;
-            string partials = "";
-
-            //parses products that do have partials 
-            if (Request.QueryString["partial"] == "Yes")
-            {
-                partials = "True";
-
-                //put the text back in dropdownlistpartial after postback
-                DropDownListPartial.Text = Request.QueryString["partial"];
-
-                //set dropdownlist amount to visible
-                DropDownListAmount.Visible = true;
-                LabelAmount.Visible = true;
-
-                //populates the dropdownlistamount so it corresponds with the product and partial dropdownlists
-                string constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
-                using (SqlConnection con = new SqlConnection(constr))
-                {
-                    using (SqlCommand cmd = new SqlCommand("SELECT  CONCAT(ChemicalAmount, ' ', ContainerType) as combine FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND CurrentLocation ='" + Session["new"] + "'", con))
-                    {
-                        cmd.CommandType = CommandType.Text;
-                        cmd.Connection = con;
-                        con.Open();
-                        DropDownListAmount.DataSource = cmd.ExecuteReader();
-                        DropDownListAmount.DataTextField = "combine";
-                        DropDownListAmount.DataBind();
-                        con.Close();
-                    }
-                }
-                DropDownListAmount.Items.Insert(0, new ListItem("", ""));
-
-                if(Request.QueryString["amount"] != null)
-                {
-                    DropDownListAmount.SelectedItem.Text = Request.QueryString["amount"];
-                    LabelAmountLeft.Visible = true;
-                    DropDownListAmountLeft.Visible = true;
-
-                    string temp = Request.QueryString["amount"];
-
-                    //pulls out the ChemicalAmount from the url
-                    int ChemicalAmount = Int32.Parse(Regex.Match(temp, @"\d+").Value);
-                    //pulls out the ContainerType from the url
-                    string ContainerType = Regex.Replace(temp, @"[\d-]", string.Empty);
-                    ContainerType = ContainerType.Trim();
-
-                    //populates the DropDownListAmountLeft with amounts
-                    DropDownListAmountLeft .Items.Add(new ListItem("", "0"));
-                    for (int i = 0; i <= ChemicalAmount; i++)
-                    {
-                        DropDownListAmountLeft.Items.Add(new ListItem(i.ToString() + " " + ContainerType));
-                    }
-                    DropDownListAmountLeft.DataBind();
-
-
-
-
-                    if (Request.QueryString["amountLeft"] != null)
-                    {
-                        DropDownListAmountLeft.SelectedItem.Text = Request.QueryString["amountLeft"];
-                        LabelQuantity.Visible = true;
-                        DropDownListQuantity.Visible = true;
-
-                        string s = Request.QueryString["amountLeft"];
-
-                        //grabs the number of containers for the chemical chosen in DropDownListProduct, Partial, and Amount
-                        constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
-                        SqlConnection con = new SqlConnection(constr);
-                        SqlCommand cmd = new SqlCommand("SELECT ContainerCount FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation ='" + Session["new"] + "' AND ChemicalAmount ='" + ChemicalAmount + "'", con);
-                        con.Open();
-                        int test = (Int32)cmd.ExecuteScalar();
-
-                        //populates the Quantity drop down list to include the number of containers that the employee may remove
-                        DropDownListQuantity.Items.Add(new ListItem("", "0"));
-                        for (int i = 1; i <= test; i++)
-                        {
-                            DropDownListQuantity.Items.Add(new ListItem(i.ToString()));
-                        }
-                        DropDownListQuantity.DataBind();
-                        con.Close();
-
-                        //checks to see if a quantity has been selected
-                        if (Request.QueryString["quantity"] != null)
-                        {
-                            DropDownListQuantity.SelectedItem.Text = Request.QueryString["quantity"];
-                            ButtonSubmit.Visible = true;
-                        }
-                    }
-                }
-            }
-            //parses products that do not have partials (slightly different from products that do have partials)
-            else if (Request.QueryString["partial"] == "No")
-            {
-                partials = "False";
-
-                //put the text back in dropdownlistpartial after postback
-                DropDownListPartial.Text = Request.QueryString["partial"];
-
-                //set dropdownlist amount to visible
-                DropDownListAmount.Visible = true;
-                LabelAmount.Visible = true;
-
-                //populates the dropdownlistamount so it corresponds with the product and partial dropdownlists
-
-                string constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
-                using (SqlConnection con = new SqlConnection(constr))
-                {
-                    using (SqlCommand cmd = new SqlCommand("SELECT CONCAT(AmountLeft, ' ', ContainerType) as combine FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND PartialContainer = '" + partials + "' AND CurrentLocation ='" + Session["new"] + "'"))
-                    {
-                        cmd.CommandType = CommandType.Text;
-                        cmd.Connection = con;
-                        con.Open();
-                        DropDownListAmount.DataSource = cmd.ExecuteReader();
-                        DropDownListAmount.DataTextField = "combine";
-                        DropDownListAmount.DataBind();
-                        con.Close();
-                    }
-                }
-
-                DropDownListAmount.Items.Insert(0, new ListItem("", ""));
-
-                if (Request.QueryString["amount"] != null)
-                {
-                    DropDownListAmount.SelectedItem.Text = Request.QueryString["amount"];
-                    LabelQuantity.Visible = true;
-                    DropDownListQuantity.Visible = true;
-
-                    string s = Request.QueryString["amount"];
-
-
-                    //pulls out the amountleft from the url
-                    string AmountLeft = Regex.Match(s, @"\d+").Value;
-                    //pulls out the ContainerType from the url
-                    string ContainerType = Regex.Replace(s, @"[\d-]", string.Empty);
-                    ContainerType = ContainerType.Trim();
-
-                    //grabs the number of containers for the chemical chosen in DropDownListProduct, Partial, and Amount
-                    constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
-                    SqlConnection con = new SqlConnection(constr);
-                    SqlCommand cmd = new SqlCommand("SELECT ContainerCount FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND PartialContainer ='" + partials + "' AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation ='" + Session["new"] + "'", con);
-                    con.Open();
-                    int test = (Int32)cmd.ExecuteScalar();
-
-                    //populates the Quantity drop down list to include the number of containers that the employee may remove
-                    DropDownListQuantity.Items.Add(new ListItem("", "0"));
-                    for (int i = 1; i <= test; i++)
-                    {
-                        DropDownListQuantity.Items.Add(new ListItem(i.ToString()));
-                    }
-                    DropDownListQuantity.DataBind();
-                    con.Close();
-
-                    //checks to see if a quantity has been selected
-                    if (Request.QueryString["quantity"] != null)
-                    {
-                        DropDownListQuantity.SelectedItem.Text = Request.QueryString["quantity"];
-                        ButtonSubmit.Visible = true;
-                    }
-                }
-            }//end else if (Request.QueryString["partial"] == "No")
-        }
-    }
 
     protected void Page_PreInit(Object sender, EventArgs e)
     {
@@ -479,10 +466,17 @@ public partial class Transaction : System.Web.UI.Page
      * The CreatedDate is obtained from the date and time function
      * Everything else will be entered by the user
      */
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ButtonSubmit_Click(object sender, EventArgs e)
     {
         try
         {
+
+
             //Variables Below
             //pulls out the amount from the url
             string AmountLeft = Regex.Match(Request.QueryString["amount"], @"\d+").Value;
@@ -498,6 +492,12 @@ public partial class Transaction : System.Web.UI.Page
                 partial = "True";
             else if (Request.QueryString["partial"] == "No")
                 partial = "False";
+
+            double amountLeft = 0;
+            if (partial == "True")
+                amountLeft = double.Parse(Regex.Match(Request.QueryString["amountLeft"], @"\d+").Value);
+            else if (partial == "False")
+                amountLeft = double.Parse(Regex.Match(Request.QueryString["amount"], @"\d+").Value);
 
 
 
@@ -557,7 +557,7 @@ public partial class Transaction : System.Web.UI.Page
                             string currentLocation = dr["CurrentLocation"].ToString();
                             int containerCount = Convert.ToInt32(dr["ContainerCount"].ToString());
                             string chemicalAmount = dr["ChemicalAmount"].ToString();
-                            double amountLeft = Convert.ToDouble(dr["AmountLeft"].ToString());
+                            amountLeft = Convert.ToDouble(dr["AmountLeft"].ToString());
                             string containerType = dr["ContainerType"].ToString();
                             double total = Convert.ToDouble(dr["Total"].ToString());
                             string partialContainer = dr["PartialContainer"].ToString();
@@ -622,92 +622,93 @@ public partial class Transaction : System.Web.UI.Page
             {
                 using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString))
                 {
-                    using (SqlCommand com = new SqlCommand("SELECT * FROM dbo.tblInventorySFS WHERE Prescription='" + Request.QueryString["prescription"] + "' AND AmountLeft='" + AmountLeft + "' AND ContainerType='" + ContainerType + "'", conn))
+                    using (SqlCommand com = new SqlCommand("SELECT * FROM dbo.tblInventorySFS WHERE Prescription='" + Request.QueryString["prescription"] + "' AND AmountLeft='" + amountLeft + "' AND ContainerType='" + ContainerType + "'", conn))
                     {
                         conn.Open();
 
                         // creates a reader and stores the rows in a datatable
                         SqlDataReader reader = com.ExecuteReader();
-                        //creating a new datatable called dt
+                        //creates a new datatable called dt
                         DataTable dt = new DataTable();
                         //This filters the table so it only contains records where CurrentLocation == current logged in user
                         var filtered = dt.AsEnumerable().Where(row => row.Field<string>("CurrentLocation") == Session["new"].ToString());
+
+
                         //loads the reader information into the datatable dt
                         dt.Load(reader);
+
+                        DebugTable(dt);
+
                         foreach (DataRow dr in filtered)
                         {
-                            foreach (var item in dr.ItemArray)
-                            {
-                                Response.Write(item);
-                            }
-
-                            string itemNo = dr["ItemNo"].ToString();
-                            string prescription = dr["Prescription"].ToString();
-                            string currentLocation = dr["CurrentLocation"].ToString();
-                            int containerCount = Convert.ToInt32(dr["ContainerCount"].ToString());
-                            string chemicalAmount = dr["ChemicalAmount"].ToString();
-                            double amountLeft = 0;
-                            if (partial == "True")
-                                amountLeft = double.Parse(Regex.Match(Request.QueryString["amountLeft"], @"\d+").Value);
-                            else if (partial == "False")
-                                amountLeft = double.Parse(Regex.Match(Request.QueryString["amount"], @"\d+").Value); 
-                            string containerType = dr["ContainerType"].ToString();
-                            double total = Convert.ToDouble(dr["Total"].ToString());
-                            string partialContainer = dr["PartialContainer"].ToString();
-                            string category = dr["Category"].ToString();
-
-                            // Subtracts the data in the inventory table when a removal transaction is created
-                            int alterContainerCount = containerCount - Convert.ToInt32(DropDownListQuantity.SelectedItem.Text);
-                            double alterTotal = total - (Double.Parse(AmountLeft) * Convert.ToInt32(DropDownListQuantity.SelectedItem.Text));
-
-                            // total amount of chemical the user takes
-                            double userTotal = amountLeft * Convert.ToInt32(DropDownListQuantity.SelectedItem.Text);
-
-                            // query to alter the chemical amount and total in the existing row
-                            SqlCommand com3 = new SqlCommand("UPDATE dbo.tblInventorySFS SET ContainerCount='" + alterContainerCount.ToString() + "', Total= '" + alterTotal.ToString() + "' WHERE Prescription='" + Request.QueryString["prescription"] + "' AND ChemicalAmount='" + AmountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = '"+Session["new"]+"'", conn);
-                            com3.ExecuteNonQuery();
-
-                            // query to check if a new row should be created (if there are no duplicates, exists == 0) or whether a row should be updated (if there are duplicates, exists > 0)
-                            SqlCommand checkRecords = new SqlCommand("SELECT COUNT(*) FROM dbo.tblInventorySFS WHERE CurrentLocation ='Russellville' AND Prescription ='" + DropDownListProduct.SelectedItem.Text + "' AND AmountLeft= '" + amountLeft + "' AND PartialContainer='" + partial + "' AND ChemicalAmount=" + AmountLeft, conn);
-                            int exists = (int)checkRecords.ExecuteScalar();
-
-                            if(exists == 0)
-                            {
-                                // query to insert record with the user, chemical, and how much chemical they took if there is no other row that matches
-                                string insertQuery = "INSERT INTO dbo.tblInventorySFS(ItemNo, Prescription, CurrentLocation, ContainerCount, ChemicalAmount, AmountLeft, ContainerType, Total, PartialContainer, Category) values ('" + itemNo + "','" + prescription + "','Russellville','" + DropDownListQuantity.SelectedItem.Text + "','" + chemicalAmount + "','" + amountLeft + "','" + containerType + "','" + userTotal + "','" + partial + "','" + category + "')";
-                                SqlCommand com4 = new SqlCommand(insertQuery, conn);
-                                com4.ExecuteNonQuery();
-                            }
-                            else if (exists == 1)
-                            {
-                                // Query to change a record if a record is found
-
-                                using (SqlCommand com4 = new SqlCommand("SELECT * FROM dbo.tblInventorySFS WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + amountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville' AND ChemicalAmount='" + AmountLeft + "'", conn))
+                                foreach (var item in dr.ItemArray)
                                 {
-                                    SqlDataReader reader2 = com4.ExecuteReader();
-                                    DataTable dt2 = new DataTable();
-                                    dt2.Load(reader2);
-                                    // Only executes once (dt2 only has a single row)
-                                    foreach (DataRow dr2 in dt2.Rows)
+                                    Response.Write(item + " ");
+                                }
+
+                                string itemNo = dr["ItemNo"].ToString();
+                                string prescription = dr["Prescription"].ToString();
+                                string currentLocation = dr["CurrentLocation"].ToString();
+                                int containerCount = Convert.ToInt32(dr["ContainerCount"].ToString());
+                                string chemicalAmount = dr["ChemicalAmount"].ToString();
+                                string containerType = dr["ContainerType"].ToString();
+                                double total = Convert.ToDouble(dr["Total"].ToString());
+                                string partialContainer = dr["PartialContainer"].ToString();
+                                string category = dr["Category"].ToString();
+
+                                // Subtracts the data in the inventory table when a removal transaction is created
+                                int alterContainerCount = containerCount - Convert.ToInt32(DropDownListQuantity.SelectedItem.Text);
+                                double alterTotal = total - (amountLeft * Convert.ToInt32(DropDownListQuantity.SelectedItem.Text));
+
+                                // total amount of chemical the user takes
+                                double userTotal = amountLeft * Convert.ToInt32(DropDownListQuantity.SelectedItem.Text);
+
+                                // query to alter the chemical amount and total in the existing row
+                                SqlCommand com3 = new SqlCommand("UPDATE dbo.tblInventorySFS SET ContainerCount='" + alterContainerCount.ToString() + "', Total= '" + alterTotal.ToString() + "' WHERE Prescription='" + Request.QueryString["prescription"] + "' AND ChemicalAmount='" + AmountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = '" + Session["new"] + "' AND AmountLeft='" + amountLeft + "' AND PartialContainer='" + partial + "'", conn);
+                                com3.ExecuteNonQuery();
+
+                                // query to check if a new row should be created (if there are no duplicates, exists == 0) or whether a row should be updated (if there are duplicates, exists > 0)
+                                SqlCommand checkRecords = new SqlCommand("SELECT COUNT(*) FROM dbo.tblInventorySFS WHERE CurrentLocation ='Russellville' AND Prescription ='" + DropDownListProduct.SelectedItem.Text + "' AND AmountLeft= '" + amountLeft + "' AND PartialContainer='" + partial + "' AND ChemicalAmount=" + AmountLeft, conn);
+                                int exists = (int)checkRecords.ExecuteScalar();
+
+                                if (exists == 0)
+                                {
+                                    // query to insert record with the user, chemical, and how much chemical they took if there is no other row that matches
+                                    string insertQuery = "INSERT INTO dbo.tblInventorySFS(ItemNo, Prescription, CurrentLocation, ContainerCount, ChemicalAmount, AmountLeft, ContainerType, Total, PartialContainer, Category) values ('" + itemNo + "','" + prescription + "','Russellville','" + DropDownListQuantity.SelectedItem.Text + "','" + chemicalAmount + "','" + amountLeft + "','" + containerType + "','" + userTotal + "','" + partial + "','" + category + "')";
+                                    SqlCommand com4 = new SqlCommand(insertQuery, conn);
+                                    com4.ExecuteNonQuery();
+                                }
+                                else if (exists == 1)
+                                {
+                                    // Query to change a record if a record is found
+
+                                    using (SqlCommand com4 = new SqlCommand("SELECT * FROM dbo.tblInventorySFS WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + amountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville' AND ChemicalAmount='" + AmountLeft + "'", conn))
                                     {
-                                        int oldContainerCount = Convert.ToInt32(dr2["ContainerCount"].ToString());
-                                        double oldAmountLeft = Convert.ToDouble(dr2["AmountLeft"].ToString());
+                                        SqlDataReader reader2 = com4.ExecuteReader();
+                                        DataTable dt2 = new DataTable();
+                                        dt2.Load(reader2);
+                                        // Only executes once (dt2 only has a single row)
+                                        foreach (DataRow dr2 in dt2.Rows)
+                                        {
+                                            int oldContainerCount = Convert.ToInt32(dr2["ContainerCount"].ToString());
+                                            double oldAmountLeft = Convert.ToDouble(dr2["AmountLeft"].ToString());
 
-                                        int newContainerCount = oldContainerCount + Convert.ToInt32(DropDownListQuantity.SelectedItem.Text);
-                                        double newTotal = newContainerCount * oldAmountLeft;
+                                            int newContainerCount = oldContainerCount + Convert.ToInt32(DropDownListQuantity.SelectedItem.Text);
+                                            double newTotal = newContainerCount * oldAmountLeft;
 
-                                        SqlCommand com5 = new SqlCommand("UPDATE dbo.tblInventorySFS SET ContainerCount = '" + newContainerCount + "', Total='" + newTotal + "' WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + amountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville'", conn);
-                                        com5.ExecuteNonQuery();
+                                            SqlCommand com5 = new SqlCommand("UPDATE dbo.tblInventorySFS SET ContainerCount = '" + newContainerCount + "', Total='" + newTotal + "' WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + amountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville'", conn);
+                                            com5.ExecuteNonQuery();
+                                        }
                                     }
                                 }
-                            }
-                            else
-                            {
-                                Response.Write("ERROR: duplicates found in the table while trying to insert data");
-                            }
+                                else
+                                {
+                                    Response.Write("ERROR: duplicates found in the table while trying to insert data");
+                                }
 
+                            
+                            conn.Close();
                         }
-                        conn.Close();
                     }
                 }
             }
@@ -766,8 +767,6 @@ public partial class Transaction : System.Web.UI.Page
         Response.Redirect("~/TransactionTest.aspx?transaction=" + Request.QueryString["transaction"] + "&prescription=" + Request.QueryString["prescription"] + "&partial=" + Request.QueryString["partial"] + "&amount=" + amount);
     }
 
-
-
     protected void DropDownListAmountLeft_SelectedIndexChanged(object sender, EventArgs e)
     {
         string amountLeft = DropDownListAmountLeft.SelectedItem.Text;
@@ -779,4 +778,46 @@ public partial class Transaction : System.Web.UI.Page
         string quantity = DropDownListQuantity.SelectedItem.Text;
         Response.Redirect("~/TransactionTest.aspx?transaction=" + Request.QueryString["transaction"] + "&prescription=" + Request.QueryString["prescription"] + "&partial=" + Request.QueryString["partial"] + "&amount=" + Request.QueryString["amount"] + "&amountLeft=" + Request.QueryString["amountLeft"] + "&quantity=" + quantity);
     }
+
+    public void DebugTable(DataTable table)
+    {
+        Debug.WriteLine("--- DebugTable(" + table.TableName + ") ---");
+        int zeilen = table.Rows.Count;
+        int spalten = table.Columns.Count;
+
+        // Header
+        for (int i = 0; i < table.Columns.Count; i++)
+        {
+            string s = table.Columns[i].ToString();
+            Debug.Write(String.Format("{0,-20} | ", s));
+        }
+        Debug.Write(Environment.NewLine);
+        for (int i = 0; i < table.Columns.Count; i++)
+        {
+            Debug.Write("---------------------|-");
+        }
+        Debug.Write(Environment.NewLine);
+
+        // Data
+        for (int i = 0; i < zeilen; i++)
+        {
+            DataRow row = table.Rows[i];
+            //Debug.WriteLine("{0} {1} ", row[0], row[1]);
+            for (int j = 0; j < spalten; j++)
+            {
+                string s = row[j].ToString();
+                if (s.Length > 20) s = s.Substring(0, 17) + "...";
+                Debug.Write(String.Format("{0,-20} | ", s));
+            }
+            Debug.Write(Environment.NewLine);
+        }
+        for (int i = 0; i < table.Columns.Count; i++)
+        {
+            Debug.Write("---------------------|-");
+        }
+        Debug.Write(Environment.NewLine);
+    }
+
+
+
 }
