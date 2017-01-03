@@ -69,6 +69,7 @@
         <asp:GridView ID="GridView1" runat="server" AllowPaging="False" AllowSorting="False" AutoGenerateColumns="False" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="2" CellSpacing="2" DataKeyNames="ID" ForeColor="Black" HorizontalAlign="Center">
             <Columns>
                 <asp:BoundField DataField="ID" HeaderText="ID" ReadOnly="True" SortExpression="ID" InsertVisible="False" />
+                <asp:BoundField DataField="Barcode" HeaderText="Barcode" SortExpression="Barcode" />
                 <asp:BoundField DataField="ItemNo" HeaderText="ItemNo" SortExpression="ItemNo" />
                 <asp:BoundField DataField="Prescription" HeaderText="Prescription" SortExpression="Prescription" />
                 <asp:BoundField DataField="CurrentLocation" HeaderText="CurrentLocation" SortExpression="CurrentLocation" />
@@ -79,6 +80,7 @@
                 <asp:BoundField DataField="Category" HeaderText="Category" SortExpression="Category" />
                 <asp:CheckBoxField DataField="PartialContainer" HeaderText="PartialContainer" SortExpression="PartialContainer" />
                 <asp:BoundField DataField="ChemicalAmount" HeaderText="ContainerSize(ChemicalAmount)" SortExpression="ChemicalAmount" />
+                <asp:BoundField DataField="Contract" HeaderText="Contract" SortExpression="Contract" />
             </Columns>
             <FooterStyle BackColor="#CCCCCC" />
             <HeaderStyle BackColor="DarkGreen" Font-Bold="True" ForeColor="White" />

@@ -18,6 +18,8 @@ public partial class Transaction : System.Web.UI.Page
         if (Session["new"] == null)
             Response.Redirect("Login.aspx");
     }
+
+    //If logout button is pressed
     protected void ButtonLogout_Click(object sender, EventArgs e)
     {
         //Logout of website when logout button is clicked
@@ -29,13 +31,13 @@ public partial class Transaction : System.Web.UI.Page
     //called from Page_PreInit
     protected void transaction()
     {
-        //REMOVAL
+        //DropDownListTransaction is REMOVAL
         if (Request.QueryString["transaction"] == "REMOVAL")
         {
-            //Keeps REMOVAL in the DropDownListTransaction box
+            //places REMOVAL in the DropDownListTransaction box after a postback
             DropDownListTransaction.Text = "REMOVAL";
 
-            //Enables the TextBoxCrewNumber to be edited
+            //Enables the TextBoxCrewNumber to be viewable and editable
             TextBoxCrewNumber.Visible = true;
             LabelCrewNumber.Visible = true;
 
@@ -44,7 +46,7 @@ public partial class Transaction : System.Web.UI.Page
             LabelProduct.Visible = true;
 
             // Populates DropDownListProduct with all Chemicals that are located in Russellville
-            // Removal will always be from the Russellville storage
+            // Removal will be from the Russellville storage but should be changed later to accomidate for other locations
             string constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
             using (SqlConnection con = new SqlConnection(constr))
             {
@@ -60,12 +62,18 @@ public partial class Transaction : System.Web.UI.Page
                 }
             }
 
+            //Grabs the prescription from the url and put it into the DropDownListProduct box.
+            //If prescription is not found in the url then nothing is pulled and DropDownListProduct is left empty.
             DropDownListProduct.Text = Request.QueryString["prescription"];
 
+            //If a prescription from url is found this if statement executes
             if (Request.QueryString["prescription"] != null)
             {
+                //Sets DropDownListPartial and its label visibility to true so it can be viewed by the user
                 DropDownListPartial.Visible = true;
                 LabelPartial.Visible = true;
+
+                //If a partial from url is found this if statement executes
                 if (Request.QueryString["partial"] != null)
                 {
                     //This determines whether partial is true or false. Yes == True; No == False;
@@ -101,16 +109,22 @@ public partial class Transaction : System.Web.UI.Page
                             con.Close();
                         }
                     }
-
+                    //Inserts a blank option at the top of the DropDownListAmount
                     DropDownListAmount.Items.Insert(0, new ListItem("", ""));
+
+                    //If the user chooses yes then the chemical is partially empty
                     if (Request.QueryString["Partial"] == "Yes")
                     {
                         if (Request.QueryString["amount"] != null)
                         {
+                            //places the text from the url into DropDownListAmount box
                             DropDownListAmount.SelectedItem.Text = Request.QueryString["amount"];
+
+                            //sets the label and dropdownlist for AmountLeft to visible so the user can see it
                             LabelAmountLeft.Visible = true;
                             DropDownListAmountLeft.Visible = true;
 
+                            //pulls out the amount (ChemicalAmount) from the url
                             string temp = Request.QueryString["amount"];
                             //pulls out the ChemicalAmount from the url
                             int ChemicalAmount = Int32.Parse(Regex.Match(temp, @"\d+").Value);
@@ -118,6 +132,7 @@ public partial class Transaction : System.Web.UI.Page
                             string ContainerType = Regex.Replace(temp, @"[\d-]", string.Empty);
                             ContainerType = ContainerType.Trim();
 
+                            //populates the DropDownListAmount with the different amounts left of the chemical chosen
                             constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
                             using (SqlConnection con = new SqlConnection(constr))
                             {
@@ -136,19 +151,22 @@ public partial class Transaction : System.Web.UI.Page
                                 }
                             }
 
-
+                            //if amountLeft is able to the pulled from the url then the below if statment is ran
                             if (Request.QueryString["amountLeft"] != null)
                             {
+                                //pulls the amountLeft from the url and places it in the DropDownListAmountLeft box
                                 DropDownListAmountLeft.SelectedItem.Text = Request.QueryString["amountLeft"];
+
+                                //sets the label and dropdownlist quantity to visible so the user can see them.
                                 LabelQuantity.Visible = true;
                                 DropDownListQuantity.Visible = true;
 
+
                                 string s = Request.QueryString["amountLeft"];
 
-
-
-                                //pulls out the ChemicalAmount from the url
+                                //pulls out the ChemicalAmount (number) from the url
                                 string AmountLeft = Regex.Match(s, @"\d+").Value;
+
 
                                 constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
                                 SqlConnection con = new SqlConnection(constr);
@@ -174,13 +192,16 @@ public partial class Transaction : System.Web.UI.Page
                             }
                         }
                     }
+                    // the partial is pulled from the url and if its no the if statement is ran
                     else if (Request.QueryString["partial"] == "No")
                     {
                         if (Request.QueryString["amount"] != null)
                         {
 
-
+                            // amount is pulled from the url and placed in DropDownListAmount 
                             DropDownListAmount.SelectedItem.Text = Request.QueryString["amount"];
+
+                            //sets the label and dropdownlist quantity to visible so the user can edit it
                             LabelQuantity.Visible = true;
                             DropDownListQuantity.Visible = true;
 
@@ -192,8 +213,9 @@ public partial class Transaction : System.Web.UI.Page
                             ContainerType = ContainerType.Trim();
 
 
-                            //pulls out the ChemicalAmount from the url
+                            //pulls out the AmountLeft from the url
                             string AmountLeft = Regex.Match(temp, @"\d+").Value;
+
 
                             constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
                             SqlConnection con = new SqlConnection(constr);
@@ -251,11 +273,14 @@ public partial class Transaction : System.Web.UI.Page
             // Because of postback, gets the product from the url and puts it in the product drop down
             DropDownListProduct.Text = Request.QueryString["prescription"];
 
+            //pulls the prescription from the url
             if (Request.QueryString["prescription"] != null)
             {
+                //sets the label and DropDownList of partial to visible so the user can use them
                 DropDownListPartial.Visible = true;
                 LabelPartial.Visible = true;
 
+                //pulls partial from the url and if its not null the following if statement is ran
                 if (Request.QueryString["partial"] != null)
                 {
                     //This determines whether partial is true or false. Yes == True; No == False;
@@ -290,9 +315,13 @@ public partial class Transaction : System.Web.UI.Page
                         }
                         DropDownListAmount.Items.Insert(0, new ListItem("", ""));
 
+                        //pulls the amount from the url and if not null then the following if statement is ran
                         if (Request.QueryString["amount"] != null)
                         {
+                            //pulls the amount from the url and places it into the DropDownListAmount box
                             DropDownListAmount.SelectedItem.Text = Request.QueryString["amount"];
+
+                            //selts the AmountLeft label and DropDownList to visible so the user can edit it
                             LabelAmountLeft.Visible = true;
                             DropDownListAmountLeft.Visible = true;
 
@@ -313,20 +342,25 @@ public partial class Transaction : System.Web.UI.Page
                             DropDownListAmountLeft.DataBind();
 
 
-
-
+                            //pulls the amountLeft from the url and if not null the following if statement runs
                             if (Request.QueryString["amountLeft"] != null)
                             {
+                                //pulls the amountLeft from the url and places it into DropDownListAmountLeft box
                                 DropDownListAmountLeft.SelectedItem.Text = Request.QueryString["amountLeft"];
+
+
+
+                                //sets the label and dropdownlist of quantity to true so the user can view it
                                 LabelQuantity.Visible = true;
                                 DropDownListQuantity.Visible = true;
 
                                 string s = Request.QueryString["amountLeft"];
+                                int amountLeft = Int32.Parse(Regex.Match(s, @"\d+").Value);
 
                                 //grabs the number of containers for the chemical chosen in DropDownListProduct, Partial, and Amount
                                 constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
                                 SqlConnection con = new SqlConnection(constr);
-                                SqlCommand cmd = new SqlCommand("SELECT ContainerCount FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation ='" + Session["new"] + "' AND ChemicalAmount ='" + ChemicalAmount + "'", con);
+                                SqlCommand cmd = new SqlCommand("SELECT SUM(ContainerCount) FROM dbo.tblInventorySFS WHERE Prescription ='" + Request.QueryString["prescription"] + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation ='" + Session["new"] + "' AND ChemicalAmount ='" + ChemicalAmount + "'", con);
                                 con.Open();
                                 int test = (Int32)cmd.ExecuteScalar();
 
@@ -361,7 +395,6 @@ public partial class Transaction : System.Web.UI.Page
                         LabelAmount.Visible = true;
 
                         //populates the dropdownlistamount so it corresponds with the product and partial dropdownlists
-
                         constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
                         using (SqlConnection con = new SqlConnection(constr))
                         {
@@ -376,12 +409,13 @@ public partial class Transaction : System.Web.UI.Page
                                 con.Close();
                             }
                         }
-
                         DropDownListAmount.Items.Insert(0, new ListItem("", ""));
 
+                        //if amount from the url is not null then the following if statement is ran
                         if (Request.QueryString["amount"] != null)
                         {
                             DropDownListAmount.SelectedItem.Text = Request.QueryString["amount"];
+
                             LabelQuantity.Visible = true;
                             DropDownListQuantity.Visible = true;
 
@@ -429,7 +463,7 @@ public partial class Transaction : System.Web.UI.Page
         }
     }
 
-
+    //This function is the first function to be ran, even before Page_Init.
     protected void Page_PreInit(Object sender, EventArgs e)
     {
         //disable controls so they will show up one by one after each postback
@@ -493,6 +527,7 @@ public partial class Transaction : System.Web.UI.Page
             else if (Request.QueryString["partial"] == "No")
                 partial = "False";
 
+            //creates variable amountLeft. If the partial is true then it actually pulls amountLeft but if the partial is false then it uses the ChemicalAmount since the chemical is full
             double amountLeft = 0;
             if (partial == "True")
                 amountLeft = double.Parse(Regex.Match(Request.QueryString["amountLeft"], @"\d+").Value);
@@ -637,8 +672,6 @@ public partial class Transaction : System.Web.UI.Page
                         //loads the reader information into the datatable dt
                         dt.Load(reader);
 
-                        DebugTable(dt);
-
                         foreach (DataRow dr in filtered)
                         {
                                 foreach (var item in dr.ItemArray)
@@ -681,7 +714,6 @@ public partial class Transaction : System.Web.UI.Page
                                 else if (exists == 1)
                                 {
                                     // Query to change a record if a record is found
-
                                     using (SqlCommand com4 = new SqlCommand("SELECT * FROM dbo.tblInventorySFS WHERE Prescription='" + Request.QueryString["prescription"] + "' AND PartialContainer='" + partial + "' AND AmountLeft='" + amountLeft + "' AND ContainerType='" + ContainerType + "' AND CurrentLocation = 'Russellville' AND ChemicalAmount='" + AmountLeft + "'", conn))
                                     {
                                         SqlDataReader reader2 = com4.ExecuteReader();
@@ -769,6 +801,7 @@ public partial class Transaction : System.Web.UI.Page
 
     protected void DropDownListAmountLeft_SelectedIndexChanged(object sender, EventArgs e)
     {
+        //Postback for AmountLeft
         string amountLeft = DropDownListAmountLeft.SelectedItem.Text;
         Response.Redirect("~/TransactionTest.aspx?transaction=" + Request.QueryString["transaction"] + "&prescription=" + Request.QueryString["prescription"] + "&partial=" + Request.QueryString["partial"] + "&amount=" + Request.QueryString["amount"] + "&amountLeft=" + amountLeft);
     }
@@ -779,11 +812,13 @@ public partial class Transaction : System.Web.UI.Page
         Response.Redirect("~/TransactionTest.aspx?transaction=" + Request.QueryString["transaction"] + "&prescription=" + Request.QueryString["prescription"] + "&partial=" + Request.QueryString["partial"] + "&amount=" + Request.QueryString["amount"] + "&amountLeft=" + Request.QueryString["amountLeft"] + "&quantity=" + quantity);
     }
 
+
+    //Not needed, only used for debugging. Prints a data table in the debug window of Visual Studio.
     public void DebugTable(DataTable table)
     {
         Debug.WriteLine("--- DebugTable(" + table.TableName + ") ---");
-        int zeilen = table.Rows.Count;
-        int spalten = table.Columns.Count;
+        int rowCount = table.Rows.Count;
+        int colCount = table.Columns.Count;
 
         // Header
         for (int i = 0; i < table.Columns.Count; i++)
@@ -799,11 +834,11 @@ public partial class Transaction : System.Web.UI.Page
         Debug.Write(Environment.NewLine);
 
         // Data
-        for (int i = 0; i < zeilen; i++)
+        for (int i = 0; i < rowCount; i++)
         {
             DataRow row = table.Rows[i];
             //Debug.WriteLine("{0} {1} ", row[0], row[1]);
-            for (int j = 0; j < spalten; j++)
+            for (int j = 0; j < colCount; j++)
             {
                 string s = row[j].ToString();
                 if (s.Length > 20) s = s.Substring(0, 17) + "...";
@@ -817,7 +852,4 @@ public partial class Transaction : System.Web.UI.Page
         }
         Debug.Write(Environment.NewLine);
     }
-
-
-
 }

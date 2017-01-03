@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="TransactionTest.aspx.cs" Inherits="Transaction" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="TransactionTestCopy.aspx.cs" Inherits="Transaction" %>
 
 <!DOCTYPE html>
 
@@ -73,6 +73,25 @@
             </tr>
             <tr>
                 <td class="auto-style8">
+                    <asp:Label ID="LabelBarcode" runat="server" Text="Barcode"></asp:Label>
+                </td>
+                <td class="auto-style1">
+                    <asp:DropDownList ID="DropDownListBarcode" runat="server" AutoPostBack="True" Height="16px" OnSelectedIndexChanged="DropDownListBarcode_SelectedIndexChanged" Width="300px">
+                    </asp:DropDownList>
+                </td>
+            </tr>
+            <tr>
+                <td class="auto-style8">
+                    <asp:Label ID="LabelAmountLeft" runat="server" Text="Amount Left"></asp:Label>
+                </td>
+                <td class="auto-style1">
+                    <asp:DropDownList ID="DropDownListAmountLeft" runat="server" Height="20px" Width="300px" AutoPostBack="True" OnSelectedIndexChanged="DropDownListAmountLeft_SelectedIndexChanged">
+                    </asp:DropDownList>
+
+                </td>
+            </tr>
+            <tr>
+                <td class="auto-style8">
                     <asp:Label ID="LabelCrewNumber" runat="server" Text="Crew Number"></asp:Label>
                 </td>
                 <td class="auto-style1">
@@ -80,87 +99,40 @@
                 </td>
             </tr>
             <tr>
-                <td class="auto-style8">
-                    <asp:Label ID="LabelProduct" runat="server" Text="Product"></asp:Label>
-                </td>
-                <td class="auto-style1">
-                    <asp:DropDownList AppendDataBoundItems="True" ID="DropDownListProduct" runat="server" Height="18px" Width="300px" AutoPostBack="True" OnSelectedIndexChanged="DropDownListProduct_SelectedIndexChanged">
-                        <asp:ListItem Selected="True"></asp:ListItem>
-                    </asp:DropDownList>
-
-                </td>
-            </tr>
-            <tr>
-                <td class="auto-style8">
-                    <asp:Label ID="LabelPartial" runat="server" Text="Partial"></asp:Label>
-                </td>
-                <td class="auto-style1">
-                    <asp:DropDownList ID="DropDownListPartial" runat="server" AutoPostBack="True" OnSelectedIndexChanged="DropDownListPartial_SelectedIndexChanged" Width="300px">
-                        <asp:ListItem></asp:ListItem>
-                        <asp:ListItem>Yes</asp:ListItem>
-                        <asp:ListItem>No</asp:ListItem>
-                    </asp:DropDownList>
+                <td class="auto-style2">
+                    &nbsp;</td>
+                <td class="auto-style3">
+                    <asp:Button ID="ButtonSubmit" runat="server" Text="Submit" Width="150px" OnClick="ButtonSubmit_Click" />
                 </td>
             </tr>
             <tr>
                 <td class="auto-style2">
-                    <asp:Label ID="LabelAmount" runat="server" Text="Container Amount"></asp:Label>
-                </td>
+                    &nbsp;</td>
                 <td class="auto-style3">
-                    <asp:TextBox ID="TextBoxAmount" runat="server" Width="192px"></asp:TextBox>
-                    <asp:DropDownList ID="DropDownListWeight" runat="server" Height="18px" Width="100px">
-                        <asp:ListItem></asp:ListItem>
-                        <asp:ListItem>lbs</asp:ListItem>
-                        <asp:ListItem>Oz</asp:ListItem>
-                        <asp:ListItem>Gal</asp:ListItem>
-                    </asp:DropDownList>
-                    <asp:DropDownList ID="DropDownListAmount" runat="server" AutoPostBack="True" OnSelectedIndexChanged="DropDownListAmount_SelectedIndexChanged" Width="300px">
-                        <asp:ListItem></asp:ListItem>
-                    </asp:DropDownList>
-                </td>
-            </tr>
-            <tr>
-                <td class="auto-style2">
-                    <asp:Label ID="LabelAmountLeft" runat="server" Text="Amount Left"></asp:Label>
-                </td>
-                <td class="auto-style3">
-                    <asp:DropDownList ID="DropDownListAmountLeft" runat="server" Height="20px" Width="300px" AutoPostBack="True" OnSelectedIndexChanged="DropDownListAmountLeft_SelectedIndexChanged">
-                    </asp:DropDownList>
-                </td>
+                    &nbsp;</td>
             </tr>
             <tr>
                 <td class="auto-style8">
-                    <asp:Label ID="LabelQuantity" runat="server" Text="Quantity"></asp:Label>
-                </td>
+                    &nbsp;</td>
                 <td class="auto-style1">
-                    <asp:DropDownList ID="DropDownListQuantity" runat="server" Width="300px" AutoPostBack="True" OnSelectedIndexChanged="DropDownListQuantity_SelectedIndexChanged">
-                    </asp:DropDownList>
-                </td>
+                    &nbsp;</td>
             </tr>
             <tr>
                 <td class="auto-style8">
-                    <asp:Label ID="LabelLocation" runat="server" Text="Location"></asp:Label>
-                </td>
+                    &nbsp;</td>
                 <td class="auto-style1">
-                    <asp:DropDownList AppendDataBoundItems="true" ID="DropDownListLocation" runat="server" Width="300px" DataSourceID="SqlDataSourceLocation" DataTextField="FirstName" DataValueField="FirstName">
-                        <asp:ListItem></asp:ListItem>
-                        <asp:ListItem>Russellville Chemical Storage</asp:ListItem>
-                    </asp:DropDownList>
-                </td>
+                    &nbsp;</td>
             </tr>
             <tr>
                 <td class="auto-style8">
-                    <asp:Label ID="LabelComments" runat="server" Text="Comments"></asp:Label>
-                </td>
+                    &nbsp;</td>
                 <td class="auto-style1">
-                    <asp:TextBox ID="TextBoxComment" runat="server" Width="296px"></asp:TextBox>
-                </td>
+                    &nbsp;</td>
             </tr>
             <tr>
                 <td class="auto-style8"></td>
                 <td class="auto-style1">
-                    <asp:Button ID="ButtonSubmit" runat="server" Text="Submit" Width="150px" OnClick="ButtonSubmit_Click" />
-                </td>
+                    &nbsp;</td>
             </tr>
         </table>
             <asp:Panel ID="pnlControls" runat="server">

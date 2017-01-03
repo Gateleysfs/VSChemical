@@ -13,6 +13,7 @@ public partial class Account_Default : System.Web.UI.Page
         //Checks to see if someone is logged in. If not, redirects to login page
         if (Session["new"] != null)
         {
+            //prints Welcome concatinated with the users username to the header of the page
             LabelWelcome.Text += " " + Session["New"].ToString();
         }
         else

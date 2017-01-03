@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Configuration;
 
+//This is the old Transaction Page (Probably needs to be deleted eventually)
 public partial class Transaction : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)

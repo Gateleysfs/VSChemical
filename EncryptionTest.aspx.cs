@@ -12,7 +12,6 @@ public partial class EncryptionTest : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
         if(Request.QueryString["test"] != null)
             Response.Write(Decrypt(Request.QueryString["test"]));
     }
