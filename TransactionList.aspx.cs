@@ -61,10 +61,6 @@ public partial class TransactionList : System.Web.UI.Page
                         GridView1.DataBind();
                     }
                 }
-                else if(DropDownListCategory.SelectedItem.ToString() == "Username")
-                {
-                    //fix issues here
-                }
                 else
                 {
                     cmd.CommandText = "SELECT * FROM[tblInventoryTransactionsSFS] WHERE " + DropDownListCategory.SelectedItem.ToString() + "  LIKE   '%' + @Input + '%'";
