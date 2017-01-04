@@ -10,7 +10,7 @@
     <form id="form1" runat="server">
     <div>
     
-        <asp:TextBox ID="TextBox1" runat="server" OnTextChanged="TextBox1_TextChanged"></asp:TextBox>
+        <asp:TextBox ID="TextBox1" runat="server" OnTextChanged="TextBox1_TextChanged" BorderColor="#FF3300"></asp:TextBox>
         <asp:Button ID="Buttonsubmit" runat="server" OnClick="Buttonsubmit_Click" Text="Button" />
     
     </div>
