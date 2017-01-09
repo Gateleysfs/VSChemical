@@ -48,8 +48,8 @@
             <asp:DropDownList ID="DropDownListCategory" runat="server">
                 <asp:ListItem>All</asp:ListItem>
                 <asp:ListItem>ID</asp:ListItem>
-                <asp:ListItem>ItemNo</asp:ListItem>
-                <asp:ListItem>Prescription</asp:ListItem>
+                <asp:ListItem>ItemName</asp:ListItem>
+                <asp:ListItem>Barcode</asp:ListItem>
                 <asp:ListItem>CurrentLocation</asp:ListItem>
                 <asp:ListItem>ContainerCount</asp:ListItem>
                 <asp:ListItem>AmountLeft</asp:ListItem>
@@ -57,7 +57,7 @@
                 <asp:ListItem>Total</asp:ListItem>
                 <asp:ListItem>Category</asp:ListItem>
                 <asp:ListItem>PartialContainer</asp:ListItem>
-                <asp:ListItem>ContainerSize</asp:ListItem>
+                <asp:ListItem>Contract</asp:ListItem>
             </asp:DropDownList>
                 <asp:TextBox ID="txtSearch" runat="server" HorizontalAlign="Center" OnTextChanged="txtSearch_TextChanged"></asp:TextBox>
                 <asp:Button ID="ButtonSearch" runat="server" Text="Search" OnClick="Search" HorizontalAlign="Center" />
@@ -70,8 +70,7 @@
             <Columns>
                 <asp:BoundField DataField="ID" HeaderText="ID" ReadOnly="True" SortExpression="ID" InsertVisible="False" />
                 <asp:BoundField DataField="Barcode" HeaderText="Barcode" SortExpression="Barcode" />
-                <asp:BoundField DataField="ItemNo" HeaderText="ItemNo" SortExpression="ItemNo" />
-                <asp:BoundField DataField="Prescription" HeaderText="Prescription" SortExpression="Prescription" />
+                <asp:BoundField DataField="ItemName" HeaderText="ItemName" SortExpression="ItemName" />
                 <asp:BoundField DataField="CurrentLocation" HeaderText="CurrentLocation" SortExpression="CurrentLocation" />
                 <asp:BoundField DataField="ContainerCount" HeaderText="ContainerCount" SortExpression="ContainerCount" />
                 <asp:BoundField DataField="AmountLeft" HeaderText="AmountLeft" SortExpression="AmountLeft" />

@@ -47,13 +47,15 @@
             <asp:DropDownList ID="DropDownListCategory" runat="server">
                 <asp:ListItem>All</asp:ListItem>
                 <asp:ListItem>ID</asp:ListItem>
-                <asp:ListItem>Username</asp:ListItem>
-                <asp:ListItem>ItemNo</asp:ListItem>
+                <asp:ListItem>ItemName</asp:ListItem>
+                <asp:ListItem>Employee</asp:ListItem>
                 <asp:ListItem>CrewNumber</asp:ListItem>
                 <asp:ListItem>TransactionType</asp:ListItem>
-                <asp:ListItem>Quantity</asp:ListItem>
+                <asp:ListItem>AmountLeft</asp:ListItem>
+                <asp:ListItem>ContainerSize</asp:ListItem>
                 <asp:ListItem>Measurement</asp:ListItem>
                 <asp:ListItem>CreatedDate</asp:ListItem>
+                <asp:ListItem>Program</asp:ListItem>
                 <asp:ListItem>Comments</asp:ListItem>
             </asp:DropDownList>
         <asp:TextBox ID="txtSearch" runat="server" HorizontalAlign ="Center"></asp:TextBox>
@@ -65,13 +67,16 @@
         <asp:GridView ID="GridView1" runat="server" AllowPaging="False" AllowSorting="False" AutoGenerateColumns="False" OnRowDataBound="OnRowDataBound" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="4" CellSpacing="2" ForeColor="Black" DataKeyNames="ID" HorizontalAlign="Center" >
             <Columns>
                 <asp:BoundField DataField="ID" HeaderText="ID" InsertVisible="False" ReadOnly="True" SortExpression="ID" />
-                <asp:BoundField DataField="Username" HeaderText="Username" SortExpression="Username" />
-                <asp:BoundField DataField="ItemNo" HeaderText="ItemNo" SortExpression="ItemNo" />
+                <asp:BoundField DataField="Employee" HeaderText="Employee" SortExpression="Employee" />
+                <asp:BoundField DataField="ItemName" HeaderText="ItemName" SortExpression="ItemName" />
                 <asp:BoundField DataField="CrewNumber" HeaderText="CrewNumber" SortExpression="CrewNumber" />
                 <asp:BoundField DataField="TransactionType" HeaderText="TransactionType" SortExpression="TransactionType" />
-                <asp:BoundField DataField="Quantity" HeaderText="Quantity" SortExpression="Quantity" />
+                <asp:BoundField DataField="AmountLeft" HeaderText="AmountLeft" SortExpression="AmountLeft" />
+                <asp:BoundField DataField="ContainerSize" HeaderText="ContainerSize" SortExpression="ContainerSize" />
+                <asp:BoundField DataField="Contract" HeaderText="Contract" SortExpression="Contract" />
                 <asp:BoundField DataField="Measurement" HeaderText="Measurement" SortExpression="Measurement" />
                 <asp:BoundField DataField="CreatedDate" HeaderText="CreatedDate" SortExpression="CreatedDate" />
+                <asp:BoundField DataField="Program" HeaderText="Program" SortExpression="Program" />
                 <asp:BoundField DataField="Comments" HeaderText="Comments" SortExpression="Comments" />
             </Columns>
             <FooterStyle BackColor="#CCCCCC" />

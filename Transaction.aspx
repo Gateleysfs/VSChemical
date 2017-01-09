@@ -75,7 +75,7 @@
             <tr>
                 <td class="auto-style5">Product</td>
                 <td class="auto-style11">
-                    <asp:DropDownList AppendDataBoundItems="true" ID="DropDownListProduct" runat="server" Height="25px" Width="300px" DataSourceID="SqlDataSourceProduct" DataTextField="ItemNo" DataValueField="ItemNo">
+                    <asp:DropDownList AppendDataBoundItems="true" ID="DropDownListProduct" runat="server" Height="25px" Width="300px" DataSourceID="SqlDataSourceProduct" DataTextField="ItemName" DataValueField="ItemName">
                         <asp:ListItem Selected="True"></asp:ListItem>
                     </asp:DropDownList>
 
@@ -137,7 +137,7 @@
         </table>
     </div>
         <strong><span class="auto-style4">
-        <asp:SqlDataSource ID="SqlDataSourceProduct" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalProductConnectionString %>" SelectCommand="SELECT DISTINCT [ItemNo] FROM [tblInventorySFS]"></asp:SqlDataSource>
+        <asp:SqlDataSource ID="SqlDataSourceProduct" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalProductConnectionString %>" SelectCommand="SELECT DISTINCT [ItemName] FROM [tblInventorySFS]"></asp:SqlDataSource>
         <asp:SqlDataSource ID="SqlDataSourceLocation" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalLocationConnectionString %>" SelectCommand="SELECT [FirstName], [LastName] FROM [tblEmployeeSFS] ORDER BY [FirstName]"></asp:SqlDataSource>
         </span></strong>
     </form>
