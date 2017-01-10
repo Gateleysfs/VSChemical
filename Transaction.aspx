@@ -4,13 +4,25 @@
 
 <head>
 
-<title>Inventory</title>
+<title>Transaction</title>
 <link rel="icon" href="Images/sfs logo green transparent.png" type="image/jpg">
 
 <link rel="stylesheet" href="BasicLayout.css">
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <style type="text/css">
+
+
+<style type="text/css">
     .auto-style1 {
+        width: 821px;
+    }
+    .auto-style2 {
+        height: 24px;
+    }
+    .auto-style3 {
+        width: 821px;
+        height: 24px;
+    }
+        .auto-style5 {
         position: absolute;
         left: 0;
         top: 0;
@@ -18,18 +30,19 @@
         width: 140px;
     }
 </style>
-</head>
+    </head>
+
 
 <body id="PageBackGround">
     <form id="form1" runat="server">
     <div>
-                <div id="Header" class="auto-style2">
+        <div id="Header" class="auto-style2">
             <br>
             <div>
-                <h1>Inventory</h1>
+                <h1>Transaction</h1>
             </div>
             <a href="Home.aspx">
-                <img class="auto-style1" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo">
+                <img class="auto-style5" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo">
             </a>
             <div class="ImgRight">
                 <asp:Button ID="ButtonLogout" runat="server" OnClick="ButtonLogout_Click" Text="Logout" /></div>
@@ -46,98 +59,88 @@
         <br>
         <table class="Content SansSerif">
             <tr>
-                <td>Crew Number</td>
-                <td class="auto-style10">
-                    <asp:TextBox ID="TextBoxCrewNumber" runat="server" Width="296px" style="text-transform:uppercase;" Height="20px"></asp:TextBox>
+                <td class="auto-style8">
+                    <asp:Label ID="LabelTransaction" runat="server" Text="Transaction"></asp:Label>
                 </td>
-                <td>
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorCrewNumber" runat="server" ControlToValidate="TextBoxCrewNumber" ErrorMessage="Please enter a crew number" ForeColor="Red"></asp:RequiredFieldValidator>
-                </td>
-                <td>
-                </td>
-            </tr>
-            <tr>
-                <td class="auto-style5">Transaction</td>
-                <td class="auto-style11">
-                    <asp:DropDownList ID="DropDownListTransaction" runat="server" Height="25px" Width="300px">
+                <td class="auto-style1">
+                    <asp:DropDownList ID="DropDownListTransaction" runat="server" Height="18px" Width="300px" AutoPostBack="True" OnSelectedIndexChanged="DropDownListTransaction_SelectedIndexChanged">
                         <asp:ListItem></asp:ListItem>
                         <asp:ListItem>ADDITION</asp:ListItem>
                         <asp:ListItem>REMOVAL</asp:ListItem>
                         <asp:ListItem>TRANSFER</asp:ListItem>
                     </asp:DropDownList>
                 </td>
-                <td class="auto-style5">
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorTransaction" runat="server" ControlToValidate="DropDownListTransaction" ErrorMessage="Please enter a transaction" ForeColor="Red"></asp:RequiredFieldValidator>
-                </td>
-                <td class="auto-style5">
-                    </td>
             </tr>
             <tr>
-                <td class="auto-style5">Product</td>
-                <td class="auto-style11">
-                    <asp:DropDownList AppendDataBoundItems="true" ID="DropDownListProduct" runat="server" Height="25px" Width="300px" DataSourceID="SqlDataSourceProduct" DataTextField="ItemName" DataValueField="ItemName">
-                        <asp:ListItem Selected="True"></asp:ListItem>
+                <td class="auto-style8">
+                    <asp:Label ID="LabelBarcode" runat="server" Text="Barcode"></asp:Label>
+                </td>
+                <td class="auto-style1">
+                    <asp:DropDownList ID="DropDownListBarcode" runat="server" AutoPostBack="True" Height="16px" OnSelectedIndexChanged="DropDownListBarcode_SelectedIndexChanged" Width="300px">
+                    </asp:DropDownList>
+                </td>
+            </tr>
+            <tr>
+                <td class="auto-style8">
+                    <asp:Label ID="LabelAmountLeft" runat="server" Text="Amount Left"></asp:Label>
+                </td>
+                <td class="auto-style1">
+                    <asp:DropDownList ID="DropDownListAmountLeft" runat="server" Height="20px" Width="300px" AutoPostBack="True" OnSelectedIndexChanged="DropDownListAmountLeft_SelectedIndexChanged">
                     </asp:DropDownList>
 
                 </td>
-                <td class="auto-style5">
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorProduct" runat="server" ControlToValidate="DropDownListProduct" ErrorMessage="Please enter a product" ForeColor="Red"></asp:RequiredFieldValidator>
-                </td>
-                <td class="auto-style5">
-                    </td>
             </tr>
             <tr>
-                <td class="auto-style5">Amount</td>
-                <td class="auto-style11">
-                    <asp:TextBox ID="TextBoxAmount" runat="server" Width="192px" Height="20px"></asp:TextBox>
-                    <asp:DropDownList ID="DropDownListWeight" runat="server" Height="26px" Width="100px">
-                        <asp:ListItem></asp:ListItem>
-                        <asp:ListItem>lbs</asp:ListItem>
-                        <asp:ListItem>Oz</asp:ListItem>
-                        <asp:ListItem>Gal</asp:ListItem>
-                    </asp:DropDownList>
+                <td class="auto-style8">
+                    <asp:Label ID="LabelCrewNumber" runat="server" Text="Crew Number"></asp:Label>
                 </td>
-                <td class="auto-style5">
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorAmount" runat="server" ControlToValidate="TextBoxAmount" ErrorMessage="Please enter an amount" ForeColor="Red"></asp:RequiredFieldValidator>
-                </td>
-                <td class="auto-style5">
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorSizes" runat="server" ControlToValidate="DropDownListWeight" ErrorMessage="Please enter a weight" ForeColor="Red"></asp:RequiredFieldValidator>
+                <td class="auto-style1">
+                    <asp:TextBox ID="TextBoxCrewNumber" runat="server" Width="296px" style="text-transform:uppercase;" OnTextChanged="TextBoxCrewNumber_TextChanged"></asp:TextBox>
                 </td>
             </tr>
             <tr>
-                <td class="auto-style7">Location</td>
-                <td class="auto-style12">
-                    <asp:DropDownList AppendDataBoundItems="true" ID="DropDownListLocation" runat="server" Width="300px" DataSourceID="SqlDataSourceLocation" DataTextField="FirstName" DataValueField="FirstName" Height="25px">
-                        <asp:ListItem></asp:ListItem>
-                        <asp:ListItem>Russellville Chemical Storage</asp:ListItem>
-                    </asp:DropDownList>
-                </td>
-                <td class="auto-style7">
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorLocation" runat="server" ControlToValidate="DropDownListLocation" ErrorMessage="Please enter a location" ForeColor="Red"></asp:RequiredFieldValidator>
-                </td>
-                <td class="auto-style7">
-                    </td>
-            </tr>
-            <tr>
-                <td>Comments</td>
-                <td class="auto-style10">
-                    <asp:TextBox ID="TextBoxComment" runat="server" Height="40px" TextMode="MultiLine" Width="294px"></asp:TextBox>
-                </td>
-                <td>&nbsp;</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="auto-style13"></td>
-                <td class="auto-style14">
+                <td class="auto-style2">
+                    &nbsp;</td>
+                <td class="auto-style3">
                     <asp:Button ID="ButtonSubmit" runat="server" Text="Submit" Width="150px" OnClick="ButtonSubmit_Click" />
                 </td>
-                <td class="auto-style13"></td>
-                <td class="auto-style13"></td>
+            </tr>
+            <tr>
+                <td class="auto-style2">
+                    &nbsp;</td>
+                <td class="auto-style3">
+                    &nbsp;</td>
+            </tr>
+            <tr>
+                <td class="auto-style8">
+                    &nbsp;</td>
+                <td class="auto-style1">
+                    &nbsp;</td>
+            </tr>
+            <tr>
+                <td class="auto-style8">
+                    &nbsp;</td>
+                <td class="auto-style1">
+                    &nbsp;</td>
+            </tr>
+            <tr>
+                <td class="auto-style8">
+                    &nbsp;</td>
+                <td class="auto-style1">
+                    &nbsp;</td>
+            </tr>
+            <tr>
+                <td class="auto-style8"></td>
+                <td class="auto-style1">
+                    &nbsp;</td>
             </tr>
         </table>
+            <asp:Panel ID="pnlControls" runat="server">
+
+            </asp:Panel>
     </div>
         <strong><span class="auto-style4">
-        <asp:SqlDataSource ID="SqlDataSourceProduct" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalProductConnectionString %>" SelectCommand="SELECT DISTINCT [ItemName] FROM [tblInventorySFS]"></asp:SqlDataSource>
+        <asp:SqlDataSource ID="SqlDataSourceProduct" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalProductConnectionString %>" SelectCommand="SELECT DISTINCT [ItemNo] FROM [tblInventorySFS]"></asp:SqlDataSource>
         <asp:SqlDataSource ID="SqlDataSourceLocation" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalLocationConnectionString %>" SelectCommand="SELECT [FirstName], [LastName] FROM [tblEmployeeSFS] ORDER BY [FirstName]"></asp:SqlDataSource>
         </span></strong>
     </form>

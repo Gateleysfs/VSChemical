@@ -17,43 +17,64 @@ public partial class LabelCreator : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
-
-
+        //when the page loads, printButton is set to false
+        printButton.Visible = false;
     }
 
+    //This exectues when Generate Barcodes button is pressed
     protected void Button1_Click(object sender, EventArgs e)
     {
-
-        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString))
+        printButton.Visible = true;
+        using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["sfsBarcodeHolderConnectionString"].ConnectionString))
         {
-            using (SqlCommand cmd = new SqlCommand("SELECT AmountLeft FROM dbo.tblInventorySFS", con))
-            {
-                con.Open();
-                string temp = cmd.ExecuteScalar().ToString();
-
-            }
-        }
-
-
-
-                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["sfsBarcodeHolderConnectionString"].ConnectionString))
-        {
-            using (SqlCommand cmd = new SqlCommand("SELECT BarcodeHolder FROM dbo.tblBarcodeHolderSFS"))
+            using (SqlCommand cmd = new SqlCommand("SELECT BarcodeHolder FROM dbo.tblBarcodeHolderSFS", conn))
             {
                 conn.Open();
 
-                string numMin = cmd.ExecuteScalar().ToString();
-    //            int numMax = numMin + int.Parse(txtDataToEncode.Text);
-    //            for (int i = numMin; i < numMax; i++)
-    //            {
-    //                TextBox Barcode = new TextBox();
-    //        Barcode.ID = "Barcode" + i.ToString();
-    //        Barcode.Text = "S" + txtDataToEncode.Text;
-    //        Barcode.Font.Name = "IDAutomationC128L";
-    //        Barcode.Font.Size = 32;
-    //}
+                string temp;
+
+                //lower bound: grabs the number from tblBarcodeHolderSFS
+                int numMin = int.Parse(cmd.ExecuteScalar().ToString());
+                //upper bound: adds numMin to the number located in the txtToEncode textbox
+                int numMax = numMin + int.Parse(txtDataToEncode.Text);
+
+                //loop to render all the barcodes
+                for (int i = numMin; i < numMax; i++)
+                {
+                    temp = Encode.Code128("S" + i.ToString(), 0, false);
+                    //dynamically generates a barcode with specific characteristics
+                    TextBox Barcode = new TextBox();
+                    Barcode.ID = "Barcode" + temp;
+                    Barcode.Text = temp;
+                    Barcode.Style["text-align"] = "center";
+                    Barcode.Font.Name = "IDAutomationC128L";
+                    Barcode.Font.Size = 11;
+                    Barcode.ReadOnly = true;
+                    form1.Controls.Add(Barcode);
+
+                    //if i is divisible by 4 with no remainder then a new line is created
+                    if (i % 4 == 0)
+                        form1.Controls.Add(new LiteralControl("<br/>"));
+                }
+
+                //Updates the number in tblBarcodeHolderSFS
+                SqlCommand cmd2 = new SqlCommand("UPDATE dbo.tblBarcodeHolderSFS SET BarcodeHolder='" + numMax + "' WHERE BarcodeHolder='" + numMin + "'", conn);
+                cmd2.ExecuteNonQuery();
+
+                //Sets these controls to not visible to the user
+                Button1.Visible = false;
+                Label1.Visible = false;
+                txtDataToEncode.Visible = false;
             }
         }
+    }
+
+    protected void Button2_Click(object sender, EventArgs e)
+    {
+    }
+
+    protected void printButton_Click(object sender, EventArgs e)
+    {
+        printButton.Visible = false;
     }
 }
