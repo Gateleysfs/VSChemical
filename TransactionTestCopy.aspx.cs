@@ -131,7 +131,6 @@ public partial class Transaction : System.Web.UI.Page
                 {
                     DropDownListAmountLeft.SelectedItem.Text = Request.QueryString["amountLeft"];
 
-
                     LabelCrewNumber.Visible = true;
                     TextBoxCrewNumber.Visible = true;
                     ButtonSubmit.Visible = true;
