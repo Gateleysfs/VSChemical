@@ -47,7 +47,24 @@ public partial class TransactionList : System.Web.UI.Page
                 if (DropDownListCategory.SelectedItem.ToString() == "All")
                 {
                     //selects what is typed in the search bar. If nothing is typed, load entire table
-                    cmd.CommandText = "SELECT [tblInventoryTransactionsSFS].ID, Username, ItemNo, CrewNumber, TransactionType, Quantity, Measurement, CreatedDate, [tblInventoryTransactionsSFS].Comments FROM [tblInventoryTransactionsSFS], [tblEmployeeSFS], [tblInventorySFS] WHERE[tblInventoryTransactionsSFS].EmployeeId = [tblEmployeeSFS].UserID AND[tblInventoryTransactionsSFS].TransactionItemId = [tblInventorySFS].ID AND concat([tblInventoryTransactionsSFS].ID, ' ', Username, ' ', ItemNo, ' ', CrewNumber, ' ', TransactionType, ' ', Quantity, ' ', Measurement, ' ', CreatedDate, ' ', [tblInventoryTransactionsSFS].Comments) LIKE '%' + @Input + '%'";
+                    cmd.CommandText = "SELECT [tblInventoryTransactionsSFS].ID, Barcode, ItemName, Employee, CrewNumber, TransactionType, AmountLeft, ContainerSize, Measurement, Contract, CreatedDate, Program, Comments FROM [tblInventoryTransactionsSFS] WHERE  concat([tblInventoryTransactionsSFS].ID, ' ', Barcode, ' ', Employee, ' ', CrewNumber, ' ', TransactionType, ' ', AmountLeft, ' ',ContainerSize, ' ',Measurement, ' ' , Contract, ' ', CreatedDate, ' ',Program, ' ', [tblInventoryTransactionsSFS].Comments) LIKE '%' + @Input + '%'";
+                    cmd.Connection = con;
+                    cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
+                    DataTable dt = new DataTable();
+
+
+                    //repopulates the table
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        sda.Fill(dt);
+                        GridView1.DataSource = dt;
+                        GridView1.DataBind();
+                    }
+                }
+                else if (DropDownListCategory.SelectedItem.ToString() == "ID")
+                {
+                    //selects what is typed in the search bar. If nothing is typed, load entire table
+                    cmd.CommandText = "SELECT * FROM [tblInventoryTransactionsSFS] Where " + DropDownListCategory.SelectedItem.ToString() + " like @Input";
                     cmd.Connection = con;
                     cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
                     DataTable dt = new DataTable();

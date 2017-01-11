@@ -46,7 +46,7 @@ public partial class Account_Default : System.Web.UI.Page
                 if (DropDownListCategory.SelectedItem.ToString() == "All")
                 {
                     //selects what is typed in the search bar. If nothing is typed, load entire table
-                    cmd.CommandText = "SELECT * FROM [tblInventorySFS] WHERE Concat(ID, ' ', 'Barcode', ' ', ContainerCount, ' ', ItemNo, ' ', Prescription, ' ', Category, ' ',  CurrentLocation, ' ', PartialContainer, ' ', ChemicalAmount, ' ', AmountLeft, ' ', Total, ' ', ContainerType, ' ', 'Contract') LIKE '%' + @Input+ '%'";
+                    cmd.CommandText = "SELECT * FROM [tblInventorySFS] WHERE Concat(ID, ' ', 'Barcode', ' ', ContainerCount, ' ', ItemName, ' ', Category, ' ',  CurrentLocation, ' ', PartialContainer, ' ', ChemicalAmount, ' ', AmountLeft, ' ', Total, ' ', ContainerType, ' ', 'Contract') LIKE '%' + @Input+ '%'";
                     cmd.Connection = con;
                     cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
 
