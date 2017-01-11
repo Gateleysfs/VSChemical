@@ -50,12 +50,14 @@
                 <asp:ListItem>ItemName</asp:ListItem>
                 <asp:ListItem>Employee</asp:ListItem>
                 <asp:ListItem>CrewNumber</asp:ListItem>
-                <asp:ListItem>TransactionType</asp:ListItem>
+                <asp:ListItem>Sender</asp:ListItem>
+                <asp:ListItem>Receiver</asp:ListItem>
                 <asp:ListItem>AmountLeft</asp:ListItem>
                 <asp:ListItem>ContainerSize</asp:ListItem>
                 <asp:ListItem>Measurement</asp:ListItem>
                 <asp:ListItem>CreatedDate</asp:ListItem>
                 <asp:ListItem>Program</asp:ListItem>
+                <asp:ListItem>Contract</asp:ListItem>
                 <asp:ListItem>Comments</asp:ListItem>
             </asp:DropDownList>
         <asp:TextBox ID="txtSearch" runat="server" HorizontalAlign ="Center"></asp:TextBox>
@@ -70,13 +72,14 @@
                 <asp:BoundField DataField="Employee" HeaderText="Employee" SortExpression="Employee" />
                 <asp:BoundField DataField="ItemName" HeaderText="ItemName" SortExpression="ItemName" />
                 <asp:BoundField DataField="CrewNumber" HeaderText="CrewNumber" SortExpression="CrewNumber" />
-                <asp:BoundField DataField="TransactionType" HeaderText="TransactionType" SortExpression="TransactionType" />
+                <asp:BoundField DataField="Sender" HeaderText="Sender" SortExpression="Sender" />
+                <asp:BoundField DataField="Receiver" HeaderText="Receiver" SortExpression="Receiver" />
                 <asp:BoundField DataField="AmountLeft" HeaderText="AmountLeft" SortExpression="AmountLeft" />
                 <asp:BoundField DataField="ContainerSize" HeaderText="ContainerSize" SortExpression="ContainerSize" />
-                <asp:BoundField DataField="Contract" HeaderText="Contract" SortExpression="Contract" />
                 <asp:BoundField DataField="Measurement" HeaderText="Measurement" SortExpression="Measurement" />
                 <asp:BoundField DataField="CreatedDate" HeaderText="CreatedDate" SortExpression="CreatedDate" />
                 <asp:BoundField DataField="Program" HeaderText="Program" SortExpression="Program" />
+                <asp:BoundField DataField="Contract" HeaderText="Contract" SortExpression="Contract" />
                 <asp:BoundField DataField="Comments" HeaderText="Comments" SortExpression="Comments" />
             </Columns>
             <FooterStyle BackColor="#CCCCCC" />

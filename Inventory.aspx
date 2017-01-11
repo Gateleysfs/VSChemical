@@ -43,7 +43,7 @@
         </div>
         <br>
         <br>
-                    <asp:Panel id="pnlDefaultButton" runat="server" DefaultButton="ButtonSearch">
+        <asp:Panel id="pnlDefaultButton" runat="server" DefaultButton="ButtonSearch">
         <div style="text-align: center">
             <asp:DropDownList ID="DropDownListCategory" runat="server">
                 <asp:ListItem>All</asp:ListItem>
@@ -51,10 +51,8 @@
                 <asp:ListItem>ItemName</asp:ListItem>
                 <asp:ListItem>Barcode</asp:ListItem>
                 <asp:ListItem>CurrentLocation</asp:ListItem>
-                <asp:ListItem>ContainerCount</asp:ListItem>
                 <asp:ListItem>AmountLeft</asp:ListItem>
-                <asp:ListItem>ContainerType</asp:ListItem>
-                <asp:ListItem>Total</asp:ListItem>
+                <asp:ListItem>Measurement</asp:ListItem>
                 <asp:ListItem>Category</asp:ListItem>
                 <asp:ListItem>PartialContainer</asp:ListItem>
                 <asp:ListItem>Contract</asp:ListItem>
@@ -62,7 +60,6 @@
                 <asp:TextBox ID="txtSearch" runat="server" HorizontalAlign="Center" OnTextChanged="txtSearch_TextChanged"></asp:TextBox>
                 <asp:Button ID="ButtonSearch" runat="server" Text="Search" OnClick="Search" HorizontalAlign="Center" />
             </asp:Panel>
-
         </div>
         <br>
         <br>
@@ -72,10 +69,8 @@
                 <asp:BoundField DataField="Barcode" HeaderText="Barcode" SortExpression="Barcode" />
                 <asp:BoundField DataField="ItemName" HeaderText="ItemName" SortExpression="ItemName" />
                 <asp:BoundField DataField="CurrentLocation" HeaderText="CurrentLocation" SortExpression="CurrentLocation" />
-                <asp:BoundField DataField="ContainerCount" HeaderText="ContainerCount" SortExpression="ContainerCount" />
                 <asp:BoundField DataField="AmountLeft" HeaderText="AmountLeft" SortExpression="AmountLeft" />
-                <asp:BoundField DataField="ContainerType" HeaderText="ContainerType" SortExpression="ContainerType" />
-                <asp:BoundField DataField="Total" HeaderText="Total" SortExpression="Total" />
+                <asp:BoundField DataField="Measurement" HeaderText="Measurement" SortExpression="Measurement" />
                 <asp:BoundField DataField="Category" HeaderText="Category" SortExpression="Category" />
                 <asp:CheckBoxField DataField="PartialContainer" HeaderText="PartialContainer" SortExpression="PartialContainer" />
                 <asp:BoundField DataField="ChemicalAmount" HeaderText="ContainerSize(ChemicalAmount)" SortExpression="ChemicalAmount" />

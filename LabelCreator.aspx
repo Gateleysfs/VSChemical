@@ -16,6 +16,10 @@
             <br/>
             <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Generate Barcodes" />
             <br />
+            <asp:Label ID="Label2" runat="server" Text="Please Download IDAutomation to view barcodes:"></asp:Label>
+            <br />
+            <asp:Button ID="Button2" runat="server" OnClick="Button2_Click1" Text="Download IDAutomation" />
+            <br />
             </asp:Panel>
         </div>
     </form>
