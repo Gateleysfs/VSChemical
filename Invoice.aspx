@@ -46,6 +46,7 @@
                 <li><a href="Invoice.aspx">Add Invoice</a></li>
                 <li><a href="InvoiceList.aspx">Invoices List</a></li>
                 <li><a href="Inventory.aspx">Current Inventory</a></li>
+                <li><a href="TransactionsbyDate.aspx">Rescent Transactions</a></li>
             </ul>
         </div>
         <br>

@@ -47,7 +47,7 @@ public partial class TransactionList : System.Web.UI.Page
                 if (DropDownListCategory.SelectedItem.ToString() == "All")
                 {
                     //selects what is typed in the search bar. If nothing is typed, load entire table
-                    cmd.CommandText = "SELECT ID, Barcode, ItemName, Employee, CrewNumber, Sender, Receiver, AmountLeft, ContainerSize, Measurement, CreatedDate, Program, Contract, Comments FROM [tblInventoryTransactionsSFS] WHERE  concat([tblInventoryTransactionsSFS].ID, ' ', Barcode, ' ', Employee, ' ', CrewNumber, ' ', Sender, ' ', Receiver, ' ', AmountLeft, ' ',ContainerSize, ' ',Measurement, ' ' , CreatedDate, ' ',Program, ' ', Contract, ' ', Comments) LIKE '%' + @Input + '%'";
+                    cmd.CommandText = "SELECT ID, Barcode, ItemName, Employee, CrewNumber, Sender, Receiver, AmountLeft, ContainerSize, Measurement, CreatedDate, Program, ContractID, Comments FROM [tblInventoryTransactionsSFS] WHERE  concat([tblInventoryTransactionsSFS].ID, ' ', Barcode, ' ', Employee, ' ', CrewNumber, ' ', Sender, ' ', Receiver, ' ', AmountLeft, ' ',ContainerSize, ' ',Measurement, ' ' , CreatedDate, ' ',Program, ' ', ContractID, ' ', Comments) LIKE '%' + @Input + '%'";
                     cmd.Connection = con;
                     cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
                     DataTable dt = new DataTable();

@@ -78,8 +78,7 @@ public partial class Default2 : System.Web.UI.Page
             }
         }
     }
-
-    protected void OnPageIndexChanging(object sender, GridViewPageEventArgs e)
+    protected void GridView1_OnPageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         GridView1.PageIndex = e.NewPageIndex;
         this.BindGrid();

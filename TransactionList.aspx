@@ -37,6 +37,7 @@
         <li><a href="Invoice.aspx">Add Invoice</a></li>
         <li><a href="InvoiceList.aspx">Invoices List</a></li>
 	    <li><a href="Inventory.aspx">Current Inventory</a></li>
+        <li><a href="TransactionsbyDate.aspx">Rescent Transactions</a></li>
       </ul>
      </div>
     <div>
@@ -66,11 +67,13 @@
         </div>
         <br>
         <br>
-        <asp:GridView ID="GridView1" runat="server" AllowPaging="False" AllowSorting="False" AutoGenerateColumns="False" OnRowDataBound="OnRowDataBound" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="4" CellSpacing="2" ForeColor="Black" DataKeyNames="ID" HorizontalAlign="Center" >
+        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowDataBound="OnRowDataBound" CellPadding="4" ForeColor="#333333" HorizontalAlign="Center"  GridLines="None" >
+            <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
             <Columns>
-                <asp:BoundField DataField="ID" HeaderText="ID" InsertVisible="False" ReadOnly="True" SortExpression="ID" />
-                <asp:BoundField DataField="Employee" HeaderText="Employee" SortExpression="Employee" />
+                <asp:BoundField DataField="ID" HeaderText="ID" SortExpression="ID" />
+                <asp:BoundField DataField="Barcode" HeaderText="Barcode" SortExpression="Barcode" />
                 <asp:BoundField DataField="ItemName" HeaderText="ItemName" SortExpression="ItemName" />
+                <asp:BoundField DataField="Employee" HeaderText="Employee" SortExpression="Employee" />
                 <asp:BoundField DataField="CrewNumber" HeaderText="CrewNumber" SortExpression="CrewNumber" />
                 <asp:BoundField DataField="Sender" HeaderText="Sender" SortExpression="Sender" />
                 <asp:BoundField DataField="Receiver" HeaderText="Receiver" SortExpression="Receiver" />
@@ -79,19 +82,22 @@
                 <asp:BoundField DataField="Measurement" HeaderText="Measurement" SortExpression="Measurement" />
                 <asp:BoundField DataField="CreatedDate" HeaderText="CreatedDate" SortExpression="CreatedDate" />
                 <asp:BoundField DataField="Program" HeaderText="Program" SortExpression="Program" />
-                <asp:BoundField DataField="Contract" HeaderText="Contract" SortExpression="Contract" />
+<asp:BoundField DataField="ContractID" HeaderText="ContractID" SortExpression="ContractID"></asp:BoundField>
                 <asp:BoundField DataField="Comments" HeaderText="Comments" SortExpression="Comments" />
             </Columns>
-            <FooterStyle BackColor="#CCCCCC" />
-            <HeaderStyle BackColor="DarkGreen" Font-Bold="True" ForeColor="White" />
-            <PagerStyle BackColor="#CCCCCC" ForeColor="Black" HorizontalAlign="Left" />
-            <RowStyle BackColor="White" />
-            <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
-            <SortedAscendingCellStyle BackColor="#F1F1F1" />
-            <SortedAscendingHeaderStyle BackColor="#808080" />
-            <SortedDescendingCellStyle BackColor="#CAC9C9" />
-            <SortedDescendingHeaderStyle BackColor="#383838" />
+            <EditRowStyle BackColor="#999999" />
+            <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+            <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+            <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+            <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+            <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+            <SortedAscendingCellStyle BackColor="#E9E7E2" />
+            <SortedAscendingHeaderStyle BackColor="#506C8C" />
+            <SortedDescendingCellStyle BackColor="#FFFDF8" />
+            <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
         </asp:GridView>
+
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalTransactionListConnectionString %>" SelectCommand="SELECT * FROM [tblInventoryTransactionsSFS]"></asp:SqlDataSource>
 
         <asp:SqlDataSource ID="SqlDataSourceTransactionList" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalTransactionListConnectionString %>" SelectCommand="SELECT  [tblInventoryTransactionsSFS].ID, Username, ItemNo, CrewNumber, TransactionType, Quantity, Measurement, CreatedDate, [tblInventoryTransactionsSFS].Comments FROM [tblInventoryTransactionsSFS], [tblEmployeeSFS], [tblInventorySFS] WHERE [tblInventoryTransactionsSFS].EmployeeId = [tblEmployeeSFS].UserID AND [tblInventoryTransactionsSFS].TransactionItemId = [tblInventorySFS].ID"></asp:SqlDataSource>
     </div>
