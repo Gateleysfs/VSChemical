@@ -75,6 +75,30 @@
             <SortedDescendingCellStyle BackColor="#FFFDF8" />
             <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
             </asp:GridView>
+            <style>
+  html, body {
+    height: 100%;
+  }
+  #tableContainer-1 {
+    height: 100%;
+    width: 100%;
+    display: table;
+  }
+  #tableContainer-2 {
+    vertical-align: middle;
+    display: table-cell;
+    height: 100%;
+  }
+  #myTable {
+    margin: 0 auto;
+  }
+</style>
+<div id="tableContainer-1">
+  <div id="tableContainer-2">
+    <table id="myTable" border>
+    </table>
+  </div>
+</div>
             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:sfsBarcodeHolderConnectionString %>" SelectCommand="SELECT * FROM [tblInventoryTransactionscopy] ORDER BY [CreatedDate]"></asp:SqlDataSource>
             <br>
             <br>

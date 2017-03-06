@@ -67,6 +67,31 @@
         </div>
         <br>
         <br>
+
+        <style>
+  html, body {
+    height: 100%;
+  }
+  #tableContainer-1 {
+    height: 100%;
+    width: 100%;
+    display: table;
+  }
+  #tableContainer-2 {
+    vertical-align: middle;
+    display: table-cell;
+    height: 100%;
+  }
+  #myTable {
+    margin: 0 auto;
+  }
+</style>
+<div id="tableContainer-1">
+  <div id="tableContainer-2">
+    <table id="myTable" border>
+    </table>
+  </div>
+</div>
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowDataBound="OnRowDataBound" CellPadding="4" ForeColor="#333333" HorizontalAlign="Center"  GridLines="None" >
             <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
             <Columns>
