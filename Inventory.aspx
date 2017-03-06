@@ -44,18 +44,14 @@
         </div>
         <br>
         <br>
-        <asp:Panel id="pnlDefaultButton" runat="server" DefaultButton="ButtonSearch">
+  <%--       <asp:Panel id="pnlDefaultButton" runat="server" DefaultButton="ButtonSearch">
         <div style="text-align: center">
             <asp:DropDownList ID="DropDownListCategory" runat="server">
                 <asp:ListItem>All</asp:ListItem>
-                <asp:ListItem>ID</asp:ListItem>
                 <asp:ListItem>ItemName</asp:ListItem>
                 <asp:ListItem>Barcode</asp:ListItem>
-                <asp:ListItem>CurrentLocation</asp:ListItem>
                 <asp:ListItem>AmountLeft</asp:ListItem>
                 <asp:ListItem>Measurement</asp:ListItem>
-                <asp:ListItem>Category</asp:ListItem>
-                <asp:ListItem>PartialContainer</asp:ListItem>
                 <asp:ListItem>Contract</asp:ListItem>
             </asp:DropDownList>
                 <asp:TextBox ID="txtSearch" runat="server" HorizontalAlign="Center" OnTextChanged="txtSearch_TextChanged"></asp:TextBox>
@@ -63,30 +59,29 @@
             </asp:Panel>
         </div>
         <br>
-        <br>
-        <asp:GridView ID="GridView1" runat="server" AllowPaging="False" AllowSorting="False" AutoGenerateColumns="False" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="2" CellSpacing="2" DataKeyNames="ID" ForeColor="Black" HorizontalAlign="Center">
+        <br>       
+        --%>
+        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" HorizontalAlign="Center" GridLines="None" AllowPaging="True" DataSourceID="SqlDataSource1">
+            <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
             <Columns>
-                <asp:BoundField DataField="ID" HeaderText="ID" ReadOnly="True" SortExpression="ID" InsertVisible="False" />
                 <asp:BoundField DataField="Barcode" HeaderText="Barcode" SortExpression="Barcode" />
                 <asp:BoundField DataField="ItemName" HeaderText="ItemName" SortExpression="ItemName" />
-                <asp:BoundField DataField="CurrentLocation" HeaderText="CurrentLocation" SortExpression="CurrentLocation" />
                 <asp:BoundField DataField="AmountLeft" HeaderText="AmountLeft" SortExpression="AmountLeft" />
                 <asp:BoundField DataField="Measurement" HeaderText="Measurement" SortExpression="Measurement" />
-                <asp:BoundField DataField="Category" HeaderText="Category" SortExpression="Category" />
-                <asp:CheckBoxField DataField="PartialContainer" HeaderText="PartialContainer" SortExpression="PartialContainer" />
-                <asp:BoundField DataField="ChemicalAmount" HeaderText="ContainerSize(ChemicalAmount)" SortExpression="ChemicalAmount" />
-                <asp:BoundField DataField="Contract" HeaderText="Contract" SortExpression="Contract" />
+                <asp:BoundField DataField="ContractID" HeaderText="ContractID" SortExpression="ContractID" />
             </Columns>
-            <FooterStyle BackColor="#CCCCCC" />
-            <HeaderStyle BackColor="DarkGreen" Font-Bold="True" ForeColor="White" />
-            <PagerStyle BackColor="#CCCCCC" ForeColor="Black" HorizontalAlign="Left" />
-            <RowStyle BackColor="White" />
-            <SelectedRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
-            <SortedAscendingCellStyle BackColor="#F1F1F1" />
-            <SortedAscendingHeaderStyle BackColor="#808080" />
-            <SortedDescendingCellStyle BackColor="#CAC9C9" />
-            <SortedDescendingHeaderStyle BackColor="#383838" />
+            <EditRowStyle BackColor="#999999" />
+            <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+            <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+            <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+            <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+            <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+            <SortedAscendingCellStyle BackColor="#E9E7E2" />
+            <SortedAscendingHeaderStyle BackColor="#506C8C" />
+            <SortedDescendingCellStyle BackColor="#FFFDF8" />
+            <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
         </asp:GridView>
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalInventoryConnectionString %>" SelectCommand="SELECT * FROM [tblInventorySFS]"></asp:SqlDataSource>
 
         <asp:SqlDataSource ID="SqlDataSourceInventory" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalInventoryConnectionString %>" SelectCommand="SELECT * FROM [tblInventorySFS]"></asp:SqlDataSource>
     </form>

@@ -17,8 +17,8 @@ public partial class Account_Default : System.Web.UI.Page
         if (Session["new"] == null)
             Response.Redirect("Login.aspx");
         //This loads the full table if there have been no searches on the page
-        if (!this.IsPostBack)
-            this.BindGrid();
+        //if (!this.IsPostBack)
+        //  this.BindGrid();
     }
     protected void ButtonLogout_Click(object sender, EventArgs e)
     {
@@ -26,10 +26,11 @@ public partial class Account_Default : System.Web.UI.Page
         Session["new"] = null;
         Response.Redirect("Login.aspx");
     }
+}
 
 
     //Called when the search button is clicked(in the HTML: OnClick = "Search")
-    protected void Search(object sender, EventArgs e)
+    /*protected void Search(object sender, EventArgs e)
     {
         this.BindGrid();
     }
@@ -46,7 +47,7 @@ public partial class Account_Default : System.Web.UI.Page
                 if (DropDownListCategory.SelectedItem.ToString() == "All")
                 {
                     //selects what is typed in the search bar. If nothing is typed, load entire table
-                    cmd.CommandText = "SELECT * FROM [tblInventorySFS] WHERE Concat(ID, ' ', Barcode, ' ', ItemName, ' ', Category, ' ',  CurrentLocation, ' ', PartialContainer, ' ', ChemicalAmount, ' ', AmountLeft, ' ', Measurement, ' ', Contract) LIKE '%' + @Input+ '%'";
+                    cmd.CommandText = "SELECT * FROM [tblInventorySFS] WHERE Concat(Barcode, ' ', ItemName, ' ', AmountLeft, ' ', Measurement, ' ', ContractID) LIKE '%' + @Input+ '%'";
                     cmd.Connection = con;
                     cmd.Parameters.AddWithValue("@Input", txtSearch.Text.Trim());
 
@@ -56,7 +57,7 @@ public partial class Account_Default : System.Web.UI.Page
                     using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {
                         sda.Fill(dt);
-                        GridView1.DataSource = dt;
+                        //GridView1.DataSource = dt;
                         GridView1.DataBind();
                     }
                 }
@@ -71,7 +72,7 @@ public partial class Account_Default : System.Web.UI.Page
                     using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {
                         sda.Fill(dt);
-                        GridView1.DataSource = dt;
+                        //GridView1.DataSource = dt;
                         GridView1.DataBind();
                     }
                 }
@@ -98,8 +99,8 @@ public partial class Account_Default : System.Web.UI.Page
         }
     }
 
-    protected void txtSearch_TextChanged(object sender, EventArgs e)
-    {
+    //protected void txtSearch_TextChanged(object sender, EventArgs e)
+    //{
 
-    }
-}
+    //}
+}*/
