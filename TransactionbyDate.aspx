@@ -62,7 +62,7 @@
                 <asp:ListItem>Comments</asp:ListItem>
             </asp:DropDownList>
         <asp:TextBox ID="TextBox1" runat="server" HorizontalAlign ="Center"></asp:TextBox>
-        <asp:Button ID="Button1" runat="server" Text="Button" style="z-index: 1; left: 645px; top: 214px; position: absolute" OnClick="Button"/>
+        <asp:Button ID="Button1" runat="server" Text="Button" HorizontalAlign ="Center" OnClick="Button"/>
                 </asp:Panel>
         </div>
         <br>
