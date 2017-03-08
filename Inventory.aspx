@@ -33,10 +33,7 @@
         </div>
         <div id="mainNav">
             <ul>
-                <li><a href="Transaction.aspx">Add Transaction</a></li>
                 <li><a href="TransactionList.aspx">Transactions List</a></li>
-                <li><a href="Invoice.aspx">Add Invoice</a></li>
-                <li><a href="InvoiceList.aspx">Invoices List</a></li>
                 <li><a href="Inventory.aspx">Current Inventory</a></li>
                 <li><a href="TransactionbyDate.aspx">Rescent Transactions</a></li>
             </ul>
