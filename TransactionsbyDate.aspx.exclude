@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="TransactionsbyDate.aspx.cs" Inherits="TransactionsbyDate" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="" Inherits="TransactionsbyDate" %>
 
 <!DOCTYPE html>
 
@@ -25,7 +25,25 @@
         <div id="Header" class="auto-style2">
             <br>
             <div>
-                <h1>TransactionbyDate</h1>
+                <h1>TransactionbyDate</h1><asp:Panel id="pnlDefaultButton" runat="server">
+            <asp:DropDownList ID="DropDownList2" runat="server" style="z-index: 1; left: 269px; top: 276px; position: absolute">
+                <asp:ListItem>Barcode</asp:ListItem>
+                <asp:ListItem>ItemName</asp:ListItem>
+                <asp:ListItem>Employee</asp:ListItem>
+                <asp:ListItem>CrewNumber</asp:ListItem>
+                <asp:ListItem>Sender</asp:ListItem>
+                <asp:ListItem>Receiver</asp:ListItem>
+                <asp:ListItem>AmountLeft</asp:ListItem>
+                <asp:ListItem>ContainerSize</asp:ListItem>
+                <asp:ListItem>Measurement</asp:ListItem>
+                <asp:ListItem>CreatedDate</asp:ListItem>
+                <asp:ListItem>Program</asp:ListItem>
+                <asp:ListItem>ContractID</asp:ListItem>
+                <asp:ListItem>Comments</asp:ListItem>
+            </asp:DropDownList>
+        <asp:TextBox ID="TextBox2" runat="server" style="z-index: 1; left: 450px; top: 275px; position: absolute"></asp:TextBox>
+        <asp:Button ID="Button" runat="server" style="z-index: 1; left: 663px; top: 272px; position: absolute" Text="Search" OnClick="Button"/>
+                </asp:Panel>
             </div>
             <a href="Home.aspx">
             <img class="auto-style1" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo">
@@ -47,6 +65,11 @@
         <div>
             <br>
             <br>
+             <div style="text-align:center">
+            
+        </div>
+        <br>
+        <br>
             <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource1" CellPadding="4" ForeColor="#333333" GridLines="None">
                 <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                 <Columns>

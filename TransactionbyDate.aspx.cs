@@ -9,7 +9,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 
-public partial class Inventory : System.Web.UI.Page
+public partial class TransactionbyDate : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -19,14 +19,14 @@ public partial class Inventory : System.Web.UI.Page
 
         if (!this.IsPostBack)
             this.BindGrid();
-    }
 
-    protected void ButtonLogout_Click(object sender, EventArgs e)
-    {
-        //Logout of website when logout button is clicked
-        Session["new"] = null;
-        Response.Redirect("Login.aspx");
     }
+protected void ButtonLogout_Click(object sender, EventArgs e)
+{
+    //Logout of website when logout button is clicked
+    Session["new"] = null;
+    Response.Redirect("Login.aspx");
+}
     protected void Button(object sender, EventArgs e)
     {
         this.BindGrid();
@@ -34,17 +34,17 @@ public partial class Inventory : System.Web.UI.Page
     private void BindGrid()
     {
         //establishing connection to the connection string
-        string constr = ConfigurationManager.ConnectionStrings["sfsChemicalInventoryConnectionString"].ConnectionString;
+        string constr = ConfigurationManager.ConnectionStrings["sfsInvoiceChemicalsConnectionString"].ConnectionString;
         using (SqlConnection con = new SqlConnection(constr))
         {
             using (SqlCommand cmd = new SqlCommand())
             {
-                if (DropDownList1.SelectedItem.ToString() == "All")
+                if (DropDownListCategory.SelectedItem.ToString() == "All")
                 {
                     //selects what is typed in the search bar. If nothing is typed, load entire table
-                    cmd.CommandText = "SELECT * FROM [tblInventorySFS] WHERE Concat( Barcode, ' ', ItemName, ' ', AmountLeft, ' ', Measurement, ' ', ContractID) LIKE '%' + @Input+ '%'";
+                    cmd.CommandText = "SELECT * FROM [tblInventoryTransactionscopy] WHERE Concat( Barcode, ' ', ItemName, ' ', Employee, ' ', CrewNumber, ' ', Sender, ' ', Receiver, ' ', AmountLeft, ' ', ContainerSize, ' ', Measurement, ' ', CreatedDate, ' ', Program, ' ', ContractID, ' ', Comments) LIKE '%' + @Input+ '%'";
                     cmd.Connection = con;
-                    cmd.Parameters.AddWithValue("@Input", TextBox2.Text.Trim());
+                    cmd.Parameters.AddWithValue("@Input", TextBox1.Text.Trim());
 
                     DataTable dt = new DataTable();
 
@@ -58,9 +58,9 @@ public partial class Inventory : System.Web.UI.Page
                 }
                 else
                 {
-                    cmd.CommandText = "SELECT * FROM[tblInventorySFS] WHERE " + DropDownList1.SelectedItem.ToString() + "  LIKE   '%' + @Input + '%'";
+                    cmd.CommandText = "SELECT * FROM[tblInventoryTransactionscopy] WHERE " + DropDownListCategory.SelectedItem.ToString() + "  LIKE   '%' + @Input + '%'";
                     cmd.Connection = con;
-                    cmd.Parameters.AddWithValue("@Input", TextBox2.Text.Trim());
+                    cmd.Parameters.AddWithValue("@Input", TextBox1.Text.Trim());
                     DataTable dt = new DataTable();
 
                     //repopulates the table
@@ -87,15 +87,18 @@ public partial class Inventory : System.Web.UI.Page
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            e.Row.Cells[0].Text = Regex.Replace(e.Row.Cells[0].Text, TextBox2.Text.Trim(), delegate (Match match)
+            e.Row.Cells[0].Text = Regex.Replace(e.Row.Cells[0].Text, TextBox1.Text.Trim(), delegate (Match match)
             {
                 return string.Format("<span style = 'background-color:#D9EDF7'>{0}</span>", match.Value);
             }, RegexOptions.IgnoreCase);
         }
     }
 
-    protected void txtSearch_TextChanged(object sender, EventArgs e)
+    protected void TextBox1_TextChanged(object sender, EventArgs e)
     {
 
     }
 }
+
+
+

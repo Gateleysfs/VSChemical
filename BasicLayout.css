@@ -8,8 +8,8 @@ html, body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, pre, code, address, variable,
 }
 table { border-collapse: collapse; border-spacing: 0;
     z-index: 1;
-    left: 8px;
-    top: 345px;
+    left: 3px;
+    top: 349px;
     position: absolute;
     height: 133px;
     width: 1160px;

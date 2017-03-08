@@ -1,10 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Inventory.aspx.cs" Inherits="Account_Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Inventory.aspx.cs" Inherits="Inventory" %>
 
 <!DOCTYPE html>
 
 <head>
 
-<title>Inventory</title>
+<title>Current Inventory</title>
 <link rel="icon" href="Images/sfs logo green transparent.png" type="image/jpg">
 
 <link rel="stylesheet" href="BasicLayout.css">
@@ -24,7 +24,7 @@
         <div id="Header" class="auto-style2">
             <br>
             <div>
-                <h1>Inventory</h1>
+                <h1>Current Inventory</h1>
             </div>
             <a href="Home.aspx">
                 <img class="auto-style1" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo">
@@ -39,32 +39,13 @@
                 <li><a href="Invoice.aspx">Add Invoice</a></li>
                 <li><a href="InvoiceList.aspx">Invoices List</a></li>
                 <li><a href="Inventory.aspx">Current Inventory</a></li>
-                <li><a href="TransactionsbyDate.aspx">Rescent Transactions</a></li>
+                <li><a href="TransactionbyDate.aspx">Rescent Transactions</a></li>
             </ul>
         </div>
         <br>
         <br>
-  <%--       <asp:Panel id="pnlDefaultButton" runat="server" DefaultButton="ButtonSearch">
-        <div style="text-align: center">
-            <asp:DropDownList ID="DropDownListCategory" runat="server">
-                <asp:ListItem>All</asp:ListItem>
-                <asp:ListItem>ItemName</asp:ListItem>
-                <asp:ListItem>Barcode</asp:ListItem>
-                <asp:ListItem>AmountLeft</asp:ListItem>
-                <asp:ListItem>Measurement</asp:ListItem>
-                <asp:ListItem>Contract</asp:ListItem>
-            </asp:DropDownList>
-                <asp:TextBox ID="txtSearch" runat="server" HorizontalAlign="Center" OnTextChanged="txtSearch_TextChanged"></asp:TextBox>
-                <asp:Button ID="ButtonSearch" runat="server" Text="Search" OnClick="Search" HorizontalAlign="Center" />
-            </asp:Panel>
-        </div>
-        <br>
-        <br>       
-        --%>
-
-
-        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" HorizontalAlign="Center" GridLines="None" DataSourceID="SqlDataSource1">
-            <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
+  
+        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowDataBound="OnRowDataBound" HorizontalAlign="Center">
             <Columns>
                 <asp:BoundField DataField="Barcode" HeaderText="Barcode" SortExpression="Barcode" />
                 <asp:BoundField DataField="ItemName" HeaderText="ItemName" SortExpression="ItemName" />
@@ -84,11 +65,29 @@
             <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
         </asp:GridView>
 
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalInventoryConnectionString %>" SelectCommand="SELECT * FROM [tblInventorySFS]"></asp:SqlDataSource>
 
-        <asp:SqlDataSource ID="SqlDataSourceInventory" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalInventoryConnectionString %>" SelectCommand="SELECT * FROM [tblInventorySFS]"></asp:SqlDataSource>
-        <br />
-        <br />
+    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalInventoryConnectionString %>" SelectCommand="SELECT * FROM [tblInventorySFS]"></asp:SqlDataSource>
+
+         <br>
+            <br>
+        <div style="text-align:center">
+            <asp:Panel id="pnlDefaultButton" runat="server" >
+        <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True"  
+            style="z-index: 1; left: 203px; top: 313px; position: absolute">
+            <asp:ListItem>All</asp:ListItem>
+            <asp:ListItem>Barcode</asp:ListItem>
+            <asp:ListItem>ItemName</asp:ListItem>
+            <asp:ListItem>AmountLeft</asp:ListItem>
+            <asp:ListItem>Measurement</asp:ListItem>
+            <asp:ListItem>ContractID</asp:ListItem>
+        </asp:DropDownList>
+        <asp:TextBox ID="TextBox2" runat="server" style="z-index: 1; left: 348px; top: 313px; position: absolute"></asp:TextBox>
+        </asp:Panel>
+           
+            <asp:Button ID="Button1" runat="server" style="z-index: 1; left: 523px; top: 311px; position: absolute" Text="Button" OnClick="Button"/>
+           
+        </div>
     </form>
 </body>
-</html>
+
+
