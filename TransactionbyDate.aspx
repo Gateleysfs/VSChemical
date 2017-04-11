@@ -22,7 +22,7 @@
          <div id="Header" class="auto-style2">
             <br>
             <div>
-                <h1>Rescent Transactions</h1>
+                <h1>Recent Transactions</h1>
             </div>
             <a href="Home.aspx">
                 <img class="auto-style1" src="Images/sfs logo green transparent.png" alt="Superior Forestry Logo">
@@ -34,7 +34,7 @@
       <ul>
         <li><a href="TransactionList.aspx">Transactions List</a></li>
 	    <li><a href="Inventory.aspx">Current Inventory</a></li>
-        <li><a href="TransactionbyDate.aspx">Rescent Transactions</a></li>
+        <li><a href="TransactionbyDate.aspx">Recent Transactions</a></li>
       </ul>
      </div>
     <div>
@@ -42,7 +42,8 @@
         <br>
         <div style="text-align:center">
             <asp:Panel id="pnlDefaultButton" runat="server" >
-            <asp:DropDownList ID="DropDownListCategory" runat="server">
+                <asp:Button ID="btnClearRT" runat="server" Height="23px" OnClick="btnClearRT_Click" style="margin-left: 0px" Text="Clear Filter" Width="79px" />
+            <asp:DropDownList ID="DropDownListCategory" runat="server" style="margin-left: 7px">
                 <asp:ListItem>All</asp:ListItem>
                 <asp:ListItem>Barcode</asp:ListItem>
                 <asp:ListItem>ItemName</asp:ListItem>
@@ -59,7 +60,7 @@
                 <asp:ListItem>Comments</asp:ListItem>
             </asp:DropDownList>
         <asp:TextBox ID="TextBox1" runat="server" HorizontalAlign ="Center"></asp:TextBox>
-        <asp:Button ID="Button1" runat="server" Text="Button" HorizontalAlign ="Center" OnClick="Button"/>
+        <asp:Button ID="btnSearchRT" runat="server" Text="Search" HorizontalAlign ="Center" OnClick="Button" style="margin-left: 9px"/>
                 </asp:Panel>
         </div>
         <br>

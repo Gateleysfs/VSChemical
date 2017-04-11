@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Inventory.aspx.cs" Inherits="Inventory" %>
 
 <!DOCTYPE html>
-<head>
+
 
 <title>Current Inventory</title>
 <link rel="icon" href="Images/sfs logo green transparent.png" type="image/jpg">
@@ -17,7 +17,7 @@
         width: 140px;
     }
 </style>
-    </head>
+    
 <body id="PageBackGround">
     <form id="form2" runat="server">
         <div id="Header" class="auto-style2">
@@ -37,10 +37,61 @@
                 <li><a href="Inventory.aspx">Current Inventory</a></li>
                 <li><a href="TransactionbyDate.aspx">Rescent Transactions</a></li>
             </ul>
+
+        <div>
+        <br>
+        <br>
+   <div style="text-align:center">
+        <asp:Panel id="pnlDefaultButton" runat="server" DefaultButton="btn1">
+        <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True"  
+            style="z-index: 1; left: 480px; top: 198px; position: absolute; right: 945px;">
+            <asp:ListItem>All</asp:ListItem>
+            <asp:ListItem>Barcode</asp:ListItem>
+            <asp:ListItem>ItemName</asp:ListItem>
+            <asp:ListItem>AmountLeft</asp:ListItem>
+            <asp:ListItem>Measurement</asp:ListItem>
+            <asp:ListItem>ContractID</asp:ListItem>
+        </asp:DropDownList>
+        <asp:TextBox ID="TextBox2" runat="server" style="z-index: 1; left: 607px; top: 196px; position: absolute; margin-bottom: 0px;"></asp:TextBox>
+        <asp:Button ID="btn1" runat="server"  Text="Search" OnClick="Button" HorizontalAlign ="Center" />   
+            </asp:Panel>
+
         </div>
+        </div>
+</div>
+
+        <style>
+          html, body {
+    height: 100%;
+  }
+  #tableContainer-1 {
+    height: 100%;
+    width: 100%;
+    display: table;
+  }
+  #tableContainer-2 {
+    vertical-align: middle;
+    display: table-cell;
+    height: 100%;
+  }
+  #myTable {
+    margin: 0 auto;
+  }
+
+</style>
+
+        <div style="text-align:center">
+
+
+
+
+ 
+        </div>
+
         <br>
         <br>
-  
+
+
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowDataBound="OnRowDataBound" HorizontalAlign="Center">
             <Columns>
                 <asp:BoundField DataField="Barcode" HeaderText="Barcode" SortExpression="Barcode" />
@@ -62,26 +113,18 @@
         </asp:GridView>
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:sfsChemicalInventoryConnectionString %>" SelectCommand="SELECT * FROM [tblInventorySFS]"></asp:SqlDataSource>
 
+
+
          <br>
             <br>
-        <div style="text-align:center">
-            <asp:Panel id="pnlDefaultButton" runat="server" >
-        <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True"  
-            style="z-index: 1; left: 203px; top: 313px; position: absolute">
-            <asp:ListItem>All</asp:ListItem>
-            <asp:ListItem>Barcode</asp:ListItem>
-            <asp:ListItem>ItemName</asp:ListItem>
-            <asp:ListItem>AmountLeft</asp:ListItem>
-            <asp:ListItem>Measurement</asp:ListItem>
-            <asp:ListItem>ContractID</asp:ListItem>
-        </asp:DropDownList>
-        <asp:TextBox ID="TextBox2" runat="server" style="z-index: 1; left: 348px; top: 313px; position: absolute"></asp:TextBox>
-        </asp:Panel>
+ 
            
-            <asp:Button ID="Button1" runat="server" style="z-index: 1; left: 523px; top: 311px; position: absolute" Text="Button" OnClick="Button"/>
+        
            
-        </div>
+            
+           
+        
     </form>
 </body>
-
+</html>
 

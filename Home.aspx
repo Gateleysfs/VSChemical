@@ -48,13 +48,13 @@
       <ul>
         <li><a href="TransactionList.aspx">Transactions List</a></li>
 	    <li><a href="Inventory.aspx">Current Inventory</a></li>
-        <li><a href="TransactionbyDate.aspx">Rescent Transactions</a></li>
+        <li><a href="TransactionbyDate.aspx">Recent Transactions</a></li>
       </ul>
     </div>
         <div>
             <br>
             <br>
-            <center><p class="auto-style3">In Development</p></center>
+            <center><p class="auto-style3">&nbsp;</p></center>
         </div>
     </form>
 
@@ -63,7 +63,7 @@
 	<p class ="CenterText MarginFive">Superior Forestry Service <br/> P.O. Box 25 <br/> Tilly, AR 72679 <br/> 800.541.1060<br/>
 	</p>
 	<p class ="CenterText MarginFive"> 
-		<a href="mailto:sfs@superiorforestry.com">sfs@superiorforestry.com</a><br/>
+		<a href="mailto:gateley@superiorforestry.com">gateley@superiorforestry.com</a><br/>
 	</p>
 	<p class ="MarginFive CenterText">
 		©2016 Superior Forestry Service, Inc.

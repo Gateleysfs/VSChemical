@@ -42,7 +42,7 @@ protected void ButtonLogout_Click(object sender, EventArgs e)
                 if (DropDownListCategory.SelectedItem.ToString() == "All")
                 {
                     //selects what is typed in the search bar. If nothing is typed, load entire table
-                    cmd.CommandText = "SELECT * FROM [tblInventoryTransactionscopy] WHERE Concat( Barcode, ' ', ItemName, ' ', Employee, ' ', CrewNumber, ' ', Sender, ' ', Receiver, ' ', AmountLeft, ' ', ContainerSize, ' ', Measurement, ' ', CreatedDate, ' ', Program, ' ', ContractID, ' ', Comments) LIKE '%' + @Input+ '%'";
+                    cmd.CommandText = "SELECT * FROM [tblInventoryTransactionsSFS] WHERE Concat( Barcode, ' ', ItemName, ' ', Employee, ' ', CrewNumber, ' ', Sender, ' ', Receiver, ' ', AmountLeft, ' ', ContainerSize, ' ', Measurement, ' ', CreatedDate, ' ', Program, ' ', ContractID, ' ', Comments) LIKE '%' + @Input+ '%'";
                     cmd.Connection = con;
                     cmd.Parameters.AddWithValue("@Input", TextBox1.Text.Trim());
 
@@ -58,7 +58,7 @@ protected void ButtonLogout_Click(object sender, EventArgs e)
                 }
                 else
                 {
-                    cmd.CommandText = "SELECT * FROM[tblInventoryTransactionscopy] WHERE " + DropDownListCategory.SelectedItem.ToString() + "  LIKE   '%' + @Input + '%'";
+                    cmd.CommandText = "SELECT * FROM[tblInventoryTransactionsSFS] WHERE " + DropDownListCategory.SelectedItem.ToString() + "  LIKE   '%' + @Input + '%'";
                     cmd.Connection = con;
                     cmd.Parameters.AddWithValue("@Input", TextBox1.Text.Trim());
                     DataTable dt = new DataTable();
@@ -97,6 +97,12 @@ protected void ButtonLogout_Click(object sender, EventArgs e)
     protected void TextBox1_TextChanged(object sender, EventArgs e)
     {
 
+    }
+
+    protected void btnClearRT_Click(object sender, EventArgs e)
+    {
+        TextBox1.Text = " ";
+        this.BindGrid();
     }
 }
 

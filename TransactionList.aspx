@@ -45,6 +45,7 @@
             <asp:DropDownList ID="DropDownListCategory" runat="server">
                 <asp:ListItem>All</asp:ListItem>
                 <asp:ListItem>ID</asp:ListItem>
+                <asp:ListItem>Barcode</asp:ListItem>
                 <asp:ListItem>ItemName</asp:ListItem>
                 <asp:ListItem>Employee</asp:ListItem>
                 <asp:ListItem>CrewNumber</asp:ListItem>

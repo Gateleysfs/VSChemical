@@ -98,4 +98,10 @@ public partial class Inventory : System.Web.UI.Page
     {
 
     }
+
+    protected void btnClearCI_Click(object sender, EventArgs e)
+    {
+        TextBox2.Text = " ";
+        this.BindGrid();
+    }
 }
